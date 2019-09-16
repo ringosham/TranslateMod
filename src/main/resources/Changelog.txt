@@ -88,13 +88,13 @@
      - FIX: Bad request due to empty messages
  4.3.1 - FIX: Chat messages not detected on some servers
        - FIX: Setting translation keys now will not use keys that are unusable previously to minimize chat spam
- 5.0 - Complete rewrite. No more public statics. Gone with the spaghetti code that stayed for 3 years.
+ 5.0 - Complete rewrite. No more public statics or arbitrary textures. Gone with the spaghetti code that stayed for 3 years.
      - CNG: Chat regex now completely relies on regex groups instead of %name% tags to eliminate any missing messages once and for all
      - CNG: The message sender will now show up on the chat instead of requiring the user to hover your mouse over.
-     - CNG: A better help screen. I think the current one doesn't really explain things well.
      - CNG: UI overhaul. The language select screen is one thing that bothered me the most. It's too large and it's clunky to use.
-     - RMV: Manual translate. Originally it allows you to select lines of chat to translate, but it isn't really that useful
+     - RMV: Manual translate. Originally it is supposed to let you request a translation again through a chat log, but it is pretty useless and don't work most of the time.
+     - RMV: Help screen. Replaced with tooltips
      - RMV: Logging level. This thing is pretty much useless
      - RMV: Enable/Disable switch. Nobody uses that anyway
-     - ADD: Redesigned regex editor. It will now show if the regex is valid, as well as any showing any chat messages that are compatible with your regex.
+     - ADD: Redesigned regex editor. A cheatsheet with examples! It will now show if the regex is valid, as well as any showing any chat messages that are compatible with your regex.
      - ADD: Combined use of Google translate. Aside from the Yandex translate it is currently using. The mod will now switch between the two!
