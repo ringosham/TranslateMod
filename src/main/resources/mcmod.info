@@ -1,10 +1,10 @@
 [
   {
-    "modid": "TranslateMod",
-    "name": "Real-time translation mod",
+    "modid": "%mod_id%",
+    "name": "%mod_name%",
     "description": "This mod translate your Minecraft chat in real time! Translation results are powered by Yandex Translation API. The Java wrapper of the API is powered by Robert Theis. DISCLAIMER: This is using a web translation service. Translation error is to be expected.",
     "url": "http://minecraft.curseforge.com/projects/real-time-chat-translation-mod",
-    "version": "4.3.1",
+    "version": "%mod_version%",
     "mcversion": "$mcversion",
     "updateurl": "",
     "authorList": [
