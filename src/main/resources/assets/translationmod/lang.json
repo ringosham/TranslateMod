@@ -1,0 +1,506 @@
+[
+  {
+    "name": "Azerbaijan",
+    "googleCode": "az",
+    "nameUnicode": "Azərbaycan",
+    "yandexCode": "az"
+  },
+  {
+    "name": "Albanian",
+    "googleCode": "sq",
+    "nameUnicode": "Shqiptare",
+    "yandexCode": "sq"
+  },
+  {
+    "name": "English",
+    "googleCode": "en",
+    "nameUnicode": null,
+    "yandexCode": "en"
+  },
+  {
+    "name": "Arabic",
+    "googleCode": "ar",
+    "nameUnicode": "العربية",
+    "yandexCode": "ar"
+  },
+  {
+    "name": "Armenian",
+    "googleCode": "hy",
+    "nameUnicode": "Հայերեն",
+    "yandexCode": "hy"
+  },
+  {
+    "name": "Afrikaans",
+    "googleCode": "af",
+    "nameUnicode": null,
+    "yandexCode": "af"
+  },
+  {
+    "name": "Basque",
+    "googleCode": "eu",
+    "nameUnicode": "Euskal",
+    "yandexCode": "eu"
+  },
+  {
+    "name": "Bashkir",
+    "googleCode": null,
+    "nameUnicode": "Башҡорт теле",
+    "yandexCode": "ba"
+  },
+  {
+    "name": "Belarusian",
+    "googleCode": "be",
+    "nameUnicode": "Беларуская",
+    "yandexCode": "be"
+  },
+  {
+    "name": "Bengali",
+    "googleCode": "bn",
+    "nameUnicode": "বাংলা",
+    "yandexCode": "bn"
+  },
+  {
+    "name": "Bulgarian",
+    "googleCode": "bg",
+    "nameUnicode": "Български",
+    "yandexCode": "bg"
+  },
+  {
+    "name": "Bosnian",
+    "googleCode": "bs",
+    "nameUnicode": "Bosanskih",
+    "yandexCode": "bs"
+  },
+  {
+    "name": "Welsh",
+    "googleCode": "cy",
+    "nameUnicode": "Cymru",
+    "yandexCode": "cy"
+  },
+  {
+    "name": "Hungarian",
+    "googleCode": "hu",
+    "nameUnicode": "Magyar",
+    "yandexCode": "hu"
+  },
+  {
+    "name": "Vietnamese",
+    "googleCode": "vi",
+    "nameUnicode": "Việt nam",
+    "yandexCode": "vi"
+  },
+  {
+    "name": "Haitian Creole",
+    "googleCode": "ht",
+    "nameUnicode": "Kreyòl Ayisyen",
+    "yandexCode": "ht"
+  },
+  {
+    "name": "Galician",
+    "googleCode": "gl",
+    "nameUnicode": "Galego",
+    "yandexCode": "gl"
+  },
+  {
+    "name": "Dutch",
+    "googleCode": "nl",
+    "nameUnicode": "Nederlandse",
+    "yandexCode": "nl"
+  },
+  {
+    "name": "Greek",
+    "googleCode": "el",
+    "nameUnicode": "Ελληνική",
+    "yandexCode": "el"
+  },
+  {
+    "name": "Georgian",
+    "googleCode": "ka",
+    "nameUnicode": "ქართული",
+    "yandexCode": "ka"
+  },
+  {
+    "name": "Gujarati",
+    "googleCode": "gu",
+    "nameUnicode": "ગુજરાતી",
+    "yandexCode": "gu"
+  },
+  {
+    "name": "Danish",
+    "googleCode": "da",
+    "nameUnicode": "Dansk",
+    "yandexCode": "da"
+  },
+  {
+    "name": "Hebrew",
+    "googleCode": "iw",
+    "nameUnicode": "עברית",
+    "yandexCode": "he"
+  },
+  {
+    "name": "Yiddish",
+    "googleCode": "yi",
+    "nameUnicode": "ייִדיש",
+    "yandexCode": "yi"
+  },
+  {
+    "name": "Indonesian",
+    "googleCode": "id",
+    "nameUnicode": "Indonesia",
+    "yandexCode": "id"
+  },
+  {
+    "name": "Irish",
+    "googleCode": "ga",
+    "nameUnicode": "Gaeilge",
+    "yandexCode": "ga"
+  },
+  {
+    "name": "Italian",
+    "googleCode": "it",
+    "nameUnicode": "Italiano",
+    "yandexCode": "it"
+  },
+  {
+    "name": "Icelandic",
+    "googleCode": "is",
+    "nameUnicode": "Íslensk",
+    "yandexCode": "is"
+  },
+  {
+    "name": "Spanish",
+    "googleCode": "es",
+    "nameUnicode": "Español",
+    "yandexCode": "es"
+  },
+  {
+    "name": "Kazakh",
+    "googleCode": "kk",
+    "nameUnicode": "Қазақ",
+    "yandexCode": "kk"
+  },
+  {
+    "name": "Kannada",
+    "googleCode": "kn",
+    "nameUnicode": "ಕನ್ನಡ",
+    "yandexCode": "kn"
+  },
+  {
+    "name": "Catalan",
+    "googleCode": "ca",
+    "nameUnicode": "Català",
+    "yandexCode": "ca"
+  },
+  {
+    "name": "Kyrgyz",
+    "googleCode": "ky",
+    "nameUnicode": "Кыргыз",
+    "yandexCode": "ky"
+  },
+  {
+    "name": "Chinese",
+    "googleCode": "zh-TW",
+    "nameUnicode": "中文",
+    "yandexCode": "zh"
+  },
+  {
+    "name": "Korean",
+    "googleCode": "ko",
+    "nameUnicode": "한국어",
+    "yandexCode": "ko"
+  },
+  {
+    "name": "Latin",
+    "googleCode": "la",
+    "nameUnicode": "Latinae",
+    "yandexCode": "la"
+  },
+  {
+    "name": "Latvian",
+    "googleCode": "lv",
+    "nameUnicode": "Latviešu",
+    "yandexCode": "ly"
+  },
+  {
+    "name": "Lithuanian",
+    "googleCode": "lt",
+    "nameUnicode": "Lietuvių",
+    "yandexCode": "lt"
+  },
+  {
+    "name": "Malagasy",
+    "googleCode": "mg",
+    "nameUnicode": null,
+    "yandexCode": "mg"
+  },
+  {
+    "name": "Malay",
+    "googleCode": "ms",
+    "nameUnicode": "Melayu",
+    "yandexCode": "ms"
+  },
+  {
+    "name": "Malayalam",
+    "googleCode": "ml",
+    "nameUnicode": "മലയാളം",
+    "yandexCode": "ml"
+  },
+  {
+    "name": "Maltese",
+    "googleCode": "mt",
+    "nameUnicode": "Malti",
+    "yandexCode": "mt"
+  },
+  {
+    "name": "Macedonian",
+    "googleCode": "mk",
+    "nameUnicode": "Македонски",
+    "yandexCode": "mk"
+  },
+  {
+    "name": "Maori",
+    "googleCode": "mi",
+    "nameUnicode": "Māori",
+    "yandexCode": "mi"
+  },
+  {
+    "name": "Marathi",
+    "googleCode": "mr",
+    "nameUnicode": "मराठी",
+    "yandexCode": "mr"
+  },
+  {
+    "name": "Mongolian",
+    "googleCode": "mn",
+    "nameUnicode": "Монгол улсын",
+    "yandexCode": "mn"
+  },
+  {
+    "name": "German",
+    "googleCode": "de",
+    "nameUnicode": "Deutsch",
+    "yandexCode": "de"
+  },
+  {
+    "name": "Nepali",
+    "googleCode": "ne",
+    "nameUnicode": "नेपाली",
+    "yandexCode": "ne"
+  },
+  {
+    "name": "Norwegian",
+    "googleCode": "no",
+    "nameUnicode": "Norsk",
+    "yandexCode": "no"
+  },
+  {
+    "name": "Punjabi",
+    "googleCode": "pa",
+    "nameUnicode": "ਪੰਜਾਬੀ",
+    "yandexCode": "pa"
+  },
+  {
+    "name": "Persian",
+    "googleCode": "fa",
+    "nameUnicode": "فارسی",
+    "yandexCode": "fa"
+  },
+  {
+    "name": "Polish",
+    "googleCode": "pl",
+    "nameUnicode": "Polski",
+    "yandexCode": "pl"
+  },
+  {
+    "name": "Portuguese",
+    "googleCode": "pt",
+    "nameUnicode": "Portuguesa",
+    "yandexCode": "pt"
+  },
+  {
+    "name": "Romanian",
+    "googleCode": "ro",
+    "nameUnicode": "Română",
+    "yandexCode": "ro"
+  },
+  {
+    "name": "Russian",
+    "googleCode": "ru",
+    "nameUnicode": "Русский",
+    "yandexCode": "ru"
+  },
+  {
+    "name": "Cebuano",
+    "googleCode": "ceb",
+    "nameUnicode": null,
+    "yandexCode": "ceb"
+  },
+  {
+    "name": "Serbian",
+    "googleCode": "sr",
+    "nameUnicode": "Руски",
+    "yandexCode": "sr"
+  },
+  {
+    "name": "Sinhala",
+    "googleCode": "si",
+    "nameUnicode": "සිංහල",
+    "yandexCode": "si"
+  },
+  {
+    "name": "Slovakian",
+    "googleCode": "sk",
+    "nameUnicode": "Slovenský",
+    "yandexCode": "sk"
+  },
+  {
+    "name": "Slovenian",
+    "googleCode": "sl",
+    "nameUnicode": "Slovenski",
+    "yandexCode": "sl"
+  },
+  {
+    "name": "Swahili",
+    "googleCode": "sw",
+    "nameUnicode": "Kiswahili",
+    "yandexCode": "sw"
+  },
+  {
+    "name": "Sundanese",
+    "googleCode": "su",
+    "nameUnicode": "Basa sunda",
+    "yandexCode": "su"
+  },
+  {
+    "name": "Tajik",
+    "googleCode": "tg",
+    "nameUnicode": "Тоҷик",
+    "yandexCode": "tg"
+  },
+  {
+    "name": "Thai",
+    "googleCode": "th",
+    "nameUnicode": "ไทย",
+    "yandexCode": "th"
+  },
+  {
+    "name": "Tagalog",
+    "googleCode": null,
+    "nameUnicode": null,
+    "yandexCode": "tl"
+  },
+  {
+    "name": "Tamil",
+    "googleCode": "ta",
+    "nameUnicode": "தமிழ்",
+    "yandexCode": "ta"
+  },
+  {
+    "name": "Tatar",
+    "googleCode": null,
+    "nameUnicode": "Татар",
+    "yandexCode": "tt"
+  },
+  {
+    "name": "Telugu",
+    "googleCode": "te",
+    "nameUnicode": "తెలుగు",
+    "yandexCode": "te"
+  },
+  {
+    "name": "Turkish",
+    "googleCode": "tr",
+    "nameUnicode": "Türk",
+    "yandexCode": "tr"
+  },
+  {
+    "name": "Udmurt",
+    "googleCode": null,
+    "nameUnicode": "Удмурт",
+    "yandexCode": "udm"
+  },
+  {
+    "name": "Uzbek",
+    "googleCode": "uz",
+    "nameUnicode": "O'zbek",
+    "yandexCode": "uz"
+  },
+  {
+    "name": "Ukrainian",
+    "googleCode": "uk",
+    "nameUnicode": "Український",
+    "yandexCode": "uk"
+  },
+  {
+    "name": "Urdu",
+    "googleCode": "ur",
+    "nameUnicode": "اردو",
+    "yandexCode": "ur"
+  },
+  {
+    "name": "Finnish",
+    "googleCode": "fi",
+    "nameUnicode": "Suomen",
+    "yandexCode": "fi"
+  },
+  {
+    "name": "French",
+    "googleCode": "fr",
+    "nameUnicode": "Français",
+    "yandexCode": "fr"
+  },
+  {
+    "name": "Hindi",
+    "googleCode": "hi",
+    "nameUnicode": "हिंदी",
+    "yandexCode": "hi"
+  },
+  {
+    "name": "Croatian",
+    "googleCode": "hr",
+    "nameUnicode": "Hrvatski",
+    "yandexCode": "hr"
+  },
+  {
+    "name": "Czech",
+    "googleCode": "cs",
+    "nameUnicode": "České",
+    "yandexCode": "cs"
+  },
+  {
+    "name": "Swedish",
+    "googleCode": "sv",
+    "nameUnicode": "Svenska",
+    "yandexCode": "sv"
+  },
+  {
+    "name": "Scots Gaelic",
+    "googleCode": "gd",
+    "nameUnicode": "Na h-alba",
+    "yandexCode": "gd"
+  },
+  {
+    "name": "Estonian",
+    "googleCode": "et",
+    "nameUnicode": "Eesti",
+    "yandexCode": "et"
+  },
+  {
+    "name": "Esperanto",
+    "googleCode": "eo",
+    "nameUnicode": null,
+    "yandexCode": "eo"
+  },
+  {
+    "name": "Javanese",
+    "googleCode": "jw",
+    "nameUnicode": "Jawa",
+    "yandexCode": "jv"
+  },
+  {
+    "name": "Japanese",
+    "googleCode": "ja",
+    "nameUnicode": "日本語",
+    "yandexCode": "ja"
+  }
+]

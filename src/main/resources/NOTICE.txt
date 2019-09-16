@@ -1,0 +1,16 @@
+©2016 Ringosham. All rights reserved
+No parts of the source code may be distributed, unless specified by the copyright owner.
+The binaries must not be distributed through other means other than the official source. For example, a mirror, URL shortener services or creating a mod installer of this mod.
+All YouTube reviews should link the mod to this forum thread, not the download link directly.
+You are allowed to put this mod on modpacks, but it would be appreciated if you tell me about it.
+Online translation services are provided by Yandex.translate from Yandex as well as Google translate.
+http://yandex.translate.com
+http://translate.google.com
+
+Third party licenses
+
+JSON.simple - Apache license version 2.0
+http://code.google.com/p/json-simple/
+
+Jersey core client - Eclipse public license version 2.0, GNU General Public License version 2
+https://jersey.github.io

@@ -1,0 +1,95 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        flatDir {
+            dirs '$rootProject.projectDir/libs'
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: "forge"
+
+sourceSets {
+    main {
+        java {srcDirs = ["$projectDir/src/main/java"]}
+        resources {srcDirs = ["$projectDir/src/main/resources"]}
+    }
+}
+
+version = project.mod_version
+// http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = project.group_name
+archivesBaseName = "[1.7.10]RealTimeTranslation"
+minecraft.version = project.forge_version
+minecraft.mappings = project.mappings_version
+
+minecraft {
+    version = project.forge_version
+    runDir = "eclipse/assets"
+    sourceCompatibility=7
+    targetCompatibility=7
+
+    replace '%mod_id%', project.mod_id
+    replace '%mod_name%', project.mod_name
+    replace '%mod_version%', project.mod_version
+    replace '%minecraft_version%', project.minecraft_version
+}
+
+processResources
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
+
+            // replace stuff in mcmod.info, nothing else
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                // replace version and mcversion
+                expand 'version':project.version, 'mcversion':project.minecraft.version
+            }
+
+            // copy everything else, thats not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
+
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
+dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    embed 'org.glassfish.jersey.core:jersey-client:2.29'
+    compile 'org.glassfish.jersey.core:jersey-client:2.29'
+    embed 'org.glassfish.jersey.media:jersey-media-json-jackson:2.29'
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.29'
+    embed 'org.glassfish.jersey.inject:jersey-hk2:2.29'
+    compile 'org.glassfish.jersey.inject:jersey-hk2:2.29'
+}
+
+jar {
+    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it)}
+}
