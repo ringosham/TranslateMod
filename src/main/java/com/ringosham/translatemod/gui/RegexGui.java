@@ -30,7 +30,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     private static final int guiHeight = 230;
     private static final List<String> cheatsheet;
     private static final List<List<String>> cheatsheetDesc;
-    private static final String regexTest = "http://regexr.com";
+    private static final String regexTest = "https://regexr.com";
 
     static {
         cheatsheet = new ArrayList<>();
@@ -100,7 +100,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheetDesc.get(9).add(" contains the player's username");
 
         cheatsheet.add("\\ - Escape character");
-        cheatsheetDesc.get(10).add("If you use special characters mentioned in this list,");
+        cheatsheetDesc.get(10).add("If you need to capture special characters mentioned in this list,");
         cheatsheetDesc.get(10).add(" you will need to add an extra backslash to escape them.");
         cheatsheetDesc.get(10).add("Correct:" + EnumChatFormatting.GREEN + " \\(VIP\\) \\w+");
         cheatsheetDesc.get(10).add("Wrong:" + EnumChatFormatting.RED + " (VIP) \\w+");
@@ -207,36 +207,26 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 break;
             case 1:
                 //Add/next regex
-                //Prevent empty entries.
-                if (regexTextbox.getText().trim().isEmpty()) {
-                    regexTextbox.setFocused(true);
-                    break;
-                }
-                if (groupTextBox.getText().isEmpty()) {
-                    groupTextBox.setFocused(true);
-                    break;
-                }
-                if (index >= regexes.size()) {
-                    regexes.add(regexTextbox.getText());
-                    groups.add(Integer.parseInt(groupTextBox.getText()));
-                } else {
-                    regexes.set(index, regexTextbox.getText());
+                regexes.set(index, regexTextbox.getText());
+                if (groupTextBox.getText().trim().isEmpty())
+                    groups.set(index, 0);
+                else
                     groups.set(index, Integer.parseInt(groupTextBox.getText()));
-                }
                 index++;
-                if (index >= regexes.size() - 1) {
-                    button.displayString = "+";
-                    if (index == regexes.size()) {
-                        button.enabled = false;
-                        regexTextbox.setText("");
-                        groupTextBox.setText("");
-                    }
+                if (index == regexes.size()) {
+                    button.enabled = false;
+                    regexes.add("");
+                    groups.add(1);
+                    regexTextbox.setText("");
+                    groupTextBox.setText("1");
                 } else {
                     regexTextbox.setText(regexes.get(index));
                     groupTextBox.setText(groups.get(index).toString());
                     button.displayString = ">";
                     button.enabled = true;
                 }
+                if (index >= regexes.size() - 1)
+                    button.displayString = "+";
                 ((GuiButton) this.buttonList.get(3)).enabled = true;
                 regexTextbox.setFocused(true);
                 regexTextbox.setCursorPositionEnd();
@@ -244,27 +234,23 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 break;
             case 2:
                 //Save and close
-                if (!regexTextbox.getText().trim().isEmpty())
-                    regexes.set(index, regexTextbox.getText());
+                regexes.set(index, regexTextbox.getText());
+                if (groupTextBox.getText().trim().isEmpty())
+                    groups.set(index, 0);
                 else
-                    regexes.remove(index);
+                    groups.set(index, Integer.parseInt(groupTextBox.getText()));
                 applySettings();
                 mc.displayGuiScreen(null);
                 break;
             case 3:
                 //Previous regex
                 //Discard changes if the textboxes are empty.
-                if (!regexTextbox.getText().trim().isEmpty() || !groupTextBox.getText().isEmpty()) {
-                    if (index >= regexes.size()) {
-                        regexes.add(regexTextbox.getText());
-                        groups.add(Integer.parseInt(groupTextBox.getText()));
-                    } else {
-                        regexes.set(index, regexTextbox.getText());
-                        groups.set(index, Integer.parseInt(groupTextBox.getText()));
-                    }
-                } else if (index < regexes.size()) {
+                if (regexTextbox.getText().trim().isEmpty() || groupTextBox.getText().isEmpty()) {
                     regexes.remove(index);
                     groups.remove(index);
+                } else {
+                    regexes.set(index, regexTextbox.getText());
+                    groups.set(index, Integer.parseInt(groupTextBox.getText()));
                 }
                 index--;
                 if (index == 0)
@@ -331,11 +317,11 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     private void openLink() {
-        Desktop desktop = Desktop.getDesktop();
         if (!Desktop.isDesktopSupported()) {
             Log.logger.error("Cannot open link");
             return;
         }
+        Desktop desktop = Desktop.getDesktop();
         try {
             desktop.browse(new URI(regexTest));
         } catch (IOException | URISyntaxException e) {
@@ -418,17 +404,15 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     private void applySettings() {
-        if (!regexTextbox.getText().isEmpty() || !groupTextBox.getText().isEmpty()) {
-            regexes.add(regexTextbox.getText());
-            groups.add(Integer.parseInt(groupTextBox.getText()));
-        }
         for (int i = 0; i < regexes.size(); i++) {
-            if (!validateRegex(regexes.get(i)) || !isRegexConflict(regexes.get(i))) {
+            if (!validateRegex(regexes.get(i)) || isRegexConflict(regexes.get(i))) {
                 regexes.remove(i);
                 groups.remove(i);
                 i--;
+                continue;
             }
-            if (countGroups(regexes.get(i)) > groups.get(i)) {
+            int groupCount = countGroups(regexes.get(i));
+            if (groupCount < groups.get(i)) {
                 regexes.remove(i);
                 groups.remove(i);
                 i--;

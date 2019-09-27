@@ -85,6 +85,7 @@ public class ConfigManager {
 
     //Sync all config values to the mod. As well as error checks
     public void syncConfig() {
+        config.load();
         versionCheck();
         //I always hate how forge sets up their configurations.
         //Seriously, why would you need to retype everything just for accessing properties?
@@ -207,6 +208,7 @@ public class ConfigManager {
             setColor("gray");
             setRegexList(Arrays.asList(defaultRegex));
             setGroupList(Ints.asList(defaultGroups));
+            prop.set(1);
         }
     }
 
