@@ -20,7 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
  * @author Ringosham
  * @since 9/11/2015
  */
-@Mod(modid = "translationmod", name = "%mod_name%", version = "%minecraft_version%")
+@Mod(modid = "translationmod", name = "%mod_name%", version = "%mod_version%")
 public class TranslateMod {
     private Handler handler = new Handler();
 
