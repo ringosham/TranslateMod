@@ -407,7 +407,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     private String matchUsername(String message, String regex, int group) {
-        if (group == -1 || group > countGroups(regex))
+        if (group == -1 || group > countGroups(regex) || message.equals(TextFormatting.RED + "Can't find player username :("))
             return "---";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
