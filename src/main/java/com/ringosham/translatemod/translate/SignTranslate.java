@@ -33,7 +33,7 @@ public class SignTranslate extends Thread {
         //Silently fail. The Translator class should handle the exception
         if (translatedMessage == null)
             return;
-        String chatMessage = "[Sign] --> " + translatedMessage.getFromLanguage().getName() + ": " + translatedMessage;
+        String chatMessage = "[Sign] --> " + translatedMessage.getFromLanguage().getName() + ": " + translatedMessage.getMessage();
         String hoverText = "Sign location: " +
                 x + ", " + y + ", " + z +
                 "\n" +

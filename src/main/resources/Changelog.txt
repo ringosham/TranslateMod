@@ -9,18 +9,18 @@
  0.2 alpha
      - Small bug fixes. Unfortunately this does not work outside the development environment
  1.0 beta
-     - Repackaged the mod with the translation API. The mod now works on normal Minecraft client<br>
+     - Repackaged the mod with the translation API. The mod now works on normal Minecraft client
  1.1 beta
      - Minor code optimization
  1.2 beta
      - Fix: Client freezing when chat message caught
  1.3 beta 
      - Fix: Translated output is the same as the original message
-     - Add: Shows what language it is translating from<br>
+     - Add: Shows what language it is translating from
  1.4 beta
      - Add: 34 languages support! Including some Eastern Asia languages.
  1.5
-     - Public release (18/1/2016)<br>
+     - Public release (18/1/2016)
  1.6
      - Fix: Tab completion
      - Add: Option to add separators to let the mod detect your chat message
@@ -88,7 +88,7 @@
      - FIX: Bad request due to empty messages
  4.3.1 - FIX: Chat messages not detected on some servers
        - FIX: Setting translation keys now will not use keys that are unusable previously to minimize chat spam
- 5.0 - Complete rewrite. No more public statics or arbitrary textures. Gone with the spaghetti code that stayed for 3 years.
+ 5.0 - Complete rewrite. Everything rewritten from the ground up. No more public statics or arbitrary textures. Gone with the spaghetti code that stayed for 3 years.
      - CNG: Chat regex now completely relies on regex groups instead of %name% tags to eliminate any missing messages once and for all
      - CNG: The message sender will now show up on the chat instead of requiring the user to hover your mouse over.
      - CNG: UI overhaul. The language select screen is one thing that bothered me the most. It's too large and it's clunky to use.

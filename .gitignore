@@ -89,3 +89,9 @@ fabric.properties
 env/
 # Special files that need to be ignored to prevent abuse
 /src/main/resources/assets/translationmod/keys.json
+.idea/$CACHE_FILE$
+.idea/$PRODUCT_WORKSPACE_FILE$
+.idea/misc.xml
+.idea/modules.xml
+bin/
+src/test/

@@ -40,6 +40,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheet.add(". - Matches any character");
         cheatsheetDesc.get(0).add("Matches any character");
         cheatsheetDesc.get(0).add("The only exception is the newline character (\\n)");
+        cheatsheetDesc.get(0).add("Newlines are not used in chat so it doesn't matter");
 
         cheatsheet.add("\\w - Matches word");
         cheatsheetDesc.get(1).add("Matches all alphabets (Both capital and small), numbers and underscore");
@@ -53,7 +54,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheetDesc.get(3).add("Example: [a-g]");
         cheatsheetDesc.get(3).add("✓ " + EnumChatFormatting.GREEN + "a");
         cheatsheetDesc.get(3).add("✓ " + EnumChatFormatting.GREEN + "b");
-        cheatsheetDesc.get(3).add("✗ " + EnumChatFormatting.GREEN + "z");
+        cheatsheetDesc.get(3).add("✗ " + EnumChatFormatting.RED + "z");
 
         cheatsheet.add("* - Matches 0 or more");
         cheatsheetDesc.get(4).add("Matches 0 or more of its character class");
@@ -87,7 +88,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
 
         cheatsheet.add("| - Either");
         cheatsheetDesc.get(8).add("Must match either of them, but not both.");
-        cheatsheetDesc.get(8).add("Example: (Dead)|(Alive) PlayerName");
+        cheatsheetDesc.get(8).add("Example: (Dead)|(Alive) (\\w+)");
         cheatsheetDesc.get(8).add("✓ " + EnumChatFormatting.GREEN + "Dead PlayerName");
         cheatsheetDesc.get(8).add("✓ " + EnumChatFormatting.GREEN + "Alive PlayerName");
         cheatsheetDesc.get(8).add("✗ " + EnumChatFormatting.RED + "DeadAlive PlayerName");
@@ -101,8 +102,8 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheet.add("\\ - Escape character");
         cheatsheetDesc.get(10).add("If you use special characters mentioned in this list,");
         cheatsheetDesc.get(10).add(" you will need to add an extra backslash to escape them.");
-        cheatsheetDesc.get(10).add("Valid: \\(VIP\\) \\w+");
-        cheatsheetDesc.get(10).add("Invalid: (VIP) \\w+");
+        cheatsheetDesc.get(10).add("Correct:" + EnumChatFormatting.GREEN + " \\(VIP\\) \\w+");
+        cheatsheetDesc.get(10).add("Wrong:" + EnumChatFormatting.RED + " (VIP) \\w+");
     }
 
     private List<HoveringText> cheatsheetLabels = new ArrayList<>();
@@ -206,6 +207,15 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 break;
             case 1:
                 //Add/next regex
+                //Prevent empty entries.
+                if (regexTextbox.getText().trim().isEmpty()) {
+                    regexTextbox.setFocused(true);
+                    break;
+                }
+                if (groupTextBox.getText().isEmpty()) {
+                    groupTextBox.setFocused(true);
+                    break;
+                }
                 if (index >= regexes.size()) {
                     regexes.add(regexTextbox.getText());
                     groups.add(Integer.parseInt(groupTextBox.getText()));
@@ -243,7 +253,8 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 break;
             case 3:
                 //Previous regex
-                if (!regexTextbox.getText().trim().isEmpty()) {
+                //Discard changes if the textboxes are empty.
+                if (!regexTextbox.getText().trim().isEmpty() || !groupTextBox.getText().isEmpty()) {
                     if (index >= regexes.size()) {
                         regexes.add(regexTextbox.getText());
                         groups.add(Integer.parseInt(groupTextBox.getText()));
@@ -366,11 +377,10 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
 
     //Gets the chat log of 20 messages for testing regex
     private List<String> getChatLog() {
-        //Chat logs are private.
-        //TODO Replace this with the one below before release
-        //List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getMinecraft().ingameGUI.getChatGUI(), "field_146252_h");
+        //Chat log is a private field.
+        List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getMinecraft().ingameGUI.getChatGUI(), "field_146252_h");
         //For 1.7.10 debug use.
-        List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getMinecraft().ingameGUI.getChatGUI(), "chatLines");
+        //List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getMinecraft().ingameGUI.getChatGUI(), "chatLines");
         List<String> chatLog = new ArrayList<>();
         for (int i = 0; i < Math.min(fullChatLog.size(), 20); i++)
             chatLog.add(fullChatLog.get(i).getChatComponent().getUnformattedText().replaceAll("§(.)", ""));
@@ -394,7 +404,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
             shorten = shorten + "...";
             return matchMessage.length() < shorten.length() ? matchMessage : shorten;
         }
-        return EnumChatFormatting.RED + "No match yet :(";
+        return EnumChatFormatting.RED + "No match from chat log :(";
     }
 
     private String matchUsername(String message, String regex, int group) {
@@ -403,13 +413,15 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
         if (!matcher.find())
-            return EnumChatFormatting.RED + "None :(";
+            return EnumChatFormatting.RED + "Can't find player username :(";
         return matcher.group(group);
     }
 
     private void applySettings() {
-        regexes.add(regexTextbox.getText());
-        groups.add(Integer.parseInt(groupTextBox.getText()));
+        if (!regexTextbox.getText().isEmpty() || !groupTextBox.getText().isEmpty()) {
+            regexes.add(regexTextbox.getText());
+            groups.add(Integer.parseInt(groupTextBox.getText()));
+        }
         for (int i = 0; i < regexes.size(); i++) {
             if (!validateRegex(regexes.get(i)) || !isRegexConflict(regexes.get(i))) {
                 regexes.remove(i);
@@ -426,7 +438,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         ConfigManager.INSTANCE.setGroupList(groups);
         //Let the manager do all the validation
         ConfigManager.INSTANCE.syncConfig();
-        ChatUtil.printChatMessage(true, "Chat regex updated", EnumChatFormatting.WHITE);
+        ChatUtil.printChatMessage(true, "Regex list applied", EnumChatFormatting.WHITE);
     }
 
     //Must be inner class due to protected access to drawHoveringText in GuiScreen

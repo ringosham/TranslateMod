@@ -97,29 +97,35 @@ public class Handler {
         if (mouseOver == null)
             return;
         else if (mouseOver.typeOfHit != MovingObjectType.BLOCK) {
+            lastSign = null;
             ticks = 0;
             return;
         }
         int x = mouseOver.blockX;
         int y = mouseOver.blockY;
         int z = mouseOver.blockZ;
+        //Ignore air tiles
+        if (world.getBlock(x, y, z) == Block.getBlockById(0))
+            return;
         //Wall signs and standing signs
         if (world.getBlock(x, y, z) == Block.getBlockById(63) || world.getBlock(x, y, z) == Block.getBlockById(68)) {
             //Ensure the player is staring at the same sign
-            if (lastSign.getText() != null) {
+            if (lastSign != null && lastSign.getText() != null) {
                 if (lastSign.sameSign(x, y, z)) {
                     ticks++;
                     //Count number of ticks the player is staring
                     //Assuming 20 TPS
-                    if (ticks == 20)
-                        if (readSign != null && !readSign.isAlive())
+                    if (ticks >= 20)
+                        if (readSign != null && readSign.getState() == Thread.State.NEW)
                             readSign.start();
                 } else
                     readSign = getSignThread(world, x, y, z);
             } else
                 readSign = getSignThread(world, x, y, z);
-        } else
+        } else {
+            lastSign = null;
             ticks = 0;
+        }
     }
 
     private SignTranslate getSignThread(World world, int x, int y, int z) {
@@ -128,7 +134,7 @@ public class Handler {
         for (int i = 0; i < 4; i++) {
             String line = ((TileEntitySign) world.getTileEntity(x, y, z)).signText[i];
             //Combine each line of the sign with spaces.
-            //Due to differences between languages, this will break asian languages. (Words don't separate with spaces)
+            //Due to differences between languages, this may break asian languages. (Words don't separate with spaces)
             text.append(" ").append(line);
         }
         text = new StringBuilder(text.toString().replaceAll("§(.)", ""));

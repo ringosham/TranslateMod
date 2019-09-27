@@ -95,7 +95,8 @@ public class KeyManager {
 
     private void init() throws IOException {
         try (Socket socket = new Socket()) {
-            InetSocketAddress address = new InetSocketAddress("google.com", 80);
+            //A connection to the DNS should be enough to test if host is online
+            InetSocketAddress address = new InetSocketAddress("1.1.1.1", 80);
             socket.connect(address);
         } catch (IOException e) {
             offline = true;

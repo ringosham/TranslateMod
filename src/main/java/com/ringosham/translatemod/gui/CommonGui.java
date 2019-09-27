@@ -10,8 +10,8 @@ public class CommonGui extends GuiScreen {
     final int regularButtonHeight = 20;
     final int smallButtonLength = 20;
     private final ResourceLocation texture = new ResourceLocation("minecraft", "textures/gui/demo_background.png");
-    int guiHeight;
-    int guiWidth;
+    private int guiHeight;
+    private int guiWidth;
 
     CommonGui(int guiHeight, int guiWidth) {
         if (guiWidth < 10 && guiHeight < 10)
@@ -29,11 +29,11 @@ public class CommonGui extends GuiScreen {
         //Top left corner
         drawTexturedModalRect(getXOrigin(), getYOrigin(), 0, 0, 4, 4);
         //Bottom left corner
-        drawTexturedModalRect(getXOrigin(), getYOrigin() + guiHeight - 4, 0, 121, 4, 4);
+        drawTexturedModalRect(getXOrigin(), getYOrigin() + guiHeight - 4, 0, 160, 4, 4);
         //Top right corner
-        drawTexturedModalRect(getXOrigin() + guiWidth - 4, getYOrigin(), 222, 0, 4, 4);
+        drawTexturedModalRect(getXOrigin() + guiWidth - 4, getYOrigin(), 242, 0, 4, 4);
         //Bottom right corner
-        drawTexturedModalRect(getXOrigin() + guiWidth - 4, getYOrigin() + guiHeight - 4, 222, 121, 4, 4);
+        drawTexturedModalRect(getXOrigin() + guiWidth - 4, getYOrigin() + guiHeight - 4, 242, 160, 4, 4);
         //Top side
         for (int i = 0; i < guiWidth - 8; i++)
             drawTexturedModalRect(getXOrigin() + 4 + i, getYOrigin(), 4, 0, 1, 4);
@@ -42,10 +42,10 @@ public class CommonGui extends GuiScreen {
             drawTexturedModalRect(getXOrigin(), getYOrigin() + 4 + i, 0, 4, 4, 1);
         //Right side
         for (int i = 0; i < guiHeight - 8; i++)
-            drawTexturedModalRect(getXOrigin() + guiWidth - 4, getYOrigin() + 4 + i, 222, 4, 4, 1);
+            drawTexturedModalRect(getXOrigin() + guiWidth - 4, getYOrigin() + 4 + i, 242, 4, 4, 1);
         //Bottom side
         for (int i = 0; i < guiWidth - 8; i++)
-            drawTexturedModalRect(getXOrigin() + 4 + i, getYOrigin() + guiHeight - 4, 4, 121, 1, 4);
+            drawTexturedModalRect(getXOrigin() + 4 + i, getYOrigin() + guiHeight - 4, 4, 160, 1, 4);
         //Center
         drawRect(getXOrigin() + 4, getYOrigin() + 4, getXOrigin() + guiWidth - 4, getYOrigin() + guiHeight - 4, 0xffc6c6c6);
         //super to draw the buttons registered in GuiInit()

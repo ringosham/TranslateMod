@@ -41,7 +41,7 @@ public class GoogleClient {
             Response response = builder.get();
             if (response.getStatus() != 200) {
                 accessDenied = true;
-                return new RequestResult(429, "Access to Google Translated denied");
+                return new RequestResult(429, "Access to Google Translate denied");
             }
             //This secret API is specifically made for Google translate. So the response contains lots of useless information.
             //Each sentence translated is divided into separate JSON arrays.
