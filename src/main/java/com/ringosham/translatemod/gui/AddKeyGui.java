@@ -9,7 +9,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -33,20 +33,20 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
     @Override
     public void drawScreen(int x, int y, float tick) {
         super.drawScreen(x, y, tick);
-        fontRendererObj.drawString("%mod_name% - Custom key", getLeftMargin(), getTopMargin(), 0x555555);
-        fontRendererObj.drawString("A key is required to use the translation service.", getLeftMargin(), getYOrigin() + 20, 0x555555);
-        fontRendererObj.drawString("This mod includes some keys for everyone", getLeftMargin(), getYOrigin() + 30, 0x555555);
-        fontRendererObj.drawString("You can use your key here if all keys are used", getLeftMargin(), getYOrigin() + 40, 0x555555);
-        fontRendererObj.drawString("The process is free, but requires signing up", getLeftMargin(), getYOrigin() + 50, 0x555555);
-        fontRendererObj.drawString("Go to this website to create your key there", getLeftMargin(), getYOrigin() + 60, 0x555555);
+        fontRenderer.drawString("%mod_name% - Custom key", getLeftMargin(), getTopMargin(), 0x555555);
+        fontRenderer.drawString("A key is required to use the translation service.", getLeftMargin(), getYOrigin() + 20, 0x555555);
+        fontRenderer.drawString("This mod includes some keys for everyone", getLeftMargin(), getYOrigin() + 30, 0x555555);
+        fontRenderer.drawString("You can use your key here if all keys are used", getLeftMargin(), getYOrigin() + 40, 0x555555);
+        fontRenderer.drawString("The process is free, but requires signing up", getLeftMargin(), getYOrigin() + 50, 0x555555);
+        fontRenderer.drawString("Go to this website to create your key there", getLeftMargin(), getYOrigin() + 60, 0x555555);
         boolean keyValid = checkKey(textbox.getText());
         String keyStatus;
         if (keyValid)
-            keyStatus = EnumChatFormatting.GREEN + "This key is valid and usable!";
+            keyStatus = TextFormatting.GREEN + "This key is valid and usable!";
         else
-            keyStatus = EnumChatFormatting.RED + "Invalid key/Key has exceeded daily limits";
-        fontRendererObj.drawString(keyStatus, getLeftMargin(), getYOrigin() + 80, 0x555555);
-        ((GuiButton) this.buttonList.get(0)).enabled = keyValid;
+            keyStatus = TextFormatting.RED + "Invalid key/Key has exceeded daily limits";
+        fontRenderer.drawString(keyStatus, getLeftMargin(), getYOrigin() + 80, 0x555555);
+        this.buttonList.get(0).enabled = keyValid;
         textbox.drawTextBox();
     }
 
@@ -58,25 +58,24 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
         return client.testKey(key);
     }
 
-    @SuppressWarnings("unchecked")
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
-        this.textbox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15);
+        this.textbox = new GuiTextField(0, this.fontRenderer, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15);
         textbox.setCanLoseFocus(true);
         textbox.setMaxStringLength(84);
         textbox.setEnableBackgroundDrawing(true);
         textbox.setText(ConfigManager.INSTANCE.getUserKey());
         this.buttonList.add(new GuiButton(0, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Use key"));
         this.buttonList.add(new GuiButton(1, getRightMargin(regularButtonWidth) - regularButtonWidth - 5, getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back"));
-        this.buttonList.add(new TextButton(2, getLeftMargin(), getYOrigin() + 70, getTextWidth("Click here to go to the website"), EnumChatFormatting.DARK_BLUE + "Click here to go to the website"));
+        this.buttonList.add(new TextButton(2, getLeftMargin(), getYOrigin() + 70, getTextWidth("Click here to go to the website"), TextFormatting.DARK_BLUE + "Click here to go to the website"));
     }
 
-    public void mouseClicked(int x, int y, int state) {
+    public void mouseClicked(int x, int y, int state) throws IOException {
         super.mouseClicked(x, y, state);
         this.textbox.mouseClicked(x, y, state);
     }
 
-    public void keyTyped(char typedChar, int keyCode) {
+    public void keyTyped(char typedChar, int keyCode) throws IOException {
         this.textbox.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_E && !this.textbox.isFocused())
             mc.displayGuiScreen(null);
@@ -92,7 +91,7 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
                 ConfigManager.INSTANCE.setUserKey(textbox.getText());
                 Log.logger.info("Key added/changed. Using new key for translations");
                 KeyManager.getInstance().rotateKey();
-                ChatUtil.printChatMessage(true, "User custom translation key set.", EnumChatFormatting.WHITE);
+                ChatUtil.printChatMessage(true, "User custom translation key set.", TextFormatting.WHITE);
                 mc.displayGuiScreen(null);
                 break;
             case 1:

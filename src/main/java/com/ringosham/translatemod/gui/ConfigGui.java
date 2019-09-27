@@ -6,12 +6,14 @@ import com.ringosham.translatemod.common.ChatUtil;
 import com.ringosham.translatemod.common.ConfigManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+@SuppressWarnings("NullableProblems")
 public class ConfigGui extends CommonGui {
     private static final int guiWidth = 250;
     private static final int guiHeight = 206;
@@ -60,14 +62,13 @@ public class ConfigGui extends CommonGui {
     @Override
     public void drawScreen(int x, int y, float tick) {
         super.drawScreen(x, y, tick);
-        fontRendererObj.drawString("%mod_name% - Settings", getLeftMargin(), getYOrigin() + 5, 0x555555);
-        fontRendererObj.drawString("Regex list:", getLeftMargin(), getYOrigin() + 25, 0x555555);
-        fontRendererObj.drawString("Target language:", getLeftMargin(), getYOrigin() + 55, 0x555555);
-        fontRendererObj.drawString("Self language:", getLeftMargin(), getYOrigin() + 75, 0x555555);
-        fontRendererObj.drawString("Speak as language:", getLeftMargin(), getYOrigin() + 95, 0x555555);
+        fontRenderer.drawString("%mod_name% - Settings", getLeftMargin(), getYOrigin() + 5, 0x555555);
+        fontRenderer.drawString("Regex list:", getLeftMargin(), getYOrigin() + 25, 0x555555);
+        fontRenderer.drawString("Target language:", getLeftMargin(), getYOrigin() + 55, 0x555555);
+        fontRenderer.drawString("Self language:", getLeftMargin(), getYOrigin() + 75, 0x555555);
+        fontRenderer.drawString("Speak as language:", getLeftMargin(), getYOrigin() + 95, 0x555555);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
         if (!isTransition) {
@@ -85,8 +86,8 @@ public class ConfigGui extends CommonGui {
         this.buttonList.add(new GuiButton(1, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Reset to default"));
         this.buttonList.add(new GuiButton(2, getRightMargin(regularButtonWidth), getYOrigin() + 50, regularButtonWidth, regularButtonHeight, targetLang.getName()) {
             @Override
-            public void drawButton(Minecraft mc, int x, int y) {
-                super.drawButton(mc, x, y);
+            public void drawButton(Minecraft mc, int x, int y, float ticks) {
+                super.drawButton(mc, x, y, ticks);
                 List<String> lines = new ArrayList<>();
                 lines.add("The language your chat will be translated to.");
                 if (isMouseOver())
@@ -95,8 +96,8 @@ public class ConfigGui extends CommonGui {
         });
         this.buttonList.add(new GuiButton(3, getRightMargin(regularButtonWidth), getYOrigin() + 70, regularButtonWidth, regularButtonHeight, selfLang.getName()) {
             @Override
-            public void drawButton(Minecraft mc, int x, int y) {
-                super.drawButton(mc, x, y);
+            public void drawButton(Minecraft mc, int x, int y, float ticks) {
+                super.drawButton(mc, x, y, ticks);
                 List<String> lines = new ArrayList<>();
                 lines.add("The language to speak in game.");
                 lines.add("This will be utilised when you want to translate what you speak");
@@ -106,8 +107,8 @@ public class ConfigGui extends CommonGui {
         });
         this.buttonList.add(new GuiButton(4, getRightMargin(regularButtonWidth), getYOrigin() + 90, regularButtonWidth, regularButtonHeight, speakAsLang.getName()) {
             @Override
-            public void drawButton(Minecraft mc, int x, int y) {
-                super.drawButton(mc, x, y);
+            public void drawButton(Minecraft mc, int x, int y, float ticks) {
+                super.drawButton(mc, x, y, ticks);
                 List<String> lines = new ArrayList<>();
                 lines.add("The language your messages will be translated to.");
                 lines.add("After you typed your messages through this mod,");
@@ -116,16 +117,16 @@ public class ConfigGui extends CommonGui {
                     drawHoveringText(lines, x, y);
             }
         });
-        this.buttonList.add(new GuiButton(5, getLeftMargin(), getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, regularButtonWidth, regularButtonHeight, translateSign ? EnumChatFormatting.GREEN + "Translate signs" : EnumChatFormatting.RED + "Translate signs"));
+        this.buttonList.add(new GuiButton(5, getLeftMargin(), getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, regularButtonWidth, regularButtonHeight, translateSign ? TextFormatting.GREEN + "Translate signs" : TextFormatting.RED + "Translate signs"));
         this.buttonList.add(new GuiButton(6, getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "User key"));
-        this.buttonList.add(new GuiButton(7, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, EnumChatFormatting.getValueByName(color) + "Message color"));
-        this.buttonList.add(new GuiButton(8, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, regularButtonHeight, regularButtonHeight, bold ? "\u00a7a" + EnumChatFormatting.BOLD + "B" : "\u00a7c" + EnumChatFormatting.BOLD + "B"));
-        this.buttonList.add(new GuiButton(9, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonHeight, regularButtonHeight, italic ? "\u00a7a" + EnumChatFormatting.ITALIC + "I" : "\u00a7c" + EnumChatFormatting.ITALIC + "I"));
-        this.buttonList.add(new GuiButton(10, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonHeight, regularButtonHeight, underline ? "\u00a7a" + EnumChatFormatting.UNDERLINE + "U" : "\u00a7c" + EnumChatFormatting.UNDERLINE + "U"));
+        this.buttonList.add(new GuiButton(7, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, TextFormatting.getValueByName(color) + "Message color"));
+        this.buttonList.add(new GuiButton(8, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, smallButtonLength, smallButtonLength, bold ? "\u00a7a" + TextFormatting.BOLD + "B" : "\u00a7c" + TextFormatting.BOLD + "B"));
+        this.buttonList.add(new GuiButton(9, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, smallButtonLength, smallButtonLength, italic ? "\u00a7a" + TextFormatting.ITALIC + "I" : "\u00a7c" + TextFormatting.ITALIC + "I"));
+        this.buttonList.add(new GuiButton(10, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, underline ? "\u00a7a" + TextFormatting.UNDERLINE + "U" : "\u00a7c" + TextFormatting.UNDERLINE + "U"));
         this.buttonList.add(new GuiButton(11, getRightMargin(regularButtonWidth), getYOrigin() + 20, regularButtonWidth, regularButtonHeight, "View / Add") {
             @Override
-            public void drawButton(Minecraft mc, int x, int y) {
-                super.drawButton(mc, x, y);
+            public void drawButton(Minecraft mc, int x, int y, float ticks) {
+                super.drawButton(mc, x, y, ticks);
                 List<String> lines = new ArrayList<>();
                 lines.add("Regex are patterns for the mod to detect chat messages.");
                 lines.add("If you notice the mod doesn't do anything on a server,");
@@ -158,9 +159,9 @@ public class ConfigGui extends CommonGui {
                 break;
             case 5:
                 if (translateSign) {
-                    button.displayString = EnumChatFormatting.RED + "Translate signs";
+                    button.displayString = TextFormatting.RED + "Translate signs";
                 } else {
-                    button.displayString = EnumChatFormatting.GREEN + "Translate signs";
+                    button.displayString = TextFormatting.GREEN + "Translate signs";
                 }
                 translateSign = !translateSign;
                 break;
@@ -168,31 +169,27 @@ public class ConfigGui extends CommonGui {
                 mc.displayGuiScreen(new AddKeyGui());
                 break;
             case 7:
-                EnumChatFormatting formatColor = EnumChatFormatting.getValueByName(color);
-                char c = formatColor.getFormattingCode();
-                //Treat the formatting character as hex. Just so happens there are 16 colors and each are represented with a base 16 number
-                int colorCode = Integer.parseInt(Character.toString(c), 16);
+                TextFormatting formatColor = TextFormatting.getValueByName(color);
+                int colorCode = Objects.requireNonNull(formatColor).getColorIndex();
                 colorCode++;
                 if (colorCode == 16)
                     colorCode = 0;
-                //Convert back to Enum
-                char hexColor = Integer.toHexString(colorCode).charAt(0);
-                EnumChatFormatting newColor = ChatUtil.getFormattingFromChar(hexColor);
+                TextFormatting newColor = TextFormatting.fromColorIndex(colorCode);
                 assert newColor != null;
                 color = newColor.getFriendlyName();
-                ((GuiButton) (this.buttonList.get(7))).displayString = newColor + "Message color";
+                this.buttonList.get(7).displayString = newColor + "Message color";
                 break;
             case 8:
                 bold = !bold;
-                ((GuiButton) (this.buttonList.get(8))).displayString = bold ? "\u00a7a" + EnumChatFormatting.BOLD + "B" : "\u00a7c" + EnumChatFormatting.BOLD + "B";
+                this.buttonList.get(8).displayString = bold ? "\u00a7a" + TextFormatting.BOLD + "B" : "\u00a7c" + TextFormatting.BOLD + "B";
                 break;
             case 9:
                 italic = !italic;
-                ((GuiButton) (this.buttonList.get(9))).displayString = italic ? "\u00a7a" + EnumChatFormatting.ITALIC + "I" : "\u00a7c" + EnumChatFormatting.ITALIC + "I";
+                this.buttonList.get(9).displayString = italic ? "\u00a7a" + TextFormatting.ITALIC + "I" : "\u00a7c" + TextFormatting.ITALIC + "I";
                 break;
             case 10:
                 underline = !underline;
-                ((GuiButton) (this.buttonList.get(10))).displayString = underline ? "\u00a7a" + EnumChatFormatting.UNDERLINE + "U" : "\u00a7c" + EnumChatFormatting.UNDERLINE + "U";
+                this.buttonList.get(10).displayString = underline ? "\u00a7a" + TextFormatting.UNDERLINE + "U" : "\u00a7c" + TextFormatting.UNDERLINE + "U";
                 break;
             case 11:
                 mc.displayGuiScreen(new RegexGui());
@@ -209,7 +206,7 @@ public class ConfigGui extends CommonGui {
         ConfigManager.INSTANCE.setItalic(italic);
         ConfigManager.INSTANCE.setUnderline(underline);
         ConfigManager.INSTANCE.setTranslateSign(translateSign);
-        ChatUtil.printChatMessage(true, "Settings applied.", EnumChatFormatting.WHITE);
+        ChatUtil.printChatMessage(true, "Settings applied.", TextFormatting.WHITE);
     }
 
     private void resetDefault() {
@@ -221,13 +218,13 @@ public class ConfigGui extends CommonGui {
         targetLang = LangManager.getInstance().findLanguageFromName("English");
         selfLang = targetLang;
         speakAsLang = LangManager.getInstance().findLanguageFromName("Japanese");
-        ((GuiButton) (this.buttonList.get(2))).displayString = "English";
-        ((GuiButton) (this.buttonList.get(3))).displayString = "English";
-        ((GuiButton) (this.buttonList.get(4))).displayString = "Japanese";
-        ((GuiButton) (this.buttonList.get(7))).displayString = EnumChatFormatting.getValueByName(color) + "Message color";
-        ((GuiButton) (this.buttonList.get(8))).displayString = bold ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.BOLD + "B";
-        ((GuiButton) (this.buttonList.get(9))).displayString = italic ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.ITALIC + "I";
-        ((GuiButton) (this.buttonList.get(10))).displayString = underline ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.UNDERLINE + "U";
-        ((GuiButton) (this.buttonList.get(5))).displayString = EnumChatFormatting.GREEN + "Translate signs";
+        this.buttonList.get(2).displayString = "English";
+        this.buttonList.get(3).displayString = "English";
+        this.buttonList.get(4).displayString = "Japanese";
+        this.buttonList.get(7).displayString = TextFormatting.getValueByName(color) + "Message color";
+        this.buttonList.get(8).displayString = bold ? "\u00a7a" : "\u00a7c" + TextFormatting.BOLD + "B";
+        this.buttonList.get(9).displayString = italic ? "\u00a7a" : "\u00a7c" + TextFormatting.ITALIC + "I";
+        this.buttonList.get(10).displayString = underline ? "\u00a7a" : "\u00a7c" + TextFormatting.UNDERLINE + "U";
+        this.buttonList.get(5).displayString = TextFormatting.GREEN + "Translate signs";
     }
 }

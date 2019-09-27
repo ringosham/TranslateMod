@@ -4,10 +4,10 @@ import com.google.common.primitives.Ints;
 import com.ringosham.translatemod.common.ChatUtil;
 import com.ringosham.translatemod.common.ConfigManager;
 import com.ringosham.translatemod.common.Log;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -36,7 +36,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheet = new ArrayList<>();
         cheatsheetDesc = new ArrayList<>();
         for (int i = 0; i < 12; i++)
-            cheatsheetDesc.add(new ArrayList<String>());
+            cheatsheetDesc.add(new ArrayList<>());
         cheatsheet.add(". - Matches any character");
         cheatsheetDesc.get(0).add("Matches any character");
         cheatsheetDesc.get(0).add("The only exception is the newline character (\\n)");
@@ -52,46 +52,46 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheet.add("[a-g] - Match character in range");
         cheatsheetDesc.get(3).add("Matches any characters in tis specific range");
         cheatsheetDesc.get(3).add("Example: [a-g]");
-        cheatsheetDesc.get(3).add("✓ " + EnumChatFormatting.GREEN + "a");
-        cheatsheetDesc.get(3).add("✓ " + EnumChatFormatting.GREEN + "b");
-        cheatsheetDesc.get(3).add("✗ " + EnumChatFormatting.RED + "z");
+        cheatsheetDesc.get(3).add("✓ " + TextFormatting.GREEN + "a");
+        cheatsheetDesc.get(3).add("✓ " + TextFormatting.GREEN + "b");
+        cheatsheetDesc.get(3).add("✗ " + TextFormatting.RED + "z");
 
         cheatsheet.add("* - Matches 0 or more");
         cheatsheetDesc.get(4).add("Matches 0 or more of its character class");
         cheatsheetDesc.get(4).add("Example: N\\w*");
-        cheatsheetDesc.get(4).add("✓ " + EnumChatFormatting.GREEN + "N");
-        cheatsheetDesc.get(4).add("✓ " + EnumChatFormatting.GREEN + "No");
-        cheatsheetDesc.get(4).add("✓ " + EnumChatFormatting.GREEN + "Notch");
+        cheatsheetDesc.get(4).add("✓ " + TextFormatting.GREEN + "N");
+        cheatsheetDesc.get(4).add("✓ " + TextFormatting.GREEN + "No");
+        cheatsheetDesc.get(4).add("✓ " + TextFormatting.GREEN + "Notch");
 
         cheatsheet.add("+ - Matches 1 or more");
         cheatsheetDesc.get(5).add("Matches 1 or more of a character/group");
         cheatsheetDesc.get(5).add("Example: N\\w+");
-        cheatsheetDesc.get(5).add("✗ " + EnumChatFormatting.RED + "N");
-        cheatsheetDesc.get(5).add("✓ " + EnumChatFormatting.GREEN + "No");
-        cheatsheetDesc.get(5).add("✓ " + EnumChatFormatting.GREEN + "Notch");
+        cheatsheetDesc.get(5).add("✗ " + TextFormatting.RED + "N");
+        cheatsheetDesc.get(5).add("✓ " + TextFormatting.GREEN + "No");
+        cheatsheetDesc.get(5).add("✓ " + TextFormatting.GREEN + "Notch");
 
         cheatsheet.add("? - Optional");
         cheatsheetDesc.get(6).add("Exactly as the name suggests");
         cheatsheetDesc.get(6).add("Example: (VIP )?\\w+");
-        cheatsheetDesc.get(6).add("✓ " + EnumChatFormatting.GREEN + "VIP PlayerName");
-        cheatsheetDesc.get(6).add("✓ " + EnumChatFormatting.GREEN + "PlayerName");
+        cheatsheetDesc.get(6).add("✓ " + TextFormatting.GREEN + "VIP PlayerName");
+        cheatsheetDesc.get(6).add("✓ " + TextFormatting.GREEN + "PlayerName");
 
         cheatsheet.add("{2,} - Matches n or more");
         cheatsheetDesc.get(7).add("Matches a group/character n times or more");
         cheatsheetDesc.get(7).add("Add a number after the comma if you want the it match x to y times");
         cheatsheetDesc.get(7).add("Or omit the comma if you want the it match exactly n times");
         cheatsheetDesc.get(7).add("Example: Level \\d{1,3}");
-        cheatsheetDesc.get(7).add("✓ " + EnumChatFormatting.GREEN + "Level 1");
-        cheatsheetDesc.get(7).add("✓ " + EnumChatFormatting.GREEN + "Level 420");
-        cheatsheetDesc.get(7).add("✗ " + EnumChatFormatting.RED + "Level 42069");
+        cheatsheetDesc.get(7).add("✓ " + TextFormatting.GREEN + "Level 1");
+        cheatsheetDesc.get(7).add("✓ " + TextFormatting.GREEN + "Level 420");
+        cheatsheetDesc.get(7).add("✗ " + TextFormatting.RED + "Level 42069");
 
 
         cheatsheet.add("| - Either");
         cheatsheetDesc.get(8).add("Must match either of them, but not both.");
         cheatsheetDesc.get(8).add("Example: (Dead)|(Alive) (\\w+)");
-        cheatsheetDesc.get(8).add("✓ " + EnumChatFormatting.GREEN + "Dead PlayerName");
-        cheatsheetDesc.get(8).add("✓ " + EnumChatFormatting.GREEN + "Alive PlayerName");
-        cheatsheetDesc.get(8).add("✗ " + EnumChatFormatting.RED + "DeadAlive PlayerName");
+        cheatsheetDesc.get(8).add("✓ " + TextFormatting.GREEN + "Dead PlayerName");
+        cheatsheetDesc.get(8).add("✓ " + TextFormatting.GREEN + "Alive PlayerName");
+        cheatsheetDesc.get(8).add("✗ " + TextFormatting.RED + "DeadAlive PlayerName");
 
         cheatsheet.add("() - Group");
         cheatsheetDesc.get(9).add("Think of groups as parentheses like in mathematics");
@@ -102,8 +102,8 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheet.add("\\ - Escape character");
         cheatsheetDesc.get(10).add("If you use special characters mentioned in this list,");
         cheatsheetDesc.get(10).add(" you will need to add an extra backslash to escape them.");
-        cheatsheetDesc.get(10).add("Correct:" + EnumChatFormatting.GREEN + " \\(VIP\\) \\w+");
-        cheatsheetDesc.get(10).add("Wrong:" + EnumChatFormatting.RED + " (VIP) \\w+");
+        cheatsheetDesc.get(10).add("Correct:" + TextFormatting.GREEN + " \\(VIP\\) \\w+");
+        cheatsheetDesc.get(10).add("Wrong:" + TextFormatting.RED + " (VIP) \\w+");
     }
 
     private List<HoveringText> cheatsheetLabels = new ArrayList<>();
@@ -126,53 +126,52 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     @Override
     public void drawScreen(int x, int y, float tick) {
         super.drawScreen(x, y, tick);
-        fontRendererObj.drawString("%mod_name% - Regex list", getLeftMargin(), getTopMargin(), 0x555555);
-        fontRendererObj.drawString("Regex(Regular expression) are search patterns used to detect messages.", getLeftMargin(), getYOrigin() + 15, 0x555555);
-        fontRendererObj.drawString("You can use this website to test your regex.", getLeftMargin(), getYOrigin() + 25, 0x555555);
-        fontRendererObj.drawString("Cheatsheet: (Hover your mouse to see explanation)", getLeftMargin(), getYOrigin() + 35, 0x555555);
-        fontRendererObj.drawString("TIP: Combine classes and quantifiers together to match several characters", getLeftMargin(), getYOrigin() + guiHeight - 40, 0x555555);
-        fontRendererObj.drawString((index + 1) + " of " + Math.max(index + 1, regexes.size()), getLeftMargin() + 15 + smallButtonLength * 2, getYOrigin() + guiHeight - regularButtonHeight, 0x555555);
+        fontRenderer.drawString("%mod_name% - Regex list", getLeftMargin(), getTopMargin(), 0x555555);
+        fontRenderer.drawString("Regex(Regular expression) are search patterns used to detect messages.", getLeftMargin(), getYOrigin() + 15, 0x555555);
+        fontRenderer.drawString("You can use this website to test your regex.", getLeftMargin(), getYOrigin() + 25, 0x555555);
+        fontRenderer.drawString("Cheatsheet: (Hover your mouse to see explanation)", getLeftMargin(), getYOrigin() + 35, 0x555555);
+        fontRenderer.drawString("TIP: Combine classes and quantifiers together to match several characters", getLeftMargin(), getYOrigin() + guiHeight - 40, 0x555555);
+        fontRenderer.drawString((index + 1) + " of " + Math.max(index + 1, regexes.size()), getLeftMargin() + 15 + smallButtonLength * 2, getYOrigin() + guiHeight - regularButtonHeight, 0x555555);
         String regex = regexTextbox.getText();
         int group = groupTextBox.getText().isEmpty() ? -1 : Integer.parseInt(groupTextBox.getText());
         if (validateRegex(regex)) {
             if (!isRegexConflict(regex)) {
-                fontRendererObj.drawString(EnumChatFormatting.GREEN + "Regex valid! The regex should stop at before the message content", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
-                fontRendererObj.drawString("Possible match: " + findMatch(getChatLog(), regex), getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
+                fontRenderer.drawString(TextFormatting.GREEN + "Regex valid! The regex should stop at before the message content", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+                fontRenderer.drawString("Possible match: " + findMatch(getChatLog(), regex), getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
                 int groupCount = countGroups(regex);
                 if (groupCount > 0)
-                    fontRendererObj.drawString("Group number: (1 - " + groupCount + ")", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+                    fontRenderer.drawString("Group number: (1 - " + groupCount + ")", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
                 else
-                    fontRendererObj.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
-                fontRendererObj.drawString("Matching username: " + matchUsername(findMatch(getChatLog(), regex), regex, group), getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
+                    fontRenderer.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+                fontRenderer.drawString("Matching username: " + matchUsername(findMatch(getChatLog(), regex), regex, group), getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
             } else {
-                fontRendererObj.drawString(EnumChatFormatting.RED + "Regex conflict with the mod messages! Please be more specific", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
-                fontRendererObj.drawString("Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
-                fontRendererObj.drawString("Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
-                fontRendererObj.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+                fontRenderer.drawString(TextFormatting.RED + "Regex conflict with the mod messages! Please be more specific", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+                fontRenderer.drawString("Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
+                fontRenderer.drawString("Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
+                fontRenderer.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
             }
         } else {
-            fontRendererObj.drawString(EnumChatFormatting.RED + "Regex invalid! Please check your syntax", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
-            fontRendererObj.drawString("Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
-            fontRendererObj.drawString("Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
-            fontRendererObj.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+            fontRenderer.drawString(TextFormatting.RED + "Regex invalid! Please check your syntax", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+            fontRenderer.drawString("Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
+            fontRenderer.drawString("Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
+            fontRenderer.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
         }
         regexTextbox.drawTextBox();
         groupTextBox.drawTextBox();
         //Cheatsheet labels must be drawn separately due to layer problems
         for (HoveringText hoveringText : cheatsheetLabels)
-            hoveringText.drawButton(mc, x, y);
+            hoveringText.drawButton(mc, x, y, tick);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
-        regexTextbox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + guiHeight - 100, guiWidth - 10, 15);
+        regexTextbox = new GuiTextField(0, this.fontRenderer, getLeftMargin(), getYOrigin() + guiHeight - 100, guiWidth - 10, 15);
         regexTextbox.setCanLoseFocus(true);
         regexTextbox.setMaxStringLength(200);
         regexTextbox.setEnableBackgroundDrawing(true);
         regexTextbox.setText(regexes.get(index));
         regexTextbox.setFocused(true);
-        groupTextBox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + guiHeight - 60, guiWidth - 10, 15);
+        groupTextBox = new GuiTextField(1, this.fontRenderer, getLeftMargin(), getYOrigin() + guiHeight - 60, guiWidth - 10, 15);
         groupTextBox.setCanLoseFocus(true);
         groupTextBox.setMaxStringLength(10);
         groupTextBox.setEnableBackgroundDrawing(true);
@@ -237,7 +236,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                     button.displayString = ">";
                     button.enabled = true;
                 }
-                ((GuiButton) this.buttonList.get(3)).enabled = true;
+                this.buttonList.get(3).enabled = true;
                 regexTextbox.setFocused(true);
                 regexTextbox.setCursorPositionEnd();
                 Keyboard.enableRepeatEvents(true);
@@ -270,10 +269,10 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 if (index == 0)
                     button.enabled = false;
                 if (regexes.size() - 1 == index)
-                    ((GuiButton) this.buttonList.get(1)).displayString = "+";
+                    this.buttonList.get(1).displayString = "+";
                 else
-                    ((GuiButton) this.buttonList.get(1)).displayString = ">";
-                ((GuiButton) this.buttonList.get(1)).enabled = true;
+                    this.buttonList.get(1).displayString = ">";
+                this.buttonList.get(1).enabled = true;
                 regexTextbox.setText(regexes.get(index));
                 groupTextBox.setText(groups.get(index).toString());
                 regexTextbox.setFocused(true);
@@ -281,8 +280,8 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 Keyboard.enableRepeatEvents(true);
                 break;
             case 4:
-                ((GuiButton) (this.buttonList.get(3))).enabled = true;
-                ((GuiButton) (this.buttonList.get(1))).displayString = "+";
+                this.buttonList.get(3).enabled = true;
+                this.buttonList.get(1).displayString = "+";
                 regexes.clear();
                 regexes.addAll(Arrays.asList(ConfigManager.defaultRegex));
                 groups.clear();
@@ -298,7 +297,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     @Override
-    public void keyTyped(char typedchar, int keycode) {
+    public void keyTyped(char typedchar, int keycode) throws IOException {
         this.regexTextbox.textboxKeyTyped(typedchar, keycode);
         if (this.groupTextBox.isFocused()) {
             if ((typedchar >= 48 && typedchar <= 57) || typedchar == 8)
@@ -315,7 +314,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     @Override
-    public void mouseClicked(int x, int y, int state) {
+    public void mouseClicked(int x, int y, int state) throws IOException {
         super.mouseClicked(x, y, state);
         this.regexTextbox.mouseClicked(x, y, state);
         this.groupTextBox.mouseClicked(x, y, state);
@@ -396,7 +395,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
             Matcher matcher = pattern.matcher(message);
             if (!matcher.find())
                 continue;
-            String matchMessage = EnumChatFormatting.GREEN + matcher.group(0) + EnumChatFormatting.DARK_GRAY + message.replace(matcher.group(0), "");
+            String matchMessage = TextFormatting.GREEN + matcher.group(0) + TextFormatting.DARK_GRAY + message.replace(matcher.group(0), "");
             String shorten = matchMessage;
             for (int i = getTextWidth(matchMessage); i > 120; i--) {
                 shorten = shorten.substring(0, matchMessage.length() - 1);
@@ -404,7 +403,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
             shorten = shorten + "...";
             return matchMessage.length() < shorten.length() ? matchMessage : shorten;
         }
-        return EnumChatFormatting.RED + "No match from chat log :(";
+        return TextFormatting.RED + "No match from chat log :(";
     }
 
     private String matchUsername(String message, String regex, int group) {
@@ -413,7 +412,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
         if (!matcher.find())
-            return EnumChatFormatting.RED + "Can't find player username :(";
+            return TextFormatting.RED + "Can't find player username :(";
         return matcher.group(group);
     }
 
@@ -438,7 +437,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         ConfigManager.INSTANCE.setGroupList(groups);
         //Let the manager do all the validation
         ConfigManager.INSTANCE.syncConfig();
-        ChatUtil.printChatMessage(true, "Regex list applied", EnumChatFormatting.WHITE);
+        ChatUtil.printChatMessage(true, "Regex list applied", TextFormatting.WHITE);
     }
 
     //Must be inner class due to protected access to drawHoveringText in GuiScreen
@@ -453,12 +452,13 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         }
 
         @Override
-        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        public void drawButton(Minecraft mc, int mouseX, int mouseY, float tick) {
             GL11.glColor4f(1, 1, 1, 1);
-            mc.fontRendererObj.drawString(this.displayString, xPosition, yPosition, 0x555555, false);
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+            GL11.glColor3f(0.33f, 0.33f, 0.33f);
+            mc.fontRenderer.drawString(this.displayString, x, y, 0xFF555555, false);
+            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             if (isMouseOver())
-                drawHoveringText(hoverText, mouseX, mouseY, fontRendererObj);
+                drawHoveringText(hoverText, mouseX, mouseY, fontRenderer);
         }
     }
 }

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="TranslationMod.api" target="1.7" />
-      <module name="TranslationMod.main" target="1.7" />
-      <module name="TranslationMod.test" target="1.7" />
+      <module name="TranslationMod.api" target="1.8" />
+      <module name="TranslationMod.main" target="1.8" />
+      <module name="TranslationMod.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

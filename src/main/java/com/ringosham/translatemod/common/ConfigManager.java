@@ -3,10 +3,10 @@ package com.ringosham.translatemod.common;
 import com.google.common.primitives.Ints;
 import com.ringosham.translatemod.client.LangManager;
 import com.ringosham.translatemod.client.models.Language;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -177,8 +177,7 @@ public class ConfigManager {
         }
 
         //Validates the color.
-        @SuppressWarnings("unchecked")
-        ArrayList colors = new ArrayList<>(EnumChatFormatting.getValidValues(true, false));
+        ArrayList colors = new ArrayList<>(TextFormatting.getValidValues(true, false));
         if (!colors.contains(color)) {
             color = "gray";
             valid = false;

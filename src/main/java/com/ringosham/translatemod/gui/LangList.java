@@ -2,12 +2,11 @@ package com.ringosham.translatemod.gui;
 
 import com.ringosham.translatemod.client.LangManager;
 import com.ringosham.translatemod.client.models.Language;
-import cpw.mods.fml.client.GuiScrollingList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraftforge.fml.client.GuiScrollingList;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,16 +18,11 @@ public class LangList extends GuiScrollingList {
     {
         langList = LangManager.getInstance().getAllLanguages();
         //Sort alphabetically.
-        Collections.sort(langList, new Comparator<Language>() {
-            @Override
-            public int compare(Language o1, Language o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        langList.sort(Comparator.comparing(Language::getName));
     }
 
-    public LangList(Minecraft client, GuiScreen parent, int width, int height, int top, int bottom, int left, int entryHeight) {
-        super(client, width, height, top, bottom, left, entryHeight);
+    public LangList(Minecraft client, GuiScreen parent, int width, int height, int top, int bottom, int left, int entryHeight, int screenWidth, int screenHeight) {
+        super(client, width, height, top, bottom, left, entryHeight, screenWidth, screenHeight);
         this.parent = parent;
     }
 
@@ -64,7 +58,7 @@ public class LangList extends GuiScrollingList {
             return;
         if (top > this.top + this.listHeight)
             return;
-        parent.mc.fontRendererObj.drawString(langName, left + 5, top, 0xffffff);
+        parent.mc.fontRenderer.drawString(langName, left + 5, top, 0xffffff);
     }
 
     public Language getSelected() {

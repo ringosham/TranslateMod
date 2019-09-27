@@ -10,7 +10,7 @@ import com.ringosham.translatemod.common.ChatUtil;
 import com.ringosham.translatemod.common.ConfigManager;
 import com.ringosham.translatemod.common.Log;
 import com.ringosham.translatemod.translate.model.TranslateResult;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,7 +72,7 @@ public class Translator extends Thread {
                 break;
             case 429:
                 Log.logger.warn("Google denied access to translation API. Switching to Yandex");
-                ChatUtil.printChatMessage(true, "Google translate has stopped responding. Fallback to Yandex provider", EnumChatFormatting.WHITE);
+                ChatUtil.printChatMessage(true, "Google translate has stopped responding. Fallback to Yandex provider", TextFormatting.WHITE);
                 break;
             case 402:
                 Log.logger.error("API key blocked. Changing keys");
@@ -87,7 +87,7 @@ public class Translator extends Thread {
                 break;
             case 501:
                 Log.logger.error("Translation direction not supported");
-                ChatUtil.printChatMessage(true, "Translation direction not supported. Please choose a different language.", EnumChatFormatting.RED);
+                ChatUtil.printChatMessage(true, "Translation direction not supported. Please choose a different language.", TextFormatting.RED);
                 break;
             case 413:
                 Log.logger.error("Text length too long. Server refused to process");
@@ -104,10 +104,10 @@ public class Translator extends Thread {
     private void changeKeys() {
         if (KeyManager.getInstance().isRotating())
             return;
-        ChatUtil.printChatMessage(true, "Switching keys...", EnumChatFormatting.WHITE);
+        ChatUtil.printChatMessage(true, "Switching keys...", TextFormatting.WHITE);
         if (!KeyManager.getInstance().rotateKey()) {
-            ChatUtil.printChatMessage(true, "All translation keys have been used up for today. The mod will not function without a translation key", EnumChatFormatting.RED);
-            ChatUtil.printChatMessage(true, "You can go to the mod settings -> User key. You can add your own translation key there.", EnumChatFormatting.RED);
+            ChatUtil.printChatMessage(true, "All translation keys have been used up for today. The mod will not function without a translation key", TextFormatting.RED);
+            ChatUtil.printChatMessage(true, "You can go to the mod settings -> User key. You can add your own translation key there.", TextFormatting.RED);
         }
     }
 
@@ -170,6 +170,6 @@ public class Translator extends Thread {
         //In cases where the message language and the target language is the same
         if (translatedMessage.getMessage().trim().equals(rawMessage.trim()))
             return;
-        ChatUtil.printChatMessageAdvanced(chatMessage, hoverText, ConfigManager.INSTANCE.isBold(), ConfigManager.INSTANCE.isItalic(), ConfigManager.INSTANCE.isUnderline(), EnumChatFormatting.getValueByName(ConfigManager.INSTANCE.getColor()));
+        ChatUtil.printChatMessageAdvanced(chatMessage, hoverText, ConfigManager.INSTANCE.isBold(), ConfigManager.INSTANCE.isItalic(), ConfigManager.INSTANCE.isUnderline(), TextFormatting.getValueByName(ConfigManager.INSTANCE.getColor()));
     }
 }

@@ -5,28 +5,23 @@ import com.ringosham.translatemod.common.ConfigManager;
 import com.ringosham.translatemod.common.Log;
 import com.ringosham.translatemod.translate.model.SignText;
 import com.ringosham.translatemod.translate.model.TranslateResult;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 
 public class SignTranslate extends Thread {
     private String text;
-    private int x;
-    private int y;
-    private int z;
+    private final BlockPos pos;
 
-    public SignTranslate(String text, int x, int y, int z) {
+    public SignTranslate(String text, BlockPos pos) {
         this.text = text;
-        if (this.x == x && this.y == y && this.z == z)
-            return;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.pos = pos;
     }
 
     @Override
     public void run() {
         Log.logger.debug("Sign detected. Translating");
         SignText signData = new SignText();
-        signData.setSign(text, x, y, z);
+        signData.setSign(text, pos);
         //Directly call the translator class as this is already on a separate thread
         Translator translator = new Translator(text, null, ConfigManager.INSTANCE.getTargetLanguage());
         TranslateResult translatedMessage = translator.translate(text);
@@ -35,10 +30,10 @@ public class SignTranslate extends Thread {
             return;
         String chatMessage = "[Sign] --> " + translatedMessage.getFromLanguage().getName() + ": " + translatedMessage.getMessage();
         String hoverText = "Sign location: " +
-                x + ", " + y + ", " + z +
+                pos.getX() + ", " + pos.getY() + ", " + pos.getZ() +
                 "\n" +
                 "Translation: " +
                 translatedMessage.getFromLanguage().getName() + " -> " + ConfigManager.INSTANCE.getTargetLanguage().getName();
-        ChatUtil.printChatMessageAdvanced(chatMessage, hoverText, ConfigManager.INSTANCE.isBold(), ConfigManager.INSTANCE.isItalic(), ConfigManager.INSTANCE.isUnderline(), EnumChatFormatting.getValueByName(ConfigManager.INSTANCE.getColor()));
+        ChatUtil.printChatMessageAdvanced(chatMessage, hoverText, ConfigManager.INSTANCE.isBold(), ConfigManager.INSTANCE.isItalic(), ConfigManager.INSTANCE.isUnderline(), TextFormatting.getValueByName(ConfigManager.INSTANCE.getColor()));
     }
 }

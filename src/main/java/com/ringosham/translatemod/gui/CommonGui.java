@@ -82,7 +82,7 @@ public class CommonGui extends GuiScreen {
     public int getTextWidth(String text) {
         int length = 0;
         for (char character : text.toCharArray()) {
-            length += Minecraft.getMinecraft().fontRendererObj.getCharWidth(character);
+            length += Minecraft.getMinecraft().fontRenderer.getCharWidth(character);
         }
         return length;
     }

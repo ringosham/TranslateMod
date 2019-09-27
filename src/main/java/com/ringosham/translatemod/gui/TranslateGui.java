@@ -7,6 +7,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
 
+import java.io.IOException;
+
 public class TranslateGui extends CommonGui {
     private static final int guiHeight = 125;
     private static final int guiWidth = 225;
@@ -20,9 +22,9 @@ public class TranslateGui extends CommonGui {
     @Override
     public void drawScreen(int x, int y, float tick) {
         super.drawScreen(x, y, tick);
-        fontRendererObj.drawString("%mod_name% - by Ringosham", getLeftMargin(), getTopMargin(), 0x555555);
-        fontRendererObj.drawString("Enter the command/prefix here (Optional)", getLeftMargin(), getTopMargin() + 10, 0x555555);
-        fontRendererObj.drawString("Enter your message here (Enter to send)", getLeftMargin(), getTopMargin() + 40, 0x555555);
+        fontRenderer.drawString("%mod_name% - by Ringosham", getLeftMargin(), getTopMargin(), 0x555555);
+        fontRenderer.drawString("Enter the command/prefix here (Optional)", getLeftMargin(), getTopMargin() + 10, 0x555555);
+        fontRenderer.drawString("Enter your message here (Enter to send)", getLeftMargin(), getTopMargin() + 40, 0x555555);
         messageField.drawTextBox();
         commandField.drawTextBox();
         if (this.messageField.isFocused())
@@ -31,11 +33,10 @@ public class TranslateGui extends CommonGui {
             this.messageField.setFocused(false);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
-        this.messageField = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 25, guiWidth - 10, 15);
-        this.commandField = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 55, guiWidth - 10, 15);
+        this.messageField = new GuiTextField(0, this.fontRenderer, getLeftMargin(), getYOrigin() + 25, guiWidth - 10, 15);
+        this.commandField = new GuiTextField(1, this.fontRenderer, getLeftMargin(), getYOrigin() + 55, guiWidth - 10, 15);
         messageField.setMaxStringLength(25);
         messageField.setCanLoseFocus(true);
         messageField.setEnableBackgroundDrawing(true);
@@ -67,7 +68,7 @@ public class TranslateGui extends CommonGui {
     }
 
     @Override
-    public void keyTyped(char typedChar, int keyCode) {
+    public void keyTyped(char typedChar, int keyCode) throws IOException {
         this.messageField.textboxKeyTyped(typedChar, keyCode);
         this.commandField.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_RETURN && !this.commandField.getText().trim().isEmpty() && (this.commandField.isFocused() || this.messageField.isFocused())) {
@@ -91,7 +92,7 @@ public class TranslateGui extends CommonGui {
     }
 
     @Override
-    public void mouseClicked(int x, int y, int state) {
+    public void mouseClicked(int x, int y, int state) throws IOException {
         super.mouseClicked(x, y, state);
         this.messageField.mouseClicked(x, y, state);
         this.commandField.mouseClicked(x, y, state);

@@ -10,9 +10,9 @@ public class TextButton extends GuiButton {
     }
 
     @Override
-    public void drawButton(Minecraft mc, int x, int y) {
+    public void drawButton(Minecraft mc, int mouseX, int mouseY, float tick) {
         GL11.glColor4f(1, 1, 1, 1);
-        this.hovered = x >= this.xPosition && y >= this.yPosition && x < this.xPosition + this.width && y < this.yPosition + this.height;
-        mc.fontRendererObj.drawString(this.displayString, xPosition, yPosition, 0x0000AA, false);
+        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+        mc.fontRenderer.drawString(this.displayString, x, y, 0x0000AA, false);
     }
 }

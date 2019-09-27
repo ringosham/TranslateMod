@@ -6,13 +6,11 @@ import com.ringosham.translatemod.common.ConfigManager;
 import com.ringosham.translatemod.common.Log;
 import com.ringosham.translatemod.events.Handler;
 import com.ringosham.translatemod.events.KeyBind;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Real time translation project - All rights reserved
@@ -24,7 +22,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class TranslateMod {
     private Handler handler = new Handler();
 
-    @EventHandler
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         //Languages must be loaded first before the configuration
         //The config manager needs to convert the language strings to language objects
@@ -38,15 +36,14 @@ public class TranslateMod {
         KeyManager.getInstance();
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
         if (!KeyManager.getInstance().isOffline())
             KeyBind.keyInit();
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
-        FMLCommonHandler.instance().bus().register(handler);
         MinecraftForge.EVENT_BUS.register(handler);
         Log.logger.info("Event bus initialized");
     }

@@ -1,35 +1,33 @@
 package com.ringosham.translatemod.translate.model;
 
+import net.minecraft.util.math.BlockPos;
+
 public class SignText {
     private String text;
-    private int x;
-    private int y;
-    private int z;
-
-    public void setSign(String text, int x, int y, int z) {
-        this.text = text;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
+    private BlockPos pos;
 
     public int getX() {
-        return x;
+        return pos.getX();
     }
 
     public int getY() {
-        return y;
+        return pos.getY();
     }
 
     public int getZ() {
-        return z;
+        return pos.getZ();
     }
 
     public String getText() {
         return text;
     }
 
-    public boolean sameSign(int x, int y, int z) {
-        return this.x == x && this.y == y && this.z == z;
+    public boolean sameSign(BlockPos pos) {
+        return this.pos.getX() == pos.getX() && this.pos.getY() == pos.getY() && this.pos.getZ() == pos.getZ();
+    }
+
+    public void setSign(String text, BlockPos pos) {
+        this.text = text;
+        this.pos = pos;
     }
 }
