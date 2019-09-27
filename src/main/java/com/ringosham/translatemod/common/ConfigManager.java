@@ -207,7 +207,7 @@ public class ConfigManager {
             setColor("gray");
             setRegexList(Arrays.asList(defaultRegex));
             setGroupList(Ints.asList(defaultGroups));
-            prop.set(1);
+            prop.set(configMinVersion);
         }
     }
 

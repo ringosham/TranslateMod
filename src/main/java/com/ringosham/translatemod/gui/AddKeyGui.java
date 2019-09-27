@@ -98,7 +98,7 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
                 mc.displayGuiScreen(new ConfigGui());
                 break;
             case 2:
-                mc.displayGuiScreen(new GuiConfirmOpenLink(this, "https://tech.yandex.com/translate/", 0, false));
+                mc.displayGuiScreen(new GuiConfirmOpenLink(this, getKeyLink, 0, false));
                 break;
         }
     }
