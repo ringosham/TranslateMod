@@ -10,18 +10,10 @@
     </facet>
   </component>
   <component name="McpModuleSettings">
-    <option name="mappingFiles">
-      <set>
-        <option value="C:\Users\ringo\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.4.1614-1.7.10\stable\12\srgs\mcp-notch.srg" />
-        <option value="C:\Users\ringo\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.4.1614-1.7.10\stable\12\srgs\mcp-srg.srg" />
-        <option value="C:\Users\ringo\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.4.1614-1.7.10\stable\12\srgs\notch-mcp.srg" />
-        <option value="C:\Users\ringo\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.4.1614-1.7.10\stable\12\srgs\srg.exc" />
-        <option value="C:\Users\ringo\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.4.1614-1.7.10\stable\12\srgs\mcp.exc" />
-        <option value="C:\Users\ringo\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.4.1614-1.7.10\stable\12\srgs\notch-srg.srg" />
-      </set>
-    </option>
+    <option name="mappingFile" value="C:\Users\ringo\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.4.1614-1.7.10\stable\12\srgs\mcp-srg.srg" />
     <option name="mcpVersion" value="stable_12" />
     <option name="minecraftVersion" value="1.7.10" />
+    <option name="srgType" value="SRG" />
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="true">
     <exclude-output />
