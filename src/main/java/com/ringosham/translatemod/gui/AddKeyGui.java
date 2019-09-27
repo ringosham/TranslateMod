@@ -121,11 +121,11 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
     //Sorry Linux users. Java simply sucks at opening links on desktop environments.
     //Even Mojang can't find a solution to this.
     private void openLink() {
-        Desktop desktop = Desktop.getDesktop();
         if (!Desktop.isDesktopSupported()) {
             Log.logger.error("Cannot open link");
             return;
         }
+        Desktop desktop = Desktop.getDesktop();
         try {
             desktop.browse(new URI(getKeyLink));
         } catch (IOException | URISyntaxException e) {

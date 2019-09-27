@@ -104,9 +104,6 @@ public class Handler {
             return;
         }
         BlockPos blockPos = mouseOver.getBlockPos();
-        int x = blockPos.getX();
-        int y = blockPos.getY();
-        int z = blockPos.getZ();
         //Ignore air tiles
         if (world.getBlockState(blockPos).getBlock() == Blocks.AIR)
             return;
