@@ -105,8 +105,6 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheetDesc.get(10).add("Correct:" + TextFormatting.GREEN + " \\(VIP\\) \\w+");
         cheatsheetDesc.get(10).add("Wrong:" + TextFormatting.RED + " (VIP) \\w+");
     }
-
-    private List<HoveringText> cheatsheetLabels = new ArrayList<>();
     private int index;
     private LinkedList<String> regexes = new LinkedList<>();
     private LinkedList<Integer> groups = new LinkedList<>();
@@ -136,9 +134,12 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         int group = groupTextBox.getText().isEmpty() ? -1 : Integer.parseInt(groupTextBox.getText());
         if (validateRegex(regex)) {
             if (!isRegexConflict(regex)) {
-                fontRenderer.drawString(TextFormatting.GREEN + "Regex valid! The regex should stop at before the message content", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
-                fontRenderer.drawString("Possible match: " + findMatch(getChatLog(), regex), getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
                 int groupCount = countGroups(regex);
+                if (groupCount == 0)
+                    fontRenderer.drawString(TextFormatting.YELLOW + "Regex valid, but it needs at least 1 group to detect player names", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+                else
+                    fontRenderer.drawString(TextFormatting.GREEN + "Regex valid! The regex should stop at before the message content", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+                fontRenderer.drawString("Possible match: " + findMatch(getChatLog(), regex), getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
                 if (groupCount > 0)
                     fontRenderer.drawString("Group number: (1 - " + groupCount + ")", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
                 else
@@ -158,9 +159,12 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         }
         regexTextbox.drawTextBox();
         groupTextBox.drawTextBox();
-        //Cheatsheet labels must be drawn separately due to layer problems
-        for (HoveringText hoveringText : cheatsheetLabels)
-            hoveringText.drawButton(mc, x, y, tick);
+        //Draw tooltips
+        for (int i = 5; i < this.buttonList.size(); i++) {
+            HoveringText button = (HoveringText) this.buttonList.get(i);
+            if (button.isMouseOver())
+                drawHoveringText(button.getHoverText(), x, y);
+        }
     }
 
     @Override
@@ -183,18 +187,17 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(3, getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "<"));
         this.buttonList.add(new GuiButton(4, getRightMargin(regularButtonWidth) - 5 - regularButtonWidth, getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Reset to default"));
         //Needs to be cleared since resizing the window calls initGui() again
-        cheatsheetLabels.clear();
-        cheatsheetLabels.add(new HoveringText(5, getLeftMargin(), getYOrigin() + 45, cheatsheet.get(0), cheatsheetDesc.get(0)));
-        cheatsheetLabels.add(new HoveringText(6, getLeftMargin(), getYOrigin() + 55, cheatsheet.get(1), cheatsheetDesc.get(1)));
-        cheatsheetLabels.add(new HoveringText(7, getLeftMargin(), getYOrigin() + 65, cheatsheet.get(2), cheatsheetDesc.get(2)));
-        cheatsheetLabels.add(new HoveringText(8, getLeftMargin(), getYOrigin() + 75, cheatsheet.get(3), cheatsheetDesc.get(3)));
-        cheatsheetLabels.add(new HoveringText(9, getLeftMargin(), getYOrigin() + 85, cheatsheet.get(4), cheatsheetDesc.get(4)));
-        cheatsheetLabels.add(new HoveringText(10, getLeftMargin(), getYOrigin() + 95, cheatsheet.get(5), cheatsheetDesc.get(5)));
-        cheatsheetLabels.add(new HoveringText(11, getLeftMargin() + 210, getYOrigin() + 45, cheatsheet.get(6), cheatsheetDesc.get(6)));
-        cheatsheetLabels.add(new HoveringText(12, getLeftMargin() + 210, getYOrigin() + 55, cheatsheet.get(7), cheatsheetDesc.get(7)));
-        cheatsheetLabels.add(new HoveringText(13, getLeftMargin() + 210, getYOrigin() + 65, cheatsheet.get(8), cheatsheetDesc.get(8)));
-        cheatsheetLabels.add(new HoveringText(14, getLeftMargin() + 210, getYOrigin() + 75, cheatsheet.get(9), cheatsheetDesc.get(9)));
-        cheatsheetLabels.add(new HoveringText(15, getLeftMargin() + 210, getYOrigin() + 85, cheatsheet.get(10), cheatsheetDesc.get(10)));
+        this.buttonList.add(new HoveringText(5, getLeftMargin(), getYOrigin() + 45, cheatsheet.get(0), cheatsheetDesc.get(0)));
+        this.buttonList.add(new HoveringText(6, getLeftMargin(), getYOrigin() + 55, cheatsheet.get(1), cheatsheetDesc.get(1)));
+        this.buttonList.add(new HoveringText(7, getLeftMargin(), getYOrigin() + 65, cheatsheet.get(2), cheatsheetDesc.get(2)));
+        this.buttonList.add(new HoveringText(8, getLeftMargin(), getYOrigin() + 75, cheatsheet.get(3), cheatsheetDesc.get(3)));
+        this.buttonList.add(new HoveringText(9, getLeftMargin(), getYOrigin() + 85, cheatsheet.get(4), cheatsheetDesc.get(4)));
+        this.buttonList.add(new HoveringText(10, getLeftMargin(), getYOrigin() + 95, cheatsheet.get(5), cheatsheetDesc.get(5)));
+        this.buttonList.add(new HoveringText(11, getLeftMargin() + 210, getYOrigin() + 45, cheatsheet.get(6), cheatsheetDesc.get(6)));
+        this.buttonList.add(new HoveringText(12, getLeftMargin() + 210, getYOrigin() + 55, cheatsheet.get(7), cheatsheetDesc.get(7)));
+        this.buttonList.add(new HoveringText(13, getLeftMargin() + 210, getYOrigin() + 65, cheatsheet.get(8), cheatsheetDesc.get(8)));
+        this.buttonList.add(new HoveringText(14, getLeftMargin() + 210, getYOrigin() + 75, cheatsheet.get(9), cheatsheetDesc.get(9)));
+        this.buttonList.add(new HoveringText(15, getLeftMargin() + 210, getYOrigin() + 85, cheatsheet.get(10), cheatsheetDesc.get(10)));
     }
 
     @Override
@@ -355,9 +358,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
             regex = "^" + regex;
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(testMessage);
-        if (matcher.find())
-            return matcher.group(0).trim().equals("Notch --> English:");
-        return false;
+        return matcher.find();
     }
 
     //Gets the chat log of 20 messages for testing regex
@@ -393,7 +394,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     private String matchUsername(String message, String regex, int group) {
-        if (group == -1 || group > countGroups(regex) || message.equals(TextFormatting.RED + "Can't find player username :("))
+        if (group == -1 || group > countGroups(regex) || message.equals(TextFormatting.RED + "No match from chat log :("))
             return "---";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
@@ -441,8 +442,10 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
             GL11.glColor3f(0.33f, 0.33f, 0.33f);
             mc.fontRenderer.drawString(this.displayString, x, y, 0xFF555555, false);
             this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            if (isMouseOver())
-                drawHoveringText(hoverText, mouseX, mouseY, fontRenderer);
+        }
+
+        List<String> getHoverText() {
+            return hoverText;
         }
     }
 }

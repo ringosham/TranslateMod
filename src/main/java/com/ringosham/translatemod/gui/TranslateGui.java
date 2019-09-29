@@ -12,8 +12,8 @@ import java.io.IOException;
 public class TranslateGui extends CommonGui {
     private static final int guiHeight = 125;
     private static final int guiWidth = 225;
+    private GuiTextField headerField;
     private GuiTextField messageField;
-    private GuiTextField commandField;
 
     public TranslateGui() {
         super(guiHeight, guiWidth);
@@ -25,25 +25,25 @@ public class TranslateGui extends CommonGui {
         fontRenderer.drawString("%mod_name% - by Ringosham", getLeftMargin(), getTopMargin(), 0x555555);
         fontRenderer.drawString("Enter the command/prefix here (Optional)", getLeftMargin(), getTopMargin() + 10, 0x555555);
         fontRenderer.drawString("Enter your message here (Enter to send)", getLeftMargin(), getTopMargin() + 40, 0x555555);
+        headerField.drawTextBox();
         messageField.drawTextBox();
-        commandField.drawTextBox();
-        if (this.messageField.isFocused())
-            this.commandField.setFocused(false);
-        if (this.commandField.isFocused())
+        if (this.headerField.isFocused())
             this.messageField.setFocused(false);
+        if (this.messageField.isFocused())
+            this.headerField.setFocused(false);
     }
 
     @Override
     public void initGui() {
-        this.messageField = new GuiTextField(0, this.fontRenderer, getLeftMargin(), getYOrigin() + 25, guiWidth - 10, 15);
-        this.commandField = new GuiTextField(1, this.fontRenderer, getLeftMargin(), getYOrigin() + 55, guiWidth - 10, 15);
-        messageField.setMaxStringLength(25);
+        this.headerField = new GuiTextField(0, this.fontRenderer, getLeftMargin(), getYOrigin() + 25, guiWidth - 10, 15);
+        this.messageField = new GuiTextField(1, this.fontRenderer, getLeftMargin(), getYOrigin() + 55, guiWidth - 10, 15);
+        headerField.setMaxStringLength(25);
+        headerField.setCanLoseFocus(true);
+        headerField.setEnableBackgroundDrawing(true);
+        messageField.setMaxStringLength(75);
         messageField.setCanLoseFocus(true);
         messageField.setEnableBackgroundDrawing(true);
-        commandField.setMaxStringLength(75);
-        commandField.setCanLoseFocus(true);
-        commandField.setEnableBackgroundDrawing(true);
-        commandField.setFocused(true);
+        messageField.setFocused(true);
         Keyboard.enableRepeatEvents(true);
         this.buttonList.add(new GuiButton(0, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Settings"));
         this.buttonList.add(new GuiButton(1, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Close"));
@@ -69,23 +69,23 @@ public class TranslateGui extends CommonGui {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) throws IOException {
+        this.headerField.textboxKeyTyped(typedChar, keyCode);
         this.messageField.textboxKeyTyped(typedChar, keyCode);
-        this.commandField.textboxKeyTyped(typedChar, keyCode);
-        if (keyCode == Keyboard.KEY_RETURN && !this.commandField.getText().trim().isEmpty() && (this.commandField.isFocused() || this.messageField.isFocused())) {
+        if (keyCode == Keyboard.KEY_RETURN && (this.messageField.isFocused() || this.headerField.isFocused())) {
             mc.displayGuiScreen(null);
-            if (!KeyManager.getInstance().isOffline() && !KeyManager.getInstance().isKeyUsedUp()) {
-                Thread translate = new SelfTranslate(this.messageField.getText(), this.commandField.getText());
+            if (!KeyManager.getInstance().isKeyUsedUp()) {
+                Thread translate = new SelfTranslate(this.messageField.getText(), this.headerField.getText());
                 translate.start();
             }
         }
-        if (keyCode == Keyboard.KEY_TAB && this.commandField.isFocused() && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
-            this.messageField.setFocused(true);
-            this.commandField.setFocused(false);
-        } else if (keyCode == Keyboard.KEY_TAB && this.messageField.isFocused()) {
+        if (keyCode == Keyboard.KEY_TAB && this.messageField.isFocused() && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
+            this.headerField.setFocused(true);
             this.messageField.setFocused(false);
-            this.commandField.setFocused(true);
+        } else if (keyCode == Keyboard.KEY_TAB && this.headerField.isFocused()) {
+            this.headerField.setFocused(false);
+            this.messageField.setFocused(true);
         }
-        if (keyCode == Keyboard.KEY_E && !this.commandField.isFocused() && !this.messageField.isFocused())
+        if (keyCode == Keyboard.KEY_E && !this.messageField.isFocused() && !this.headerField.isFocused())
             mc.displayGuiScreen(null);
         else
             super.keyTyped(typedChar, keyCode);
@@ -94,7 +94,7 @@ public class TranslateGui extends CommonGui {
     @Override
     public void mouseClicked(int x, int y, int state) throws IOException {
         super.mouseClicked(x, y, state);
+        this.headerField.mouseClicked(x, y, state);
         this.messageField.mouseClicked(x, y, state);
-        this.commandField.mouseClicked(x, y, state);
     }
 }
