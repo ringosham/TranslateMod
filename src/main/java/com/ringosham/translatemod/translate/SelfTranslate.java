@@ -20,6 +20,6 @@ public class SelfTranslate extends Thread {
         //Silently fail. The Translator class should handle the exception
         if (translatedMessage == null)
             return;
-        Minecraft.getMinecraft().thePlayer.sendChatMessage(selfHeader + translatedMessage.getMessage());
+        Minecraft.getMinecraft().thePlayer.sendChatMessage(selfHeader + " " + translatedMessage.getMessage());
     }
 }
