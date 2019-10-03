@@ -9,16 +9,14 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
-        flatDir {
-            dirs '$rootProject.projectDir/libs'
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
 
-apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: 'idea'
 
 sourceSets {
     main {
@@ -31,40 +29,64 @@ version = project.mod_version
 // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 group = project.group_name
 archivesBaseName = "[" + project.minecraft_version + "]RealTimeTranslation"
-minecraft.version = project.forge_version
-minecraft.mappings = project.mappings_version
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    version = project.forge_version
-    runDir = "eclipse/assets"
-    sourceCompatibility=8
-    targetCompatibility=8
+    mappings channel: project.mappings_channel, version: project.mappings_version
 
-    replace '%mod_id%', project.mod_id
-    replace '%mod_name%', project.mod_name
-    replace '%mod_version%', project.mod_version
-    replace '%minecraft_version%', project.minecraft_version
-}
+    runs {
+        client {
+            workingDirectory project.file('env')
 
-processResources
-        {
-            // this will ensure that this task is redone when the versions change.
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // replace stuff in mcmod.info, nothing else
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
 
-                // replace version and mcversion
-                expand 'version':project.version, 'mcversion':project.minecraft.version
-            }
-
-            // copy everything else, thats not the mcmod.info
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
+            mods {
+                examplemod {
+                    source sourceSets.main
+                }
             }
         }
+
+        server {
+            workingDirectory project.file('env')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                examplemod {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('env')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                examplemod {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
 
 configurations {
     embed
@@ -82,6 +104,7 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    minecraft 'net.minecraftforge:forge:' + project.forge_version
     embed 'org.glassfish.jersey.core:jersey-client:2.29'
     compile 'org.glassfish.jersey.core:jersey-client:2.29'
     embed 'org.glassfish.jersey.media:jersey-media-json-jackson:2.29'
@@ -91,5 +114,15 @@ dependencies {
 }
 
 jar {
-    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it)}
+    manifest {
+        attributes([
+                "Specification-Title"     : project.mod_name,
+                "Specification-Vendor"    : project.mod_vendor,
+                "Specification-Version"   : project.mod_version, // We are version 1 of ourselves
+                "Implementation-Title"    : project.mod_name,
+                "Implementation-Version"  : project.mod_version,
+                "Implementation-Vendor"   : project.mod_vendor,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
 }
