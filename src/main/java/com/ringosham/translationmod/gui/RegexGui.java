@@ -294,22 +294,25 @@ public class RegexGui extends CommonGui {
     }
 
     @Override
-    public boolean charTyped(char typedchar, int keycode) {
-        this.regexTextBox.charTyped(typedchar, keycode);
+    public boolean charTyped(char typedchar, int keyCode) {
         if (this.groupTextBox.isFocused()) {
-            if ((typedchar >= 48 && typedchar <= 57) || typedchar == 8)
+            if (typedchar >= '0' && typedchar <= '9')
                 //No group 0 allowed.
                 if (this.groupTextBox.getText().isEmpty() && typedchar != 48)
-                    this.groupTextBox.charTyped(typedchar, keycode);
-                else if (!this.groupTextBox.getText().isEmpty())
-                    this.groupTextBox.charTyped(typedchar, keycode);
+                    return true;
+                else return !this.groupTextBox.getText().isEmpty();
             return false;
         }
-        if (keycode == GLFW.GLFW_KEY_E && !this.regexTextBox.isFocused()) {
+        return super.charTyped(typedchar, keyCode);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifier) {
+        if (keyCode == GLFW.GLFW_KEY_E && !this.regexTextBox.isFocused()) {
             getMinecraft().displayGuiScreen(null);
             return false;
-        } else
-            return super.charTyped(typedchar, keycode);
+        }
+        return super.keyPressed(keyCode, scanCode, modifier);
     }
 
     private boolean validateRegex(String regex) {

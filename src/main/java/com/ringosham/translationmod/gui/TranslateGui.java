@@ -71,9 +71,7 @@ public class TranslateGui extends CommonGui {
     }
 
     @Override
-    public boolean charTyped(char typedChar, int keyCode) {
-        this.headerField.charTyped(typedChar, keyCode);
-        this.messageField.charTyped(typedChar, keyCode);
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_ENTER && (this.messageField.isFocused() || this.headerField.isFocused())) {
             exitGui();
             if (!KeyManager.getInstance().isKeyUsedUp()) {
@@ -85,7 +83,7 @@ public class TranslateGui extends CommonGui {
         if (keyCode == GLFW.GLFW_KEY_E && !this.messageField.isFocused() && !this.headerField.isFocused()) {
             exitGui();
             return false;
-        } else
-            return super.charTyped(typedChar, keyCode);
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }

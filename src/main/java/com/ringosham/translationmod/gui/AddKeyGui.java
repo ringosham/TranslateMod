@@ -81,13 +81,13 @@ public class AddKeyGui extends CommonGui {
     }
 
     @Override
-    public boolean charTyped(char typedChar, int keyCode) {
-        this.textbox.charTyped(typedChar, keyCode);
-        if (keyCode == GLFW.GLFW_KEY_E && !this.textbox.isFocused())
+    public boolean keyPressed(int keyCode, int scanCode, int modifier) {
+        if (keyCode == GLFW.GLFW_KEY_E && !this.textbox.isFocused()) {
+            getMinecraft().keyboardListener.enableRepeatEvents(false);
             getMinecraft().displayGuiScreen(null);
-        else
-            super.charTyped(typedChar, keyCode);
-        return false;
+            return false;
+        }
+        return super.keyPressed(keyCode, scanCode, modifier);
     }
 
     private void openLink() {

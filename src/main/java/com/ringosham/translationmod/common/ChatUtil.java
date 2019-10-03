@@ -1,7 +1,6 @@
 package com.ringosham.translationmod.common;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -12,14 +11,12 @@ public class ChatUtil {
     private static final String prefix = TextFormatting.GREEN + "[" + TextFormatting.RESET + "RTTM" + TextFormatting.GREEN + "] " + TextFormatting.RESET;
 
     public static void printChatMessage(boolean addPrefix, String message, TextFormatting color) {
-        PlayerEntity player = Minecraft.getInstance().player;
         Style style = new Style();
         style.setColor(color);
         Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage((new StringTextComponent((addPrefix ? prefix : "") + color + message).setStyle(style)));
     }
 
     public static void printChatMessageAdvanced(String message, String hoverText, boolean bold, boolean italic, boolean underline, TextFormatting color) {
-        PlayerEntity player = Minecraft.getInstance().player;
         Style style = new Style();
         style.setColor(color)
                 .setBold(bold)
