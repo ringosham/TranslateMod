@@ -26,6 +26,7 @@ gradle-app.setting
 .idea/**/dictionaries
 .idea/**/shelf
 .idea/discord.xml
+.idea/runConfigurations
 
 # Generated files
 .idea/**/contentModel.xml
