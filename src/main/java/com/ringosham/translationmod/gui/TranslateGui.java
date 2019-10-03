@@ -1,5 +1,6 @@
 package com.ringosham.translationmod.gui;
 
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.client.KeyManager;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.translate.SelfTranslate;
@@ -15,7 +16,7 @@ public class TranslateGui extends CommonGui {
 
     static {
         @SuppressWarnings("OptionalGetWithoutIsPresent")
-        String modName = ModList.get().getModContainerById("translationmod").get().getModInfo().getDisplayName();
+        String modName = ModList.get().getModContainerById(TranslationMod.MODID).get().getModInfo().getDisplayName();
         title = modName + " - by Ringosham";
     }
 

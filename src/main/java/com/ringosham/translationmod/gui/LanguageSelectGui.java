@@ -1,5 +1,6 @@
 package com.ringosham.translationmod.gui;
 
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.client.models.Language;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.fml.ModList;
@@ -11,7 +12,7 @@ public class LanguageSelectGui extends com.ringosham.translationmod.gui.CommonGu
 
     static {
         @SuppressWarnings("OptionalGetWithoutIsPresent")
-        String modName = ModList.get().getModContainerById("translationmod").get().getModInfo().getDisplayName();
+        String modName = ModList.get().getModContainerById(TranslationMod.MODID).get().getModInfo().getDisplayName();
         title = modName + " - Language select";
     }
 

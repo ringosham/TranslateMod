@@ -1,5 +1,6 @@
 package com.ringosham.translationmod.gui;
 
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.client.LangManager;
 import com.ringosham.translationmod.client.models.Language;
 import com.ringosham.translationmod.common.ChatUtil;
@@ -31,7 +32,7 @@ public class ConfigGui extends CommonGui {
         regexTooltip.add("If you notice the mod doesn't do anything on a server,");
         regexTooltip.add("chances are you need to add one here.");
         @SuppressWarnings("OptionalGetWithoutIsPresent")
-        String modName = ModList.get().getModContainerById("translationmod").get().getModInfo().getDisplayName();
+        String modName = ModList.get().getModContainerById(TranslationMod.MODID).get().getModInfo().getDisplayName();
         title = modName + " - Settings";
     }
 

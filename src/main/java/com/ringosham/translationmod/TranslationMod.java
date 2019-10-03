@@ -20,8 +20,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
  * @author Ringosham
  * @since 9/11/2015
  */
-@Mod("translationmod")
+@Mod(TranslationMod.MODID)
 public class TranslationMod {
+    public static final String MODID = "translationmod";
 
     public TranslationMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

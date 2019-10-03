@@ -2,6 +2,7 @@ package com.ringosham.translationmod.client;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
 import net.minecraft.client.Minecraft;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class KeyManager {
 
-    private static final ResourceLocation keyLocation = new ResourceLocation("translationmod", "keys.json");
+    private static final ResourceLocation keyLocation = new ResourceLocation(TranslationMod.MODID, "keys.json");
     private static KeyManager instance;
     private String currentKey;
     private int currentKeyIndex = 0;

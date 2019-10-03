@@ -1,6 +1,7 @@
 package com.ringosham.translationmod.gui;
 
 import com.google.common.primitives.Ints;
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import net.minecraft.client.Minecraft;
@@ -36,7 +37,7 @@ public class RegexGui extends CommonGui {
 
     static {
         @SuppressWarnings("OptionalGetWithoutIsPresent")
-        String modName = ModList.get().getModContainerById("translationmod").get().getModInfo().getDisplayName();
+        String modName = ModList.get().getModContainerById(TranslationMod.MODID).get().getModInfo().getDisplayName();
         title = modName + " - Regex list";
     }
 

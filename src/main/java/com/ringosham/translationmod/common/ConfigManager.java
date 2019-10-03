@@ -1,6 +1,7 @@
 package com.ringosham.translationmod.common;
 
 import com.google.common.primitives.Ints;
+import com.ringosham.translationmod.TranslationMod;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
@@ -214,7 +215,7 @@ public class ConfigManager {
 
 
         ClientConfig(ForgeConfigSpec.Builder builder) {
-            builder.comment("Real time translation mod configs").push("translationmod");
+            builder.comment("Real time translation mod configs").push(TranslationMod.MODID);
             configMinVersion = builder.comment("Config version. DO NOT CHANGE.").defineInRange("configMinVersion", 1, 0, Integer.MAX_VALUE);
             targetLanguage = builder.comment("Target language to translate for the chat").define("targetLanguage", "English");
             selfLanguage = builder.comment("The language the user types").define("selfLanguage", "English");

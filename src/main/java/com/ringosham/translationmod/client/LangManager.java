@@ -1,6 +1,7 @@
 package com.ringosham.translationmod.client;
 
 import com.google.gson.Gson;
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.client.models.Language;
 import net.minecraft.util.ResourceLocation;
 
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class LangManager {
 
-    private static final ResourceLocation langLocation = new ResourceLocation("translationmod", "lang.json");
+    private static final ResourceLocation langLocation = new ResourceLocation(TranslationMod.MODID, "lang.json");
     private static LangManager instance;
     private List<Language> languages = new ArrayList<>();
 
