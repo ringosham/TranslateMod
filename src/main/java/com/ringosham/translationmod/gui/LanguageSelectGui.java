@@ -36,12 +36,13 @@ public class LanguageSelectGui extends com.ringosham.translationmod.gui.CommonGu
     public void init() {
         langList = new com.ringosham.translationmod.gui.LangList(getMinecraft(), font, guiWidth - 18, guiHeight - 48, getYOrigin() + 15, getYOrigin() + guiHeight - 10 - regularButtonHeight, getLeftMargin());
         langList.setLeftPos(15);
-        this.buttons.add(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Select language",
+        this.children.add(langList);
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Select language",
                 (button) -> {
                     if (langList.getSelected() != null)
                         this.selectLanguage(langList.getSelected().getLang());
                 }));
-        this.buttons.add(new Button(getLeftMargin(), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back",
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back",
                 (button) -> this.selectLanguage(null)));
     }
 

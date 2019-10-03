@@ -188,29 +188,31 @@ public class RegexGui extends CommonGui {
         groupTextBox.setMaxStringLength(10);
         groupTextBox.setEnableBackgroundDrawing(true);
         groupTextBox.setText(Integer.toString(groups.get(index)));
+        this.children.add(groupTextBox);
+        this.children.add(regexTextBox);
         getMinecraft().keyboardListener.enableRepeatEvents(false);
-        this.buttons.add(new TextButton(getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest,
+        addButton(new TextButton(getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest,
                 (button) -> this.openLink()));
-        this.buttons.add(new Button(getLeftMargin() + 5 + smallButtonLength, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "+",
+        addButton(new Button(getLeftMargin() + 5 + smallButtonLength, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "+",
                 this::nextPage));
-        this.buttons.add(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Save and close",
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Save and close",
                 (button) -> this.applySettings()));
-        this.buttons.add(new Button(getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "<",
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "<",
                 this::previousPage));
-        this.buttons.add(new Button(getRightMargin(regularButtonWidth) - 5 - regularButtonWidth, getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Reset to default",
+        addButton(new Button(getRightMargin(regularButtonWidth) - 5 - regularButtonWidth, getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Reset to default",
                 (button) -> this.resetDefault()));
         //Needs to be cleared since resizing the window calls initGui() again
-        this.buttons.add(new HoveringText(getLeftMargin(), getYOrigin() + 45, cheatsheet.get(0), cheatsheetDesc.get(0)));
-        this.buttons.add(new HoveringText(getLeftMargin(), getYOrigin() + 55, cheatsheet.get(1), cheatsheetDesc.get(1)));
-        this.buttons.add(new HoveringText(getLeftMargin(), getYOrigin() + 65, cheatsheet.get(2), cheatsheetDesc.get(2)));
-        this.buttons.add(new HoveringText(getLeftMargin(), getYOrigin() + 75, cheatsheet.get(3), cheatsheetDesc.get(3)));
-        this.buttons.add(new HoveringText(getLeftMargin(), getYOrigin() + 85, cheatsheet.get(4), cheatsheetDesc.get(4)));
-        this.buttons.add(new HoveringText(getLeftMargin(), getYOrigin() + 95, cheatsheet.get(5), cheatsheetDesc.get(5)));
-        this.buttons.add(new HoveringText(getLeftMargin() + 210, getYOrigin() + 45, cheatsheet.get(6), cheatsheetDesc.get(6)));
-        this.buttons.add(new HoveringText(getLeftMargin() + 210, getYOrigin() + 55, cheatsheet.get(7), cheatsheetDesc.get(7)));
-        this.buttons.add(new HoveringText(getLeftMargin() + 210, getYOrigin() + 65, cheatsheet.get(8), cheatsheetDesc.get(8)));
-        this.buttons.add(new HoveringText(getLeftMargin() + 210, getYOrigin() + 75, cheatsheet.get(9), cheatsheetDesc.get(9)));
-        this.buttons.add(new HoveringText(getLeftMargin() + 210, getYOrigin() + 85, cheatsheet.get(10), cheatsheetDesc.get(10)));
+        addButton(new HoveringText(getLeftMargin(), getYOrigin() + 45, cheatsheet.get(0), cheatsheetDesc.get(0)));
+        addButton(new HoveringText(getLeftMargin(), getYOrigin() + 55, cheatsheet.get(1), cheatsheetDesc.get(1)));
+        addButton(new HoveringText(getLeftMargin(), getYOrigin() + 65, cheatsheet.get(2), cheatsheetDesc.get(2)));
+        addButton(new HoveringText(getLeftMargin(), getYOrigin() + 75, cheatsheet.get(3), cheatsheetDesc.get(3)));
+        addButton(new HoveringText(getLeftMargin(), getYOrigin() + 85, cheatsheet.get(4), cheatsheetDesc.get(4)));
+        addButton(new HoveringText(getLeftMargin(), getYOrigin() + 95, cheatsheet.get(5), cheatsheetDesc.get(5)));
+        addButton(new HoveringText(getLeftMargin() + 210, getYOrigin() + 45, cheatsheet.get(6), cheatsheetDesc.get(6)));
+        addButton(new HoveringText(getLeftMargin() + 210, getYOrigin() + 55, cheatsheet.get(7), cheatsheetDesc.get(7)));
+        addButton(new HoveringText(getLeftMargin() + 210, getYOrigin() + 65, cheatsheet.get(8), cheatsheetDesc.get(8)));
+        addButton(new HoveringText(getLeftMargin() + 210, getYOrigin() + 75, cheatsheet.get(9), cheatsheetDesc.get(9)));
+        addButton(new HoveringText(getLeftMargin() + 210, getYOrigin() + 85, cheatsheet.get(10), cheatsheetDesc.get(10)));
     }
 
     private void openLink() {

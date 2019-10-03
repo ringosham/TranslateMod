@@ -71,11 +71,12 @@ public class AddKeyGui extends CommonGui {
         textbox.setMaxStringLength(84);
         textbox.setEnableBackgroundDrawing(true);
         textbox.setText(ConfigManager.config.userKey.get());
-        this.buttons.add(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Use key",
+        this.children.add(textbox);
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Use key",
                 (button) -> this.applyKey()));
-        this.buttons.add(new Button(getRightMargin(regularButtonWidth) - regularButtonWidth - 5, getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back",
+        addButton(new Button(getRightMargin(regularButtonWidth) - regularButtonWidth - 5, getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back",
                 (button) -> this.configGui()));
-        this.buttons.add(new TextButton(getLeftMargin(), getYOrigin() + 70, getTextWidth("Click here to go to the website"), TextFormatting.DARK_BLUE + "Click here to go to the website",
+        addButton(new TextButton(getLeftMargin(), getYOrigin() + 70, getTextWidth("Click here to go to the website"), TextFormatting.DARK_BLUE + "Click here to go to the website",
                 (button) -> this.openLink()));
     }
 

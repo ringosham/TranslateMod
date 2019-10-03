@@ -46,12 +46,14 @@ public class TranslateGui extends CommonGui {
         messageField.setMaxStringLength(75);
         messageField.setCanLoseFocus(true);
         messageField.setEnableBackgroundDrawing(true);
+        children.add(headerField);
+        children.add(messageField);
         getMinecraft().keyboardListener.enableRepeatEvents(true);
-        this.buttons.add(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Settings",
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Settings",
                 (button) -> this.configGui()));
-        this.buttons.add(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Close",
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Close",
                 (button) -> this.exitGui()));
-        this.buttons.add(new Button(getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Credits",
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Credits",
                 (button) -> {
                     ChatUtil.printCredits();
                     this.exitGui();
