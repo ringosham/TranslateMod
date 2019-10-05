@@ -105,12 +105,6 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     minecraft 'net.minecraftforge:forge:' + project.forge_version
-    embed 'org.glassfish.jersey.core:jersey-client:2.29'
-    compile 'org.glassfish.jersey.core:jersey-client:2.29'
-    embed 'org.glassfish.jersey.media:jersey-media-json-jackson:2.29'
-    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.29'
-    embed 'org.glassfish.jersey.inject:jersey-hk2:2.29'
-    compile 'org.glassfish.jersey.inject:jersey-hk2:2.29'
 }
 
 jar {
