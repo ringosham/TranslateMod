@@ -5,48 +5,50 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.ringosham.translationmod.client.models.Language;
 import com.ringosham.translationmod.client.models.RequestResult;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.HttpClientBuilder;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class GoogleClient {
     //Google translate is a paid service. This is the secret free API for use of the web Google translate
     private static final String baseUrl = "https://translate.googleapis.com/translate_a/single";
     private static boolean accessDenied = false;
-    private Client client = ClientBuilder.newClient();
 
     public static boolean isAccessDenied() {
         return accessDenied;
     }
 
     public RequestResult translate(String message, Language from, Language to) {
-        WebTarget target = client.target(baseUrl);
-        Map<String, String> params = new HashMap<>();
+        HttpClient client = HttpClientBuilder.create().build();
         //Necessary query parameters to trick Google translate
-        params.put("client", "gtx");
-        params.put("sl", from.getGoogleCode());
-        params.put("tl", to.getGoogleCode());
-        params.put("dt", "t");
-        params.put("q", message);
-        for (String queryKey : params.keySet())
-            target = target.queryParam(queryKey, params.get(queryKey));
-        Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON);
+        HttpUriRequest request = RequestBuilder.get().setUri(baseUrl)
+                .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
+                .addParameter("client", "gtx")
+                .addParameter("sl", from.getGoogleCode())
+                .addParameter("tl", to.getGoogleCode())
+                .addParameter("dt", "t")
+                .addParameter("q", message)
+                .build();
         try {
-            Response response = builder.get();
-            if (response.getStatus() != 200) {
+            HttpResponse response = client.execute(request);
+            if (response.getStatusLine().getStatusCode() != 200) {
                 accessDenied = true;
                 return new RequestResult(429, "Access to Google Translate denied");
             }
+            InputStream in = response.getEntity().getContent();
+            String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
             //This secret API is specifically made for Google translate. So the response contains lots of useless information.
             //Each sentence translated is divided into separate JSON arrays.
             Gson gson = new Gson();
-            JsonArray json = gson.fromJson(response.readEntity(String.class), JsonArray.class);
+            JsonArray json = gson.fromJson(responseString, JsonArray.class);
             JsonArray lines = json.get(0).getAsJsonArray();
             StringBuilder stringBuilder = new StringBuilder();
             for (JsonElement sentenceObj : lines) {
