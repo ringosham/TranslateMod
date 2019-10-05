@@ -75,7 +75,7 @@ public class Handler {
                 ChatUtil.printChatMessage(true, "You are currently offline. To enable translations, please check your network settings and restart the game", TextFormatting.RED);
                 return;
             } else {
-                ChatUtil.printChatMessage(true, "Press [" + TextFormatting.AQUA + KeyBind.translateKey.getKey().getTranslationKey() + TextFormatting.WHITE + "] for translation settings", TextFormatting.WHITE);
+                ChatUtil.printChatMessage(true, "Press [" + TextFormatting.AQUA + KeyBind.translateKey.getLocalizedName() + TextFormatting.WHITE + "] for translation settings", TextFormatting.WHITE);
             }
             if (KeyManager.getInstance().isKeyUsedUp()) {
                 ChatUtil.printChatMessage(true, "All translation keys have been used up for today. The mod will not function without a translation key", TextFormatting.RED);
