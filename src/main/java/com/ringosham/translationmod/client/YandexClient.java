@@ -4,40 +4,42 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ringosham.translationmod.client.models.Language;
 import com.ringosham.translationmod.client.models.RequestResult;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.HttpClientBuilder;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class YandexClient {
     private static final String baseUrl = "https://translate.yandex.net/api/v1.5/tr.json/";
-    private Client client = ClientBuilder.newClient();
 
-    private WebTarget getDetection() {
-        return client.target(baseUrl + "detect");
+    private String getDetection() {
+        return baseUrl + "detect";
     }
 
-    private WebTarget getTranslate() {
-        return client.target(baseUrl + "translate");
+    private String getTranslate() {
+        return baseUrl + "translate";
     }
 
     public RequestResult detect(String key, String message) {
-        WebTarget target = getDetection();
-        Map<String, String> params = new HashMap<>();
-        params.put("key", key);
-        params.put("text", message);
-        for (String queryKey : params.keySet())
-            target = target.queryParam(queryKey, params.get(queryKey));
-        Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON);
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpUriRequest request = RequestBuilder.get().setUri(baseUrl)
+                .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
+                .addParameter("key", key)
+                .addParameter("text", message)
+                .build();
         try {
-            Response response = builder.get();
+            HttpResponse response = client.execute(request);
+            InputStream in = response.getEntity().getContent();
+            String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
             Gson gson = new Gson();
-            JsonObject json = gson.fromJson(response.readEntity(String.class), JsonObject.class);
+            JsonObject json = gson.fromJson(responseString, JsonObject.class);
             //Log.logger.info(json.toString());
             int code = json.get("code").getAsInt();
             String lang = null;
@@ -66,18 +68,19 @@ public class YandexClient {
     }
 
     public RequestResult translate(String key, String message, Language from, Language to) {
-        WebTarget target = getTranslate();
-        Map<String, String> params = new HashMap<>();
-        params.put("key", key);
-        params.put("text", message);
-        params.put("lang", (from == null ? "" : from.getYandexCode() + "-") + to.getYandexCode());
-        for (String queryKey : params.keySet())
-            target = target.queryParam(queryKey, params.get(queryKey));
-        Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON);
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpUriRequest request = RequestBuilder.get().setUri(baseUrl)
+                .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
+                .addParameter("key", key)
+                .addParameter("text", message)
+                .addParameter("lang", (from == null ? "" : from.getYandexCode() + "-") + to.getYandexCode())
+                .build();
         try {
-            Response response = builder.get();
+            HttpResponse response = client.execute(request);
+            InputStream in = response.getEntity().getContent();
+            String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
             Gson gson = new Gson();
-            JsonObject json = gson.fromJson(response.readEntity(String.class), JsonObject.class);
+            JsonObject json = gson.fromJson(responseString, JsonObject.class);
             int code = json.get("code").getAsInt();
             String text = null;
             String error = null;
