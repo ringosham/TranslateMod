@@ -29,7 +29,7 @@ public class YandexClient {
 
     public RequestResult detect(String key, String message) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpUriRequest request = RequestBuilder.get().setUri(baseUrl)
+        HttpUriRequest request = RequestBuilder.get().setUri(getDetection())
                 .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
                 .addParameter("key", key)
                 .addParameter("text", message)
@@ -69,7 +69,7 @@ public class YandexClient {
 
     public RequestResult translate(String key, String message, Language from, Language to) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpUriRequest request = RequestBuilder.get().setUri(baseUrl)
+        HttpUriRequest request = RequestBuilder.get().setUri(getTranslate())
                 .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
                 .addParameter("key", key)
                 .addParameter("text", message)
