@@ -2,6 +2,7 @@ package com.ringosham.translationmod.client;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 import com.ringosham.translationmod.client.models.Language;
 import com.ringosham.translationmod.client.models.RequestResult;
 import org.apache.commons.io.IOUtils;
@@ -14,6 +15,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.InputStream;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 public class YandexClient {
@@ -39,7 +41,9 @@ public class YandexClient {
             InputStream in = response.getEntity().getContent();
             String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
             Gson gson = new Gson();
-            JsonObject json = gson.fromJson(responseString, JsonObject.class);
+            JsonReader reader = new JsonReader(new StringReader(responseString));
+            reader.setLenient(true);
+            JsonObject json = gson.fromJson(reader, JsonObject.class);
             //Log.logger.info(json.toString());
             int code = json.get("code").getAsInt();
             String lang = null;
@@ -80,7 +84,9 @@ public class YandexClient {
             InputStream in = response.getEntity().getContent();
             String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
             Gson gson = new Gson();
-            JsonObject json = gson.fromJson(responseString, JsonObject.class);
+            JsonReader reader = new JsonReader(new StringReader(responseString));
+            reader.setLenient(true);
+            JsonObject json = gson.fromJson(reader, JsonObject.class);
             int code = json.get("code").getAsInt();
             String text = null;
             String error = null;
