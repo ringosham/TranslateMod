@@ -58,7 +58,7 @@ public class Handler {
     @SubscribeEvent
     public void chatReceived(ClientChatReceivedEvent event) {
         ITextComponent eventMessage = event.getMessage();
-        String message = eventMessage.getUnformattedComponentText().replaceAll("§(.)", "");
+        String message = eventMessage.getString().replaceAll("§(.)", "");
         if (KeyManager.getInstance().isKeyUsedUp())
             return;
         Thread translate = new Translator(message, null, LangManager.getInstance().findLanguageFromName(ConfigManager.config.targetLanguage.get()));
