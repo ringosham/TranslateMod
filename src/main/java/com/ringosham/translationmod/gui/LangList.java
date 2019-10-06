@@ -28,12 +28,17 @@ public class LangList extends ExtendedList<LangList.LangEntry> {
 
     @Override
     protected int getScrollbarPosition() {
-        return this.width;
+        return getLeft();
     }
 
     @Override
     public int getRowWidth() {
         return this.width;
+    }
+
+    @Override
+    public void renderHoleBackground(int a, int b, int c, int d) {
+        //We do not need to render the dirt background
     }
 
     public class LangEntry extends ExtendedList.AbstractListEntry<LangEntry> {
@@ -51,7 +56,8 @@ public class LangList extends ExtendedList<LangList.LangEntry> {
         @Override
         public void render(int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks) {
             font.setBidiFlag(true);
-            LangList.this.drawString(font, this.langName, 0, top + 1, 16777215);
+            if (top + 1 < getBottom() && getTop() < top + 1)
+                LangList.this.drawString(font, this.langName, left + 5, top + 1, 16777215);
         }
 
         //Undocumented parameter names are fun!

@@ -226,8 +226,9 @@ public class ConfigManager {
             color = builder.comment("Changes the color of the translated message").define("color", "gray");
             translateSign = builder.comment("Allows translating texts in sign by looking").define("translateSign", true);
             userKey = builder.comment("Your personal translation key").define("userKey", "");
-            regexList = builder.comment("Your regex list").define("regexList", Arrays.asList(defaultRegex));
-            groupList = builder.comment("Your match group number to detect player names").define("groupList", Ints.asList(defaultGroups));
+            //Not using forge to correct. It will just replace the entire list with the default.
+            regexList = builder.comment("Your regex list").define("regexList", Arrays.asList(defaultRegex), o -> true);
+            groupList = builder.comment("Your match group number to detect player names").define("groupList", Ints.asList(defaultGroups), o -> true);
         }
     }
 }
