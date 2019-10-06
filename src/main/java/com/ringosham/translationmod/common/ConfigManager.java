@@ -224,6 +224,8 @@ public class ConfigManager {
         }
 
         private boolean validateLang(String lang) {
+            if (lang == null)
+                return false;
             List<Language> languages = LangManager.getInstance().getAllLanguages();
             for (Language language : languages) {
                 if (lang.equals(language.getName()))
