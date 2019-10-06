@@ -1,6 +1,7 @@
 package com.ringosham.translationmod.client;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.ringosham.translationmod.client.models.Language;
@@ -47,7 +48,7 @@ public class GoogleClient {
             String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
             //This secret API is specifically made for Google translate. So the response contains lots of useless information.
             //Each sentence translated is divided into separate JSON arrays.
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setLenient().create();
             JsonArray json = gson.fromJson(responseString, JsonArray.class);
             JsonArray lines = json.get(0).getAsJsonArray();
             StringBuilder stringBuilder = new StringBuilder();

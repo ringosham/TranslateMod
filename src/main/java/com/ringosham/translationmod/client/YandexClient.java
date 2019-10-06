@@ -1,6 +1,7 @@
 package com.ringosham.translationmod.client;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.ringosham.translationmod.client.models.Language;
 import com.ringosham.translationmod.client.models.RequestResult;
@@ -38,7 +39,7 @@ public class YandexClient {
             HttpResponse response = client.execute(request);
             InputStream in = response.getEntity().getContent();
             String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setLenient().create();
             JsonObject json = gson.fromJson(responseString, JsonObject.class);
             //Log.logger.info(json.toString());
             int code = json.get("code").getAsInt();
@@ -79,7 +80,7 @@ public class YandexClient {
             HttpResponse response = client.execute(request);
             InputStream in = response.getEntity().getContent();
             String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setLenient().create();
             JsonObject json = gson.fromJson(responseString, JsonObject.class);
             int code = json.get("code").getAsInt();
             String text = null;
