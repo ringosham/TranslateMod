@@ -63,12 +63,8 @@ public class LangList extends ExtendedList<LangList.LangEntry> {
         //Undocumented parameter names are fun!
         @Override
         public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-            //Copied straight from Minecraft source.
-            if (p_mouseClicked_1_ == 0) {
-                LangList.this.setSelected(this);
-                return true;
-            }
-            return false;
+            LangList.this.setSelected(this);
+            return true;
         }
 
         public Language getLang() {
