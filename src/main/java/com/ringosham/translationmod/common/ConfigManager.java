@@ -2,6 +2,8 @@ package com.ringosham.translationmod.common;
 
 import com.google.common.primitives.Ints;
 import com.ringosham.translationmod.TranslationMod;
+import com.ringosham.translationmod.client.LangManager;
+import com.ringosham.translationmod.client.models.Language;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
@@ -74,22 +76,8 @@ public class ConfigManager {
     public static void validateConfig() {
         versionCheck();
         //Validations to prevent dumbasses messing with the mod config through notepad
-        //Only string validations are needed. Other primitives would be dealt with by forge
-        boolean valid = true;
-        if (config.targetLanguage.get() == null) {
-            valid = false;
-            config.targetLanguage.set("English");
-        }
-        if (config.selfLanguage.get() == null) {
-            valid = false;
-            config.selfLanguage.set("English");
-        }
-        if (config.speakAsLanguage.get() == null) {
-            valid = false;
-            config.speakAsLanguage.set("Japanese");
-        }
-
         //Regex validation
+        boolean valid = true;
         List<String> regexList = config.regexList.get();
         List<Integer> groupList = config.groupList.get();
         Iterator<String> regexIt = regexList.iterator();
@@ -217,18 +205,31 @@ public class ConfigManager {
         ClientConfig(ForgeConfigSpec.Builder builder) {
             builder.comment("Real time translation mod configs").push(TranslationMod.MODID);
             configMinVersion = builder.comment("Config version. DO NOT CHANGE.").defineInRange("configMinVersion", 1, 0, Integer.MAX_VALUE);
-            targetLanguage = builder.comment("Target language to translate for the chat").define("targetLanguage", "English");
-            selfLanguage = builder.comment("The language the user types").define("selfLanguage", "English");
-            speakAsLanguage = builder.comment("The language the user wants their message to translate to").define("speakAsLanguage", "Japanese");
+            targetLanguage = builder.comment("Target language to translate for the chat").define("targetLanguage", "English", lang -> validateLang((String) lang));
+            selfLanguage = builder.comment("The language the user types").define("selfLanguage", "English", lang -> validateLang((String) lang));
+            speakAsLanguage = builder.comment("The language the user wants their message to translate to").define("speakAsLanguage", "Japanese", lang -> validateLang((String) lang));
             bold = builder.comment("Bold the translated message").define("bold", false);
             italic = builder.comment("Italic the translated message").define("italic", false);
             underline = builder.comment("Underline the translated message").define("underline", false);
-            color = builder.comment("Changes the color of the translated message").define("color", "gray");
+            color = builder.comment("Changes the color of the translated message").define("color", "gray", color -> {
+                List<String> colors = new ArrayList<>(TextFormatting.getValidValues(true, false));
+                String c = (String) color;
+                return colors.contains(c);
+            });
             translateSign = builder.comment("Allows translating texts in sign by looking").define("translateSign", true);
             userKey = builder.comment("Your personal translation key").define("userKey", "");
             //Not using forge to correct. It will just replace the entire list with the default.
             regexList = builder.comment("Your regex list").define("regexList", Arrays.asList(defaultRegex), o -> true);
             groupList = builder.comment("Your match group number to detect player names").define("groupList", Ints.asList(defaultGroups), o -> true);
+        }
+
+        private boolean validateLang(String lang) {
+            List<Language> languages = LangManager.getInstance().getAllLanguages();
+            for (Language language : languages) {
+                if (lang.equals(language.getName()))
+                    return true;
+            }
+            return false;
         }
     }
 }
