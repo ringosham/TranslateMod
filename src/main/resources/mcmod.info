@@ -4,7 +4,7 @@
     "name": "Real-time translation mod",
     "description": "Translate your Minecraft chat in real time! Translation results are powered by Yandex and Google.",
     "url": "http://minecraft.curseforge.com/projects/real-time-chat-translation-mod",
-    "version": "5.0",
+    "version": "5.0.1",
     "mcversion": "$mcversion",
     "updateurl": "",
     "authorList": [

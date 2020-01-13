@@ -98,3 +98,4 @@
      - RMV: Enable/Disable switch. Nobody uses that anyway
      - ADD: Redesigned regex editor. A cheatsheet with examples! It will now show if the regex is valid, as well as any showing any chat messages that are compatible with your regex.
      - ADD: Combined use of Google translate. Aside from the Yandex translate it is currently using. The mod will now switch between the two!
+ 5.1 - FIX: GUI freezing issue when adding keys caused by constant key validation.
