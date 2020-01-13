@@ -23,6 +23,8 @@ public class AddKeyGui extends CommonGui {
     private static final int guiHeight = 150;
     private static final String getKeyLink = "https://tech.yandex.com/translate/";
     private static final String title;
+    private boolean keyValid = false;
+    private String newKey = "";
 
     static {
         @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -45,8 +47,10 @@ public class AddKeyGui extends CommonGui {
         font.drawString("You can use your key here if all keys are used", getLeftMargin(), getYOrigin() + 40, 0x555555);
         font.drawString("The process is free, but requires signing up", getLeftMargin(), getYOrigin() + 50, 0x555555);
         font.drawString("Go to this website to create your key there", getLeftMargin(), getYOrigin() + 60, 0x555555);
-        boolean keyValid = checkKey(textbox.getText());
+        if (!newKey.equals(this.textbox.getText()))
+            keyValid = checkKey(this.textbox.getText());
         String keyStatus;
+        newKey = this.textbox.getText();
         if (keyValid)
             keyStatus = TextFormatting.GREEN + "This key is valid and usable!";
         else
