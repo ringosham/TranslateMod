@@ -25,7 +25,7 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
     private static final int guiHeight = 150;
     private static final String getKeyLink = "https://tech.yandex.com/translate/";
     private GuiTextField textbox;
-    private boolean keyValid;
+    private boolean keyValid = false;
     private String newKey = "";
 
     AddKeyGui() {
