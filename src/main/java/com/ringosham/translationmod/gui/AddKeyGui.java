@@ -25,6 +25,8 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
     private static final int guiHeight = 150;
     private static final String getKeyLink = "https://tech.yandex.com/translate/";
     private GuiTextField textbox;
+    private String newKey = "";
+    private boolean keyValid = false;
 
     AddKeyGui() {
         super(guiHeight, guiWidth);
@@ -39,7 +41,9 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
         fontRenderer.drawString("You can use your key here if all keys are used", getLeftMargin(), getYOrigin() + 40, 0x555555);
         fontRenderer.drawString("The process is free, but requires signing up", getLeftMargin(), getYOrigin() + 50, 0x555555);
         fontRenderer.drawString("Go to this website to create your key there", getLeftMargin(), getYOrigin() + 60, 0x555555);
-        boolean keyValid = checkKey(textbox.getText());
+        if (!newKey.equals(this.textbox.getText()))
+            keyValid = checkKey(this.textbox.getText());
+        newKey = this.textbox.getText();
         String keyStatus;
         if (keyValid)
             keyStatus = TextFormatting.GREEN + "This key is valid and usable!";
