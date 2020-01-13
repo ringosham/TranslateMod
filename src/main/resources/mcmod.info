@@ -4,7 +4,7 @@
     "name": "Real-time translation mod",
     "description": "This mod translate your Minecraft chat in real time! Translation results are powered by Yandex Translation API. The Java wrapper of the API is powered by Robert Theis. DISCLAIMER: This is using a web translation service. Translation error is to be expected.",
     "url": "http://minecraft.curseforge.com/projects/real-time-chat-translation-mod",
-    "version": "5.0",
+    "version": "5.0.1",
     "mcversion": "$mcversion",
     "updateurl": "",
     "authorList": [
