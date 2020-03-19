@@ -24,7 +24,7 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.config.ModConfig.Reloading;
 
 import java.util.Objects;
 
@@ -100,7 +100,7 @@ public class Handler {
 
     //If config is somehow changed through other means
     @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+    public void onConfigChanged(Reloading event) {
         ConfigManager.saveConfig();
     }
 
