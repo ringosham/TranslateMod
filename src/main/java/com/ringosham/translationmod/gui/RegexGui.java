@@ -300,8 +300,9 @@ public class RegexGui extends CommonGui {
             if (typedchar >= '0' && typedchar <= '9')
                 //No group 0 allowed.
                 if (this.groupTextBox.getText().isEmpty() && typedchar != 48)
-                    return true;
-                else return !this.groupTextBox.getText().isEmpty();
+                    return super.charTyped(typedchar, keyCode);
+                else if (!this.groupTextBox.getText().isEmpty())
+                    return super.charTyped(typedchar, keyCode);
             return false;
         }
         return super.charTyped(typedchar, keyCode);
