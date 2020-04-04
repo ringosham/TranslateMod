@@ -355,7 +355,7 @@ public class RegexGui extends CommonGui {
         //List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getInstance().ingameGUI.getChatGUI(), "chatLines");
         List<String> chatLog = new ArrayList<>();
         for (int i = 0; i < Math.min(fullChatLog.size(), 20); i++)
-            chatLog.add(fullChatLog.get(i).getChatComponent().getUnformattedComponentText().replaceAll("§(.)", ""));
+            chatLog.add(fullChatLog.get(i).getChatComponent().getString().replaceAll("§(.)", ""));
         return chatLog;
     }
 
