@@ -164,6 +164,8 @@ public class Translator extends Thread {
         //Remove the chat header to get the actual content
         String rawMessage = messageTrim.replace(matcher.group(0), "");
         TranslateResult translatedMessage = translate(rawMessage);
+        if (translatedMessage == null)
+            return;
         String fromStr = null;
         if (translatedMessage.getFromLanguage() != null)
             fromStr = translatedMessage.getFromLanguage().getName();

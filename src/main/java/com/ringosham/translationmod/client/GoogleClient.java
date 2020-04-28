@@ -40,7 +40,7 @@ public class GoogleClient {
                 .build();
         try {
             HttpResponse response = client.execute(request);
-            if (response.getStatusLine().getStatusCode() == 200) {
+            if (response.getStatusLine().getStatusCode() != 200) {
                 accessDenied = true;
                 return new RequestResult(429, "Access to Google Translate denied", null, null);
             }
