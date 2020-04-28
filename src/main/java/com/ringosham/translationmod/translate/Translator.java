@@ -35,7 +35,7 @@ public class Translator extends Thread {
         if (KeyManager.getInstance().isOffline())
             return null;
         String translatedMessage;
-        Language from = null;
+        Language from;
         //Color me surprised, Google has less language support than Yandex.
         if (GoogleClient.isAccessDenied() || to.getGoogleCode() == null) {
             YandexClient yandex = new YandexClient();
@@ -44,6 +44,7 @@ public class Translator extends Thread {
                 logException(transRequest);
                 return null;
             }
+            from = transRequest.getFrom();
             translatedMessage = transRequest.getMessage();
         } else {
             YandexClient yandex = new YandexClient();
@@ -108,6 +109,8 @@ public class Translator extends Thread {
         if (!KeyManager.getInstance().rotateKey()) {
             ChatUtil.printChatMessage(true, "All translation keys have been used up for today. The mod will not function without a translation key", TextFormatting.RED);
             ChatUtil.printChatMessage(true, "You can go to the mod settings -> User key. You can add your own translation key there.", TextFormatting.RED);
+        } else {
+            ChatUtil.printChatMessage(true, "Key switch completed", TextFormatting.WHITE);
         }
     }
 
@@ -161,12 +164,17 @@ public class Translator extends Thread {
         //Remove the chat header to get the actual content
         String rawMessage = messageTrim.replace(matcher.group(0), "");
         TranslateResult translatedMessage = translate(rawMessage);
-        String chatMessage = sender + " --> " + translatedMessage.getFromLanguage().getName() + ": " + translatedMessage.getMessage();
+        if (translatedMessage == null)
+            return;
+        String fromStr = null;
+        if (translatedMessage.getFromLanguage() != null)
+            fromStr = translatedMessage.getFromLanguage().getName();
+        String chatMessage = sender + " --> " + (fromStr == null ? "Unknown" : fromStr) + ": " + translatedMessage.getMessage();
         String hoverText = "Sender: " +
                 sender +
                 "\n" +
                 "Translation: " +
-                translatedMessage.getFromLanguage().getName() + " -> " + to.getName();
+                (fromStr == null ? "Unknown" : fromStr) + " -> " + to.getName();
         //In cases where the message language and the target language is the same
         if (translatedMessage.getMessage().trim().equals(rawMessage.trim()))
             return;

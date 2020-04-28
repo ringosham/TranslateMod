@@ -51,6 +51,8 @@ public class LangManager {
         return null;
     }
 
+    //Both Google and Yandex uses country codes for the translation API
+    //But they don't have a standard way. So both sets of country codes are different
     public Language findLanguageFromGoogle(String googleCode) {
         for (Language lang : languages)
             if (lang.getGoogleCode().equals(googleCode))

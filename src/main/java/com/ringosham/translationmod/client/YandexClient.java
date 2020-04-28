@@ -50,12 +50,12 @@ public class YandexClient {
             else
                 error = json.get("message").getAsString();
             if (lang != null)
-                return new RequestResult(code, lang);
+                return new RequestResult(code, lang, null, null);
             else
-                return new RequestResult(code, error);
+                return new RequestResult(code, error, null, null);
         } catch (Exception e) {
             e.printStackTrace();
-            return new RequestResult(1, "Connection error");
+            return new RequestResult(1, "Connection error", null, null);
         }
     }
 
@@ -89,13 +89,20 @@ public class YandexClient {
                 text = (json.get("text").getAsJsonArray()).get(0).getAsString();
             else
                 error = json.get("message").getAsString();
-            if (text != null)
-                return new RequestResult(code, text);
-            else
-                return new RequestResult(code, error);
+            if (text != null) {
+                if (from == null) {
+                    //If the language detection is performed automatically by the API,
+                    //find what language it is translating from
+                    //The format is "from-to" and both are in country code form
+                    String fromStr = json.get("lang").getAsString().split("-")[0];
+                    from = LangManager.getInstance().findLanguageFromYandex(fromStr);
+                }
+                return new RequestResult(code, text, from, to);
+            } else
+                return new RequestResult(code, error, null, null);
         } catch (Exception e) {
             e.printStackTrace();
-            return new RequestResult(1, "Connection error");
+            return new RequestResult(1, "Connection error", null, null);
         }
     }
 }
