@@ -35,7 +35,7 @@ public class LanguageSelectGui extends com.ringosham.translationmod.gui.CommonGu
 
     @Override
     public void init() {
-        langList = new LangList(getMinecraft(), font, guiWidth - 18, guiHeight - 48, getYOrigin() + 15, getYOrigin() + guiHeight - 10 - regularButtonHeight, 15);
+        langList = new LangList(getMinecraft(), font, guiWidth - 18, guiHeight - 48, getYOrigin() + 15, getYOrigin() + guiHeight - 10 - regularButtonHeight, 18);
         langList.setLeftPos(getLeftMargin());
         this.children.add(langList);
         addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Select language",

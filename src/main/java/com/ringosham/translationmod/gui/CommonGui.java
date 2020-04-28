@@ -16,7 +16,7 @@ public class CommonGui extends Screen {
 
     CommonGui(String title, int guiHeight, int guiWidth) {
         super(new StringTextComponent(title));
-        if (guiWidth < 10 && guiHeight < 10)
+        if (guiWidth < 10 || guiHeight < 10)
             throw new IllegalArgumentException("GUI width too short!");
         this.guiHeight = guiHeight;
         this.guiWidth = guiWidth;

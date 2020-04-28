@@ -43,7 +43,7 @@ public class KeyManager {
                 instance.init();
             } catch (IOException e) {
                 Log.logger.fatal("Cannot locate/decode key file!");
-                Minecraft.getInstance().displayCrashReport(new CrashReport("Failed to load key file", e));
+                Minecraft.displayCrashReport(new CrashReport("Failed to load key file", e));
             }
         }
         return instance;
@@ -68,6 +68,7 @@ public class KeyManager {
     public synchronized boolean rotateKey() {
         rotating = true;
         int count = 0;
+
         YandexClient client = new YandexClient();
         //Test the player's own key first
         String userKey = ConfigManager.config.userKey.get();

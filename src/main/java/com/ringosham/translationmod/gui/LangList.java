@@ -28,7 +28,7 @@ public class LangList extends ExtendedList<LangList.LangEntry> {
 
     @Override
     protected int getScrollbarPosition() {
-        return getLeft();
+        return getRight();
     }
 
     @Override
@@ -39,6 +39,11 @@ public class LangList extends ExtendedList<LangList.LangEntry> {
     @Override
     public void renderHoleBackground(int a, int b, int c, int d) {
         //We do not need to render the dirt background
+    }
+
+    @Override
+    protected boolean isFocused() {
+        return true;
     }
 
     public class LangEntry extends ExtendedList.AbstractListEntry<LangEntry> {
@@ -63,8 +68,12 @@ public class LangList extends ExtendedList<LangList.LangEntry> {
         //Undocumented parameter names are fun!
         @Override
         public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-            LangList.this.setSelected(this);
-            return true;
+            if (p_mouseClicked_5_ == 0) {
+                LangList.this.setSelected(this);
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public Language getLang() {
