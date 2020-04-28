@@ -43,7 +43,7 @@ public class GoogleClient {
             HttpResponse response = client.execute(request);
             if (response.getStatusLine().getStatusCode() != 200) {
                 accessDenied = true;
-                return new RequestResult(429, "Access to Google Translate denied");
+                return new RequestResult(429, "Access to Google Translate denied", null, null);
             }
             InputStream in = response.getEntity().getContent();
             String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
@@ -61,10 +61,10 @@ public class GoogleClient {
                 stringBuilder.append(sentence.get(0).getAsString());
                 stringBuilder.append(" ");
             }
-            return new RequestResult(200, stringBuilder.toString());
+            return new RequestResult(200, stringBuilder.toString(), from, to);
         } catch (Exception e) {
             e.printStackTrace();
-            return new RequestResult(1, "Connection error");
+            return new RequestResult(1, "Connection error", null, null);
         }
     }
 }
