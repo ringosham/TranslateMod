@@ -94,8 +94,8 @@ public class ConfigManager {
                 //-1 is needed as everything in the array is shifted left
                 index--;
             }
-            //Make sure the group number is not less than 0
-            if (groupList.get(index) < 0) {
+            //Make sure the group number is not less than or equal to 0
+            if (groupList.get(index) <= 0) {
                 valid = false;
                 regexIt.remove();
                 groupList.remove(index);
@@ -103,43 +103,9 @@ public class ConfigManager {
             }
             index++;
         }
-        /*
-           Filter duplicate regex
-           Each regex is paired with a group number, so when removing a regex. The group number needs to be removed as well
-           The config file does not support map values or tuples, so they are stored as two separate arrays which is an absolute pain to get them working together
-           Normally to remove exact duplicates you can use Set<>, but since there are group numbers we can't use that as we need to know the index number in both arrays.
-        */
-        regexIt = regexList.iterator();
-        int iterAIndex = 0;
-        int iterBIndex;
-        while (regexIt.hasNext()) {
-            String regex = regexIt.next();
-            Iterator<String> regexIt2 = regexList.iterator();
-            for (int i = 0; i <= iterAIndex; i++)
-                regexIt2.next();
-            iterBIndex = iterAIndex + 1;
-            //Shift the iterator by how many times iterator A called next() + 1.
-            regexIt2.next();
-            while (regexIt2.hasNext()) {
-                String regex2 = regexIt2.next();
-                //Removes the entry.
-                if (regex.equals(regex2)) {
-                    valid = false;
-                    regexList.remove(iterBIndex);
-                    groupList.remove(iterBIndex);
-                    //Array shifted by one after removal
-                    iterBIndex--;
-                }
-                iterBIndex++;
-            }
-            iterAIndex++;
-            //Stop at the second to last index
-            if (iterAIndex == regexList.size() - 1)
-                break;
-        }
 
         //Validates the color.
-        ArrayList colors = new ArrayList<>(TextFormatting.getValidValues(true, false));
+        ArrayList<String> colors = new ArrayList<>(TextFormatting.getValidValues(true, false));
         if (!colors.contains(config.color.get())) {
             config.color.set("gray");
             valid = false;
