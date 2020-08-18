@@ -1,12 +1,12 @@
 package com.ringosham.translationmod.translate;
 
 import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
-import com.ringosham.translationmod.translate.model.SignText;
-import com.ringosham.translationmod.translate.model.TranslateResult;
+import com.ringosham.translationmod.translate.types.SignText;
+import com.ringosham.translationmod.translate.types.TranslateResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 

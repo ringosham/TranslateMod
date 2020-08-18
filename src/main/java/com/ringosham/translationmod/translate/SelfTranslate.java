@@ -2,7 +2,7 @@ package com.ringosham.translationmod.translate;
 
 import com.ringosham.translationmod.client.LangManager;
 import com.ringosham.translationmod.common.ConfigManager;
-import com.ringosham.translationmod.translate.model.TranslateResult;
+import com.ringosham.translationmod.translate.types.TranslateResult;
 import net.minecraft.client.Minecraft;
 
 public class SelfTranslate extends Thread {

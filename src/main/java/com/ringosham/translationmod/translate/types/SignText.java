@@ -1,4 +1,4 @@
-package com.ringosham.translationmod.translate.model;
+package com.ringosham.translationmod.translate.types;
 
 import net.minecraft.util.math.BlockPos;
 

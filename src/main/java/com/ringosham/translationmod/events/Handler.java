@@ -1,6 +1,5 @@
 package com.ringosham.translationmod.events;
 
-import com.ringosham.translationmod.client.KeyManager;
 import com.ringosham.translationmod.client.LangManager;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
@@ -8,7 +7,7 @@ import com.ringosham.translationmod.common.Log;
 import com.ringosham.translationmod.gui.TranslateGui;
 import com.ringosham.translationmod.translate.SignTranslate;
 import com.ringosham.translationmod.translate.Translator;
-import com.ringosham.translationmod.translate.model.SignText;
+import com.ringosham.translationmod.translate.types.SignText;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -59,8 +58,6 @@ public class Handler {
     public void chatReceived(ClientChatReceivedEvent event) {
         ITextComponent eventMessage = event.getMessage();
         String message = eventMessage.getString().replaceAll("§(.)", "");
-        if (KeyManager.getInstance().isKeyUsedUp())
-            return;
         Thread translate = new Translator(message, null, LangManager.getInstance().findLanguageFromName(ConfigManager.config.targetLanguage.get()));
         translate.start();
     }
@@ -71,16 +68,7 @@ public class Handler {
             return;
         if (!hintShown) {
             hintShown = true;
-            if (KeyManager.getInstance().isOffline()) {
-                ChatUtil.printChatMessage(true, "You are currently offline. To enable translations, please check your network settings and restart the game", TextFormatting.RED);
-                return;
-            } else {
                 ChatUtil.printChatMessage(true, "Press [" + TextFormatting.AQUA + KeyBind.translateKey.getLocalizedName() + TextFormatting.WHITE + "] for translation settings", TextFormatting.WHITE);
-            }
-            if (KeyManager.getInstance().isKeyUsedUp()) {
-                ChatUtil.printChatMessage(true, "All translation keys have been used up for today. The mod will not function without a translation key", TextFormatting.RED);
-                ChatUtil.printChatMessage(true, "You can go to the mod settings -> User key. You can add your own translation key there.", TextFormatting.RED);
-            }
             if (ConfigManager.config.regexList.get().size() == 0) {
                 Log.logger.warn("No chat regex in the configurations");
                 ChatUtil.printChatMessage(true, "The mod needs chat regex to function. Check the mod options to add one", TextFormatting.RED);
@@ -106,7 +94,7 @@ public class Handler {
 
     @SubscribeEvent
     public void onKeybind(InputEvent.KeyInputEvent event) {
-        if (!KeyManager.getInstance().isOffline() && KeyBind.translateKey.isPressed())
+        if (KeyBind.translateKey.isPressed())
             Minecraft.getInstance().displayGuiScreen(new TranslateGui());
     }
 

@@ -1,6 +1,5 @@
 package com.ringosham.translationmod;
 
-import com.ringosham.translationmod.client.KeyManager;
 import com.ringosham.translationmod.client.LangManager;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
@@ -29,15 +28,13 @@ public class TranslationMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         //Languages must be loaded first before the configuration
         //The config manager needs to convert the language strings to language objects
-        Log.logger.info("Hi there! Getting translation API ready (1/2)");
+        Log.logger.info("Hi there! Getting translation API ready");
         //Initialize instance.
         LangManager.getInstance();
         Log.logger.info("Loading configurations");
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigManager.configSpec);
         ConfigManager.validateConfig();
-        Log.logger.info("Hi there! Getting translation API ready (2/2)");
-        //Initialize instance
-        KeyManager.getInstance();
+        Log.logger.info("Ready! :)");
     }
 
     private void setup(FMLCommonSetupEvent e) {
@@ -46,7 +43,6 @@ public class TranslationMod {
     }
 
     private void clientSetup(FMLClientSetupEvent e) {
-        if (!KeyManager.getInstance().isOffline())
-            KeyBind.keyInit();
+        KeyBind.keyInit();
     }
 }

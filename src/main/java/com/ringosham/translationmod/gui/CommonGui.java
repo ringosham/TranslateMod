@@ -11,8 +11,8 @@ public class CommonGui extends Screen {
     final int regularButtonHeight = 20;
     final int smallButtonLength = 20;
     private final ResourceLocation texture = new ResourceLocation("minecraft", "textures/gui/demo_background.png");
-    private int guiHeight;
-    private int guiWidth;
+    private final int guiHeight;
+    private final int guiWidth;
 
     CommonGui(String title, int guiHeight, int guiWidth) {
         super(new StringTextComponent(title));
@@ -87,5 +87,19 @@ public class CommonGui extends Screen {
             length += Minecraft.getInstance().fontRenderer.getCharWidth(character);
         }
         return length;
+    }
+
+    /**
+     * Draws strings from the top-left of the gui
+     */
+    public void drawStringLine(String title, String[] lines, int offset) {
+        font.drawString(title, getLeftMargin(), getTopMargin(), 0x555555);
+        int lineCount = 1;
+        if (lines == null)
+            return;
+        for (String text : lines) {
+            font.drawString(text, getLeftMargin(), getTopMargin() + offset + 10 * lineCount, 0x555555);
+            lineCount++;
+        }
     }
 }

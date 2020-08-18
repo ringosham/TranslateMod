@@ -3,7 +3,7 @@ package com.ringosham.translationmod.common;
 import com.google.common.primitives.Ints;
 import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;

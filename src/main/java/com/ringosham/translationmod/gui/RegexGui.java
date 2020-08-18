@@ -116,8 +116,8 @@ public class RegexGui extends CommonGui {
     }
 
     private int index;
-    private LinkedList<String> regexes = new LinkedList<>();
-    private LinkedList<Integer> groups = new LinkedList<>();
+    private final LinkedList<String> regexes = new LinkedList<>();
+    private final LinkedList<Integer> groups = new LinkedList<>();
     private TextFieldWidget regexTextBox;
     private TextFieldWidget groupTextBox;
 
@@ -134,10 +134,11 @@ public class RegexGui extends CommonGui {
     @Override
     public void render(int x, int y, float tick) {
         super.render(x, y, tick);
-        font.drawString(title, getLeftMargin(), getTopMargin(), 0x555555);
-        font.drawString("Regex(Regular expression) are search patterns used to detect messages.", getLeftMargin(), getYOrigin() + 15, 0x555555);
-        font.drawString("You can use this website to test your regex.", getLeftMargin(), getYOrigin() + 25, 0x555555);
-        font.drawString("Cheatsheet: (Hover your mouse to see explanation)", getLeftMargin(), getYOrigin() + 35, 0x555555);
+        drawStringLine(title, new String[]{
+                "Regex(Regular expression) are search patterns used to detect messages.",
+                "You can use this website to test your regex.",
+                "Cheatsheet: (Hover your mouse to see explanation)",
+        }, 0);
         font.drawString("TIP: Combine classes and quantifiers together to match several characters", getLeftMargin(), getYOrigin() + guiHeight - 40, 0x555555);
         font.drawString((index + 1) + " of " + Math.max(index + 1, regexes.size()), getLeftMargin() + 15 + smallButtonLength * 2, getYOrigin() + guiHeight - regularButtonHeight, 0x555555);
         String regex = regexTextBox.getText();
@@ -193,7 +194,7 @@ public class RegexGui extends CommonGui {
         this.children.add(regexTextBox);
         getMinecraft().keyboardListener.enableRepeatEvents(false);
         addButton(new TextButton(getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest,
-                (button) -> this.openLink()));
+                (button) -> this.openLink(), 0x0000aa));
         addButton(new Button(getLeftMargin() + 5 + smallButtonLength, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "+",
                 this::nextPage));
         addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Save and close",

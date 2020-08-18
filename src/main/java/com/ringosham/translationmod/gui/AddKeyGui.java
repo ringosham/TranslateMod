@@ -1,8 +1,6 @@
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.TranslationMod;
-import com.ringosham.translationmod.client.KeyManager;
-import com.ringosham.translationmod.client.YandexClient;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
@@ -14,17 +12,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.ModList;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class AddKeyGui extends CommonGui {
-    private static final Pattern keyPattern = Pattern.compile("trnsl\\.1\\.1\\.\\d{8}T\\d{6}Z\\.[0-9a-f]{16}\\.[0-9a-f]{40}");
-    private static final int guiWidth = 256;
+    private static final int guiWidth = 300;
     private static final int guiHeight = 150;
-    private static final String getKeyLink = "https://tech.yandex.com/translate/";
+    private static final String getKeyLink = "https://cloud.google.com/translate/pricing";
     private static final String title;
-    private boolean keyValid = false;
-    private String newKey = "";
 
     static {
         @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -41,31 +33,14 @@ public class AddKeyGui extends CommonGui {
     @Override
     public void render(int x, int y, float tick) {
         super.render(x, y, tick);
-        font.drawString(title, getLeftMargin(), getTopMargin(), 0x555555);
-        font.drawString("A key is required to use the translation service.", getLeftMargin(), getYOrigin() + 20, 0x555555);
-        font.drawString("This mod includes some keys for everyone", getLeftMargin(), getYOrigin() + 30, 0x555555);
-        font.drawString("You can use your key here if all keys are used", getLeftMargin(), getYOrigin() + 40, 0x555555);
-        font.drawString("The process is free, but requires signing up", getLeftMargin(), getYOrigin() + 50, 0x555555);
-        font.drawString("Go to this website to create your key there", getLeftMargin(), getYOrigin() + 60, 0x555555);
-        if (!newKey.equals(this.textbox.getText()))
-            keyValid = checkKey(this.textbox.getText());
-        String keyStatus;
-        newKey = this.textbox.getText();
-        if (keyValid)
-            keyStatus = TextFormatting.GREEN + "This key is valid and usable!";
-        else
-            keyStatus = TextFormatting.RED + "Invalid key/Key has exceeded daily limits";
-        font.drawString(keyStatus, getLeftMargin(), getYOrigin() + 80, 0x555555);
-        this.buttons.get(0).active = keyValid;
+        drawStringLine(title, new String[]{
+                "If you are tried of the free API banning you constantly,",
+                "you can choose to pay for the translation",
+                "This uses Google's cloud translation service",
+                "This is charged pay as you go. This is NOT a free service",
+                "Go to this website for pricing and more information",
+        }, 5);
         textbox.render(x, y, tick);
-    }
-
-    private boolean checkKey(String key) {
-        Matcher matcher = keyPattern.matcher(key);
-        if (!matcher.matches())
-            return false;
-        YandexClient client = new YandexClient();
-        return client.testKey(key);
     }
 
     @Override
@@ -82,7 +57,7 @@ public class AddKeyGui extends CommonGui {
         addButton(new Button(getRightMargin(regularButtonWidth) - regularButtonWidth - 5, getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back",
                 (button) -> this.configGui()));
         addButton(new TextButton(getLeftMargin(), getYOrigin() + 70, getTextWidth("Click here to go to the website"), TextFormatting.DARK_BLUE + "Click here to go to the website",
-                (button) -> this.openLink()));
+                (button) -> this.openLink(), 0x0000aa));
     }
 
     @Override
@@ -113,7 +88,6 @@ public class AddKeyGui extends CommonGui {
         getMinecraft().keyboardListener.enableRepeatEvents(true);
         ConfigManager.config.userKey.set(textbox.getText());
         Log.logger.info("Key added/changed. Using new key for translations");
-        KeyManager.getInstance().rotateKey();
         ChatUtil.printChatMessage(true, "User custom translation key set.", TextFormatting.WHITE);
         getMinecraft().displayGuiScreen(null);
     }

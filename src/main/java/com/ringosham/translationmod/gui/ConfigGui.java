@@ -2,7 +2,7 @@ package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import net.minecraft.client.gui.widget.button.Button;
@@ -20,6 +20,12 @@ public class ConfigGui extends CommonGui {
     private static final List<String> selfTooltip = new ArrayList<>();
     private static final List<String> speakAsTooltip = new ArrayList<>();
     private static final List<String> regexTooltip = new ArrayList<>();
+    private static final List<String> apiKeyTooltip = new ArrayList<>();
+    private static final List<String> colorTooltip = new ArrayList<>();
+    private static final List<String> boldTooltip = new ArrayList<>();
+    private static final List<String> underlineTooltip = new ArrayList<>();
+    private static final List<String> italicTooltip = new ArrayList<>();
+    private static final List<String> signTooltip = new ArrayList<>();
     private static final String title;
 
     static {
@@ -31,6 +37,12 @@ public class ConfigGui extends CommonGui {
         regexTooltip.add("Regex are patterns for the mod to detect chat messages.");
         regexTooltip.add("If you notice the mod doesn't do anything on a server,");
         regexTooltip.add("chances are you need to add one here.");
+        signTooltip.add("Translates signs when you look at them");
+        apiKeyTooltip.add("Use your own API key for translation");
+        colorTooltip.add("Changes the color of the translated message");
+        boldTooltip.add("Bolds the translated message");
+        italicTooltip.add("Italics the translated message");
+        underlineTooltip.add("Underlines the translated message");
         @SuppressWarnings("OptionalGetWithoutIsPresent")
         String modName = ModList.get().getModContainerById(TranslationMod.MODID).get().getModInfo().getDisplayName();
         title = modName + " - Settings";
@@ -81,19 +93,41 @@ public class ConfigGui extends CommonGui {
     @Override
     public void render(int x, int y, float tick) {
         super.render(x, y, tick);
-        font.drawString(title, getLeftMargin(), getYOrigin() + 5, 0x555555);
+        drawStringLine(title, null, 0);
         font.drawString("Regex list:", getLeftMargin(), getYOrigin() + 25, 0x555555);
         font.drawString("Target language:", getLeftMargin(), getYOrigin() + 55, 0x555555);
         font.drawString("Self language:", getLeftMargin(), getYOrigin() + 75, 0x555555);
         font.drawString("Speak as language:", getLeftMargin(), getYOrigin() + 95, 0x555555);
+        //Target language
         if (this.buttons.get(2).isHovered())
             renderTooltip(targetTooltip, x, y);
+        //Self language
         if (this.buttons.get(3).isHovered())
             renderTooltip(selfTooltip, x, y);
+        //Speak as language
         if (this.buttons.get(4).isHovered())
             renderTooltip(speakAsTooltip, x, y);
+        //Regex list
         if (this.buttons.get(11).isHovered())
             renderTooltip(regexTooltip, x, y);
+        //API key
+        if (this.buttons.get(6).isHovered())
+            renderTooltip(apiKeyTooltip, x, y);
+        //Translate sign
+        if (this.buttons.get(5).isHovered())
+            renderTooltip(signTooltip, x, y);
+        //Color message
+        if (this.buttons.get(7).isHovered())
+            renderTooltip(colorTooltip, x, y);
+        //Bold
+        if (this.buttons.get(8).isHovered())
+            renderTooltip(boldTooltip, x, y);
+        //Italic
+        if (this.buttons.get(9).isHovered())
+            renderTooltip(italicTooltip, x, y);
+        //Underline
+        if (this.buttons.get(10).isHovered())
+            renderTooltip(underlineTooltip, x, y);
     }
 
     @Override
@@ -124,7 +158,7 @@ public class ConfigGui extends CommonGui {
                     translateSign = !translateSign;
                     this.toggleButtonBool(translateSign, button);
                 }));
-        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "User key",
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "API key",
                 (button) -> this.addKeyGui()));
         addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, TextFormatting.getValueByName(color) + "Message color",
                 this::rotateColor));

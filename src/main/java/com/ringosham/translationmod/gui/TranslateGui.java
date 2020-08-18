@@ -1,7 +1,6 @@
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.TranslationMod;
-import com.ringosham.translationmod.client.KeyManager;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.translate.SelfTranslate;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -54,11 +53,17 @@ public class TranslateGui extends CommonGui {
                 (button) -> this.configGui()));
         addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Close",
                 (button) -> this.exitGui()));
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Retranslate", (button) -> this.retranslateGui()));
         addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Credits",
                 (button) -> {
                     ChatUtil.printCredits();
                     this.exitGui();
                 }));
+    }
+
+    private void retranslateGui() {
+        getMinecraft().keyboardListener.enableRepeatEvents(false);
+        getMinecraft().displayGuiScreen(new RetranslateGui());
     }
 
     private void configGui() {
@@ -75,10 +80,8 @@ public class TranslateGui extends CommonGui {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_ENTER && (this.messageField.isFocused() || this.headerField.isFocused())) {
             exitGui();
-            if (!KeyManager.getInstance().isKeyUsedUp()) {
-                Thread translate = new SelfTranslate(this.messageField.getText(), this.headerField.getText());
-                translate.start();
-            }
+            Thread translate = new SelfTranslate(this.messageField.getText(), this.headerField.getText());
+            translate.start();
             return false;
         }
         if (keyCode == GLFW.GLFW_KEY_E && !this.messageField.isFocused() && !this.headerField.isFocused()) {

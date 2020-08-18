@@ -1,7 +1,7 @@
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.list.ExtendedList;
@@ -11,10 +11,12 @@ import java.util.List;
 
 public class LangList extends ExtendedList<LangList.LangEntry> {
     private final List<Language> langList;
-    private FontRenderer font;
+    private final FontRenderer font;
 
     {
         langList = LangManager.getInstance().getAllLanguages();
+        //Exclude auto
+        langList.remove(LangManager.getInstance().findLanguageFromGoogle("auto"));
         //Sort alphabetically.
         langList.sort(Comparator.comparing(Language::getName));
     }
