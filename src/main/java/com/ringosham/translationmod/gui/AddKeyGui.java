@@ -1,5 +1,6 @@
 package com.ringosham.translationmod.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
@@ -8,6 +9,7 @@ import net.minecraft.client.gui.screen.ConfirmOpenLinkScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.ModList;
 import org.lwjgl.glfw.GLFW;
@@ -31,32 +33,32 @@ public class AddKeyGui extends CommonGui {
     }
 
     @Override
-    public void render(int x, int y, float tick) {
-        super.render(x, y, tick);
-        drawStringLine(title, new String[]{
+    public void render(MatrixStack stack, int x, int y, float tick) {
+        super.render(stack, x, y, tick);
+        drawStringLine(stack, title, new String[]{
                 "If you are tried of the free API banning you constantly,",
                 "you can choose to pay for the translation",
                 "This uses Google's cloud translation service",
                 "This is charged pay as you go. This is NOT a free service",
                 "Go to this website for pricing and more information",
         }, 5);
-        textbox.render(x, y, tick);
+        textbox.render(stack, x, y, tick);
     }
 
     @Override
     public void init() {
         getMinecraft().keyboardListener.enableRepeatEvents(true);
-        this.textbox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15, "");
+        this.textbox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15, new StringTextComponent(""));
         textbox.setCanLoseFocus(true);
         textbox.setMaxStringLength(84);
         textbox.setEnableBackgroundDrawing(true);
         textbox.setText(ConfigManager.config.userKey.get());
         this.children.add(textbox);
-        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Use key",
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, new StringTextComponent("Use key"),
                 (button) -> this.applyKey()));
-        addButton(new Button(getRightMargin(regularButtonWidth) - regularButtonWidth - 5, getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back",
+        addButton(new Button(getRightMargin(regularButtonWidth) - regularButtonWidth - 5, getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, new StringTextComponent("Back"),
                 (button) -> this.configGui()));
-        addButton(new TextButton(getLeftMargin(), getYOrigin() + 70, getTextWidth("Click here to go to the website"), TextFormatting.DARK_BLUE + "Click here to go to the website",
+        addButton(new TextButton(getLeftMargin(), getYOrigin() + 70, getTextWidth("Click here to go to the website"), new StringTextComponent(TextFormatting.DARK_BLUE + "Click here to go to the website"),
                 (button) -> this.openLink(), 0x0000aa));
     }
 

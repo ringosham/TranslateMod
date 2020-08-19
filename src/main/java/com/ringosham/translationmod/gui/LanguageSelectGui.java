@@ -1,11 +1,13 @@
 package com.ringosham.translationmod.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.client.LangManager;
 import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.translate.Retranslate;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.ModList;
 
 public class LanguageSelectGui extends CommonGui {
@@ -44,10 +46,10 @@ public class LanguageSelectGui extends CommonGui {
     }
 
     @Override
-    public void render(int x, int y, float tick) {
-        super.render(x, y, tick);
-        font.drawString(title, getLeftMargin(), getTopMargin(), 0x555555);
-        langList.render(x, y, tick);
+    public void render(MatrixStack stack, int x, int y, float tick) {
+        super.render(stack, x, y, tick);
+        font.drawString(stack, title, getLeftMargin(), getTopMargin(), 0x555555);
+        langList.render(stack, x, y, tick);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class LanguageSelectGui extends CommonGui {
         langList = new LangList(getMinecraft(), font, guiWidth - 18, guiHeight - 48, getYOrigin() + 15, getYOrigin() + guiHeight - 10 - regularButtonHeight, 18);
         langList.setLeftPos(getLeftMargin());
         this.children.add(langList);
-        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Select language",
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, new StringTextComponent("Select language"),
                 (button) -> {
                     if (langList.getSelected() != null) {
                         if (config != null)
@@ -64,7 +66,7 @@ public class LanguageSelectGui extends CommonGui {
                             this.retranslate(langList.getSelected().getLang());
                     }
                 }));
-        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back",
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, new StringTextComponent("Back"),
                 (button) -> {
                     if (config != null)
                         this.selectLanguage(null);
@@ -73,6 +75,7 @@ public class LanguageSelectGui extends CommonGui {
                 }));
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void selectLanguage(Language lang) {
         getMinecraft().displayGuiScreen(new ConfigGui(config, langSelect, lang));
     }

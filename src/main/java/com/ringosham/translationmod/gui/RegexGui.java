@@ -1,6 +1,7 @@
 package com.ringosham.translationmod.gui;
 
 import com.google.common.primitives.Ints;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
@@ -11,6 +12,8 @@ import net.minecraft.client.gui.screen.ConfirmOpenLinkScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -30,8 +33,8 @@ public class RegexGui extends CommonGui {
     private static final String testMessage = "Notch --> English: Hello!";
     private static final int guiWidth = 400;
     private static final int guiHeight = 230;
-    private static final List<String> cheatsheet;
-    private static final List<List<String>> cheatsheetDesc;
+    private static final List<ITextComponent> cheatsheet;
+    private static final List<List<ITextComponent>> cheatsheetDesc;
     private static final String regexTest = "https://regexr.com";
     private static final String title;
 
@@ -46,73 +49,73 @@ public class RegexGui extends CommonGui {
         cheatsheetDesc = new ArrayList<>();
         for (int i = 0; i < 12; i++)
             cheatsheetDesc.add(new ArrayList<>());
-        cheatsheet.add(". - Matches any character");
-        cheatsheetDesc.get(0).add("Matches any character");
-        cheatsheetDesc.get(0).add("The only exception is the newline character (\\n)");
-        cheatsheetDesc.get(0).add("Newlines are not used in chat so it doesn't matter");
+        cheatsheet.add(new StringTextComponent(". - Matches any character"));
+        cheatsheetDesc.get(0).add(new StringTextComponent("Matches any character"));
+        cheatsheetDesc.get(0).add(new StringTextComponent("The only exception is the newline character (\\n)"));
+        cheatsheetDesc.get(0).add(new StringTextComponent("Newlines are not used in chat so it doesn't matter"));
 
-        cheatsheet.add("\\w - Matches word");
-        cheatsheetDesc.get(1).add("Matches all alphabets (Both capital and small), numbers and underscore");
-        cheatsheetDesc.get(1).add("Minecraft usernames are based on words. They are perfect to detect player names");
+        cheatsheet.add(new StringTextComponent("\\w - Matches word"));
+        cheatsheetDesc.get(1).add(new StringTextComponent("Matches all alphabets (Both capital and small), numbers and underscore"));
+        cheatsheetDesc.get(1).add(new StringTextComponent("Minecraft usernames are based on words. They are perfect to detect player names"));
 
-        cheatsheet.add("\\d - Digit");
-        cheatsheetDesc.get(2).add("Matches all numbers");
+        cheatsheet.add(new StringTextComponent("\\d - Digit"));
+        cheatsheetDesc.get(2).add(new StringTextComponent("Matches all numbers"));
 
-        cheatsheet.add("[a-g] - Match character in range");
-        cheatsheetDesc.get(3).add("Matches any characters in tis specific range");
-        cheatsheetDesc.get(3).add("Example: [a-g]");
-        cheatsheetDesc.get(3).add("\u2713 " + TextFormatting.GREEN + "a");
-        cheatsheetDesc.get(3).add("\u2713 " + TextFormatting.GREEN + "b");
-        cheatsheetDesc.get(3).add("\u2717 " + TextFormatting.RED + "z");
+        cheatsheet.add(new StringTextComponent("[a-g] - Match character in range"));
+        cheatsheetDesc.get(3).add(new StringTextComponent("Matches any characters in tis specific range"));
+        cheatsheetDesc.get(3).add(new StringTextComponent("Example: [a-g]"));
+        cheatsheetDesc.get(3).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "a"));
+        cheatsheetDesc.get(3).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "b"));
+        cheatsheetDesc.get(3).add(new StringTextComponent("\u2717 " + TextFormatting.RED + "z"));
 
-        cheatsheet.add("* - Matches 0 or more");
-        cheatsheetDesc.get(4).add("Matches 0 or more of its character class");
-        cheatsheetDesc.get(4).add("Example: N\\w*");
-        cheatsheetDesc.get(4).add("\u2713 " + TextFormatting.GREEN + "N");
-        cheatsheetDesc.get(4).add("\u2713 " + TextFormatting.GREEN + "No");
-        cheatsheetDesc.get(4).add("\u2713 " + TextFormatting.GREEN + "Notch");
+        cheatsheet.add(new StringTextComponent("* - Matches 0 or more"));
+        cheatsheetDesc.get(4).add(new StringTextComponent("Matches 0 or more of its character class"));
+        cheatsheetDesc.get(4).add(new StringTextComponent("Example: N\\w*"));
+        cheatsheetDesc.get(4).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "N"));
+        cheatsheetDesc.get(4).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "No"));
+        cheatsheetDesc.get(4).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "Notch"));
 
-        cheatsheet.add("+ - Matches 1 or more");
-        cheatsheetDesc.get(5).add("Matches 1 or more of a character/group");
-        cheatsheetDesc.get(5).add("Example: N\\w+");
-        cheatsheetDesc.get(5).add("\u2717 " + TextFormatting.RED + "N");
-        cheatsheetDesc.get(5).add("\u2713 " + TextFormatting.GREEN + "No");
-        cheatsheetDesc.get(5).add("\u2713 " + TextFormatting.GREEN + "Notch");
+        cheatsheet.add(new StringTextComponent("+ - Matches 1 or more"));
+        cheatsheetDesc.get(5).add(new StringTextComponent("Matches 1 or more of a character/group"));
+        cheatsheetDesc.get(5).add(new StringTextComponent("Example: N\\w+"));
+        cheatsheetDesc.get(5).add(new StringTextComponent("\u2717 " + TextFormatting.RED + "N"));
+        cheatsheetDesc.get(5).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "No"));
+        cheatsheetDesc.get(5).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "Notch"));
 
-        cheatsheet.add("? - Optional");
-        cheatsheetDesc.get(6).add("Exactly as the name suggests");
-        cheatsheetDesc.get(6).add("Example: (VIP )?\\w+");
-        cheatsheetDesc.get(6).add("\u2713 " + TextFormatting.GREEN + "VIP PlayerName");
-        cheatsheetDesc.get(6).add("\u2713 " + TextFormatting.GREEN + "PlayerName");
+        cheatsheet.add(new StringTextComponent("? - Optional"));
+        cheatsheetDesc.get(6).add(new StringTextComponent("Exactly as the name suggests"));
+        cheatsheetDesc.get(6).add(new StringTextComponent("Example: (VIP )?\\w+"));
+        cheatsheetDesc.get(6).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "VIP PlayerName"));
+        cheatsheetDesc.get(6).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "PlayerName"));
 
-        cheatsheet.add("{2,} - Matches n or more");
-        cheatsheetDesc.get(7).add("Matches a group/character n times or more");
-        cheatsheetDesc.get(7).add("Add a number after the comma if you want the it match x to y times");
-        cheatsheetDesc.get(7).add("Or omit the comma if you want the it match exactly n times");
-        cheatsheetDesc.get(7).add("Example: Level \\d{1,3}");
-        cheatsheetDesc.get(7).add("\u2713 " + TextFormatting.GREEN + "Level 1");
-        cheatsheetDesc.get(7).add("\u2713 " + TextFormatting.GREEN + "Level 420");
-        cheatsheetDesc.get(7).add("\u2717 " + TextFormatting.RED + "Level 42069");
+        cheatsheet.add(new StringTextComponent("{2,} - Matches n or more"));
+        cheatsheetDesc.get(7).add(new StringTextComponent("Matches a group/character n times or more"));
+        cheatsheetDesc.get(7).add(new StringTextComponent("Add a number after the comma if you want the it match x to y times"));
+        cheatsheetDesc.get(7).add(new StringTextComponent("Or omit the comma if you want the it match exactly n times"));
+        cheatsheetDesc.get(7).add(new StringTextComponent("Example: Level \\d{1,3}"));
+        cheatsheetDesc.get(7).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "Level 1"));
+        cheatsheetDesc.get(7).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "Level 420"));
+        cheatsheetDesc.get(7).add(new StringTextComponent("\u2717 " + TextFormatting.RED + "Level 42069"));
 
 
-        cheatsheet.add("| - Either");
-        cheatsheetDesc.get(8).add("Must match either of them, but not both.");
-        cheatsheetDesc.get(8).add("Example: (Dead)|(Alive) (\\w+)");
-        cheatsheetDesc.get(8).add("\u2713 " + TextFormatting.GREEN + "Dead PlayerName");
-        cheatsheetDesc.get(8).add("\u2713 " + TextFormatting.GREEN + "Alive PlayerName");
-        cheatsheetDesc.get(8).add("\u2717 " + TextFormatting.RED + "DeadAlive PlayerName");
+        cheatsheet.add(new StringTextComponent("| - Either"));
+        cheatsheetDesc.get(8).add(new StringTextComponent("Must match either of them, but not both."));
+        cheatsheetDesc.get(8).add(new StringTextComponent("Example: (Dead)|(Alive) (\\w+)"));
+        cheatsheetDesc.get(8).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "Dead PlayerName"));
+        cheatsheetDesc.get(8).add(new StringTextComponent("\u2713 " + TextFormatting.GREEN + "Alive PlayerName"));
+        cheatsheetDesc.get(8).add(new StringTextComponent("\u2717 " + TextFormatting.RED + "DeadAlive PlayerName"));
 
-        cheatsheet.add("() - Group");
-        cheatsheetDesc.get(9).add("Think of groups as parentheses like in mathematics");
-        cheatsheetDesc.get(9).add("They also have a second function. Capture groups.");
-        cheatsheetDesc.get(9).add("By specifying the group number below, the mod can know which group");
-        cheatsheetDesc.get(9).add(" contains the player's username");
+        cheatsheet.add(new StringTextComponent("() - Group"));
+        cheatsheetDesc.get(9).add(new StringTextComponent("Think of groups as parentheses like in mathematics"));
+        cheatsheetDesc.get(9).add(new StringTextComponent("They also have a second function. Capture groups."));
+        cheatsheetDesc.get(9).add(new StringTextComponent("By specifying the group number below, the mod can know which group"));
+        cheatsheetDesc.get(9).add(new StringTextComponent(" contains the player's username"));
 
-        cheatsheet.add("\\ - Escape character");
-        cheatsheetDesc.get(10).add("If you need to capture special characters mentioned in this list,");
-        cheatsheetDesc.get(10).add(" you will need to add an extra backslash to escape them.");
-        cheatsheetDesc.get(10).add("Correct:" + TextFormatting.GREEN + " \\(VIP\\) \\w+");
-        cheatsheetDesc.get(10).add("Wrong:" + TextFormatting.RED + " (VIP) \\w+");
+        cheatsheet.add(new StringTextComponent("\\ - Escape character"));
+        cheatsheetDesc.get(10).add(new StringTextComponent("If you need to capture special characters mentioned in this list,"));
+        cheatsheetDesc.get(10).add(new StringTextComponent(" you will need to add an extra backslash to escape them."));
+        cheatsheetDesc.get(10).add(new StringTextComponent("Correct:" + TextFormatting.GREEN + " \\(VIP\\) \\w+"));
+        cheatsheetDesc.get(10).add(new StringTextComponent("Wrong:" + TextFormatting.RED + " (VIP) \\w+"));
     }
 
     private int index;
@@ -132,60 +135,61 @@ public class RegexGui extends CommonGui {
     }
 
     @Override
-    public void render(int x, int y, float tick) {
-        super.render(x, y, tick);
-        drawStringLine(title, new String[]{
+    public void render(MatrixStack stack, int x, int y, float tick) {
+        super.render(stack, x, y, tick);
+        drawStringLine(stack, title, new String[]{
                 "Regex(Regular expression) are search patterns used to detect messages.",
                 "You can use this website to test your regex.",
                 "Cheatsheet: (Hover your mouse to see explanation)",
         }, 0);
-        font.drawString("TIP: Combine classes and quantifiers together to match several characters", getLeftMargin(), getYOrigin() + guiHeight - 40, 0x555555);
-        font.drawString((index + 1) + " of " + Math.max(index + 1, regexes.size()), getLeftMargin() + 15 + smallButtonLength * 2, getYOrigin() + guiHeight - regularButtonHeight, 0x555555);
+        font.drawString(stack, "TIP: Combine classes and quantifiers together to match several characters", getLeftMargin(), getYOrigin() + guiHeight - 40, 0x555555);
+        font.drawString(stack, (index + 1) + " of " + Math.max(index + 1, regexes.size()), getLeftMargin() + 15 + smallButtonLength * 2, getYOrigin() + guiHeight - regularButtonHeight, 0x555555);
         String regex = regexTextBox.getText();
         int group = groupTextBox.getText().isEmpty() ? -1 : Integer.parseInt(groupTextBox.getText());
         if (validateRegex(regex)) {
             if (!isRegexConflict(regex)) {
                 int groupCount = countGroups(regex);
                 if (groupCount == 0)
-                    font.drawString(TextFormatting.YELLOW + "Regex valid, but it needs at least 1 group to detect player names", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+                    font.drawString(stack, TextFormatting.YELLOW + "Regex valid, but it needs at least 1 group to detect player names", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
                 else
-                    font.drawString(TextFormatting.GREEN + "Regex valid! The regex should stop at before the message content", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
-                font.drawString("Possible match: " + findMatch(getChatLog(), regex), getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
+                    font.drawString(stack, TextFormatting.GREEN + "Regex valid! The regex should stop at before the message content", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+                font.drawString(stack, "Possible match: " + findMatch(getChatLog(), regex), getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
                 if (groupCount > 0)
-                    font.drawString("Group number: (1 - " + groupCount + ")", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+                    font.drawString(stack, "Group number: (1 - " + groupCount + ")", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
                 else
-                    font.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
-                font.drawString("Matching username: " + matchUsername(findMatch(getChatLog(), regex), regex, group), getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
+                    font.drawString(stack, "Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+                font.drawString(stack, "Matching username: " + matchUsername(findMatch(getChatLog(), regex), regex, group), getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
             } else {
-                font.drawString(TextFormatting.RED + "Regex conflict with the mod messages! Please be more specific", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
-                font.drawString("Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
-                font.drawString("Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
-                font.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+                font.drawString(stack, TextFormatting.RED + "Regex conflict with the mod messages! Please be more specific", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+                font.drawString(stack, "Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
+                font.drawString(stack, "Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
+                font.drawString(stack, "Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
             }
         } else {
-            font.drawString(TextFormatting.RED + "Regex invalid! Please check your syntax", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
-            font.drawString("Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
-            font.drawString("Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
-            font.drawString("Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
+            font.drawString(stack, TextFormatting.RED + "Regex invalid! Please check your syntax", getLeftMargin(), getYOrigin() + guiHeight - 120, 0x555555);
+            font.drawString(stack, "Possible match: ---", getLeftMargin(), getYOrigin() + guiHeight - 110, 0x555555);
+            font.drawString(stack, "Matching username: ---", getLeftMargin(), getYOrigin() + guiHeight - 70, 0x555555);
+            font.drawString(stack, "Group number: (?)", getLeftMargin(), getYOrigin() + guiHeight - 80, 0x555555);
         }
-        regexTextBox.render(x, y, tick);
-        groupTextBox.render(x, y, tick);
+        regexTextBox.render(stack, x, y, tick);
+        groupTextBox.render(stack, x, y, tick);
         //Draw tooltips
         for (int i = 5; i < this.buttons.size(); i++) {
             HoveringText button = (HoveringText) this.buttons.get(i);
             if (button.isHovered())
-                renderTooltip(button.getHoverText(), x, y);
+                //func_243308_b(MatrixStack, List<ITextComponent>, int, int) -> renderTooltip(...)
+                func_243308_b(stack, button.getHoverText(), x, y);
         }
     }
 
     @Override
     public void init() {
-        regexTextBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + guiHeight - 100, guiWidth - 10, 15, "");
+        regexTextBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + guiHeight - 100, guiWidth - 10, 15, new StringTextComponent(""));
         regexTextBox.setCanLoseFocus(true);
         regexTextBox.setMaxStringLength(200);
         regexTextBox.setEnableBackgroundDrawing(true);
         regexTextBox.setText(regexes.get(index));
-        groupTextBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + guiHeight - 60, guiWidth - 10, 15, "");
+        groupTextBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + guiHeight - 60, guiWidth - 10, 15, new StringTextComponent(""));
         groupTextBox.setCanLoseFocus(true);
         groupTextBox.setMaxStringLength(10);
         groupTextBox.setEnableBackgroundDrawing(true);
@@ -193,15 +197,15 @@ public class RegexGui extends CommonGui {
         this.children.add(groupTextBox);
         this.children.add(regexTextBox);
         getMinecraft().keyboardListener.enableRepeatEvents(false);
-        addButton(new TextButton(getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest,
+        addButton(new TextButton(getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), new StringTextComponent(regexTest),
                 (button) -> this.openLink(), 0x0000aa));
-        addButton(new Button(getLeftMargin() + 5 + smallButtonLength, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "+",
+        addButton(new Button(getLeftMargin() + 5 + smallButtonLength, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, new StringTextComponent("+"),
                 this::nextPage));
-        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Save and close",
+        addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, new StringTextComponent("Save and close"),
                 (button) -> this.applySettings()));
-        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "<",
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, new StringTextComponent("<"),
                 this::previousPage));
-        addButton(new Button(getRightMargin(regularButtonWidth) - 5 - regularButtonWidth, getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Reset to default",
+        addButton(new Button(getRightMargin(regularButtonWidth) - 5 - regularButtonWidth, getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, new StringTextComponent("Reset to default"),
                 (button) -> this.resetDefault()));
         //Needs to be cleared since resizing the window calls initGui() again
         addButton(new HoveringText(getLeftMargin(), getYOrigin() + 45, cheatsheet.get(0), cheatsheetDesc.get(0)));
@@ -243,11 +247,11 @@ public class RegexGui extends CommonGui {
         } else {
             regexTextBox.setText(regexes.get(index));
             groupTextBox.setText(groups.get(index).toString());
-            button.setMessage(">");
+            button.setMessage(new StringTextComponent(">"));
             button.active = true;
         }
         if (index >= regexes.size() - 1)
-            button.setMessage("+");
+            button.setMessage(new StringTextComponent("+"));
         this.buttons.get(3).active = true;
         regexTextBox.setCursorPositionEnd();
         getMinecraft().keyboardListener.enableRepeatEvents(true);
@@ -266,9 +270,9 @@ public class RegexGui extends CommonGui {
         if (index == 0)
             button.active = false;
         if (regexes.size() - 1 == index)
-            this.buttons.get(1).setMessage("+");
+            this.buttons.get(1).setMessage(new StringTextComponent("+"));
         else
-            this.buttons.get(1).setMessage(">");
+            this.buttons.get(1).setMessage(new StringTextComponent(">"));
         this.buttons.get(1).active = true;
         regexTextBox.setText(regexes.get(index));
         groupTextBox.setText(groups.get(index).toString());
@@ -278,7 +282,7 @@ public class RegexGui extends CommonGui {
 
     private void resetDefault() {
         this.buttons.get(3).active = true;
-        this.buttons.get(1).setMessage("+");
+        this.buttons.get(1).setMessage(new StringTextComponent("+"));
         regexes.clear();
         regexes.addAll(Arrays.asList(ConfigManager.defaultRegex));
         groups.clear();
@@ -351,12 +355,13 @@ public class RegexGui extends CommonGui {
     @SuppressWarnings("ConstantConditions")
     private List<String> getChatLog() {
         //Chat log is a private field.
-        List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(NewChatGui.class, Minecraft.getInstance().ingameGUI.getChatGUI(), "field_146252_h");
+        List<ChatLine<ITextComponent>> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(NewChatGui.class, Minecraft.getInstance().ingameGUI.getChatGUI(), "field_146252_h");
         //For 1.7.10 debug use.
         //List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getInstance().ingameGUI.getChatGUI(), "chatLines");
         List<String> chatLog = new ArrayList<>();
         for (int i = 0; i < Math.min(fullChatLog.size(), 20); i++)
-            chatLog.add(fullChatLog.get(i).getChatComponent().getString().replaceAll("§(.)", ""));
+            //func_238169_a_() --> getITextComponent()
+            chatLog.add(fullChatLog.get(i).func_238169_a_().getUnformattedComponentText().replaceAll("§(.)", ""));
         return chatLog;
     }
 
@@ -420,22 +425,23 @@ public class RegexGui extends CommonGui {
 
     //Must be inner class due to protected access to renderTooltip in GuiScreen
     public class HoveringText extends Button {
-        private final List<String> hoverText;
+        private final List<ITextComponent> hoverText;
 
-        HoveringText(int x, int y, String text, List<String> hoverText) {
-            super(x, y, getTextWidth(text), 10, text, (button) -> {
+        HoveringText(int x, int y, ITextComponent text, List<ITextComponent> hoverText) {
+            super(x, y, getTextWidth(text.getUnformattedComponentText()), 10, text, (button) -> {
             });
             this.hoverText = hoverText;
         }
 
+        @SuppressWarnings("NullableProblems")
         @Override
-        public void render(int mouseX, int mouseY, float tick) {
+        public void render(MatrixStack stack, int mouseX, int mouseY, float tick) {
             GL11.glColor4f(1, 1, 1, 1);
-            font.drawString(this.getMessage(), x, y, 0xFF555555);
+            font.drawString(stack, this.getMessage().getString(), x, y, 0xFF555555);
             this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
         }
 
-        List<String> getHoverText() {
+        List<ITextComponent> getHoverText() {
             return hoverText;
         }
     }

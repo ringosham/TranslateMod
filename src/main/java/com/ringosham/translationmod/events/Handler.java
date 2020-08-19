@@ -11,10 +11,11 @@ import com.ringosham.translationmod.translate.types.SignText;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -68,7 +69,7 @@ public class Handler {
             return;
         if (!hintShown) {
             hintShown = true;
-                ChatUtil.printChatMessage(true, "Press [" + TextFormatting.AQUA + KeyBind.translateKey.getLocalizedName() + TextFormatting.WHITE + "] for translation settings", TextFormatting.WHITE);
+            ChatUtil.printChatMessage(true, "Press [" + TextFormatting.AQUA + KeyBinding.getDisplayString(KeyBind.translateKey.getKeyDescription()).get().getUnformattedComponentText() + TextFormatting.WHITE + "] for translation settings", TextFormatting.WHITE);
             if (ConfigManager.config.regexList.get().size() == 0) {
                 Log.logger.warn("No chat regex in the configurations");
                 ChatUtil.printChatMessage(true, "The mod needs chat regex to function. Check the mod options to add one", TextFormatting.RED);
@@ -107,7 +108,7 @@ public class Handler {
             ticks = 0;
             return;
         }
-        Vec3d vec = mouseOver.getHitVec();
+        Vector3d vec = mouseOver.getHitVec();
         BlockPos blockPos = new BlockPos(vec);
         //Ignore air tiles
         if (world.getBlockState(blockPos).getBlock() == Blocks.AIR)
@@ -142,7 +143,7 @@ public class Handler {
         StringBuilder text = new StringBuilder();
         //Four lines of text in signs
         for (int i = 0; i < 4; i++) {
-            ITextComponent line = ((SignTileEntity) Objects.requireNonNull(world.getTileEntity(pos))).signText[i];
+            ITextComponent line = ((SignTileEntity) Objects.requireNonNull(world.getTileEntity(pos))).getText(i);
             //Combine each line of the sign with spaces.
             //Due to differences between languages, this may break asian languages. (Words don't separate with spaces)
             text.append(" ").append(line);

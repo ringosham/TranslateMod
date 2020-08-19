@@ -1,7 +1,10 @@
 package com.ringosham.translationmod.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.translate.Translator;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;
@@ -29,19 +32,20 @@ public class RetranslateGui extends CommonGui {
     }
 
     @Override
-    public void render(int x, int y, float tick) {
-        super.render(x, y, tick);
-        drawStringLine(title, new String[]{
+    public void render(MatrixStack stack, int x, int y, float tick) {
+        super.render(stack, x, y, tick);
+        drawStringLine(stack, title, new String[]{
                 "Translations are in the incorrect language?",
                 "Select the messages below to retranslate.",
         }, 0);
         for (int i = 0; i < buttons.size(); i++) {
             TextButton button = (TextButton) buttons.get(i);
             if (button.isHovered()) {
-                List<String> hoverText = new ArrayList<>();
-                hoverText.add("Sender: " + logs.get(i).getSender());
-                hoverText.add("Message: " + logs.get(i).getMessage());
-                renderTooltip(hoverText, x, y);
+                List<ITextComponent> hoverText = new ArrayList<>();
+                hoverText.add(new StringTextComponent("Sender: " + logs.get(i).getSender()));
+                hoverText.add(new StringTextComponent("Message: " + logs.get(i).getMessage()));
+                //func_243308_b(MatrixStack, List<ITextComponent>, int, int) -> renderTooltip(...)
+                func_243308_b(stack, hoverText, x, y);
             }
         }
     }
@@ -53,7 +57,7 @@ public class RetranslateGui extends CommonGui {
             String buttonText = log.getMessage() + "...";
             while (getTextWidth(buttonText) > guiWidth - 15)
                 buttonText = buttonText.substring(0, buttonText.length() - 4) + "...";
-            addButton(new TextButton(getLeftMargin(), getTopMargin() + 40 + offset, getTextWidth(buttonText), buttonText, (button) -> selectLanguage(log.getSender(), log.getMessage()), 0));
+            addButton(new TextButton(getLeftMargin(), getTopMargin() + 40 + offset, getTextWidth(buttonText), new StringTextComponent(buttonText), (button) -> selectLanguage(log.getSender(), log.getMessage()), 0));
             offset += 10;
         }
     }

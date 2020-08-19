@@ -12,14 +12,16 @@ public class ChatUtil {
     private static final String prefix = TextFormatting.GREEN + "[" + TextFormatting.RESET + "RTTM" + TextFormatting.GREEN + "] " + TextFormatting.RESET;
 
     public static void printChatMessage(boolean addPrefix, String message, TextFormatting color) {
-        Style style = new Style();
-        style.setColor(color);
+        Style style = Style.EMPTY;
+        //Color.func_240774_a_(TextFormatting) -> Color.fromTextFormatting(...)
+        style.setFormatting(color);
         Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage((new StringTextComponent((addPrefix ? prefix : "") + color + message).setStyle(style)));
     }
 
     public static void printChatMessageAdvanced(String message, String hoverText, boolean bold, boolean italic, boolean underline, TextFormatting color) {
-        Style style = new Style();
-        style.setColor(color)
+        Style style = Style.EMPTY;
+        //Color.func_240774_a_(TextFormatting) -> Color.fromTextFormatting(...)
+        style.setFormatting(color)
                 .setBold(bold)
                 .setItalic(italic)
                 .setUnderlined(underline);

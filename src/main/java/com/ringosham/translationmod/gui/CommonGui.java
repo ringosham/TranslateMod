@@ -1,6 +1,6 @@
 package com.ringosham.translationmod.gui;
 
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
@@ -22,36 +22,37 @@ public class CommonGui extends Screen {
         this.guiWidth = guiWidth;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
-    public void render(int x, int y, float tick) {
+    public void render(MatrixStack stack, int x, int y, float tick) {
         //Draws the base background
         GL11.glColor4f(1, 1, 1, 1);
-        renderBackground();
+        renderBackground(stack);
         getMinecraft().getTextureManager().bindTexture(texture);
         //Top left corner
-        blit(getXOrigin(), getYOrigin(), 0, 0, 4, 4);
+        blit(stack, getXOrigin(), getYOrigin(), 0, 0, 4, 4);
         //Bottom left corner
-        blit(getXOrigin(), getYOrigin() + guiHeight - 4, 0, 160, 4, 4);
+        blit(stack, getXOrigin(), getYOrigin() + guiHeight - 4, 0, 160, 4, 4);
         //Top right corner
-        blit(getXOrigin() + guiWidth - 4, getYOrigin(), 242, 0, 4, 4);
+        blit(stack, getXOrigin() + guiWidth - 4, getYOrigin(), 242, 0, 4, 4);
         //Bottom right corner
-        blit(getXOrigin() + guiWidth - 4, getYOrigin() + guiHeight - 4, 242, 160, 4, 4);
+        blit(stack, getXOrigin() + guiWidth - 4, getYOrigin() + guiHeight - 4, 242, 160, 4, 4);
         //Top side
         for (int i = 0; i < guiWidth - 8; i++)
-            blit(getXOrigin() + 4 + i, getYOrigin(), 4, 0, 1, 4);
+            blit(stack, getXOrigin() + 4 + i, getYOrigin(), 4, 0, 1, 4);
         //Left side
         for (int i = 0; i < guiHeight - 8; i++)
-            blit(getXOrigin(), getYOrigin() + 4 + i, 0, 4, 4, 1);
+            blit(stack, getXOrigin(), getYOrigin() + 4 + i, 0, 4, 4, 1);
         //Right side
         for (int i = 0; i < guiHeight - 8; i++)
-            blit(getXOrigin() + guiWidth - 4, getYOrigin() + 4 + i, 242, 4, 4, 1);
+            blit(stack, getXOrigin() + guiWidth - 4, getYOrigin() + 4 + i, 242, 4, 4, 1);
         //Bottom side
         for (int i = 0; i < guiWidth - 8; i++)
-            blit(getXOrigin() + 4 + i, getYOrigin() + guiHeight - 4, 4, 160, 1, 4);
+            blit(stack, getXOrigin() + 4 + i, getYOrigin() + guiHeight - 4, 4, 160, 1, 4);
         //Center
-        fill(getXOrigin() + 4, getYOrigin() + 4, getXOrigin() + guiWidth - 4, getYOrigin() + guiHeight - 4, 0xffc6c6c6);
+        fill(stack, getXOrigin() + 4, getYOrigin() + 4, getXOrigin() + guiWidth - 4, getYOrigin() + guiHeight - 4, 0xffc6c6c6);
         //super to draw the buttons registered in GuiInit()
-        super.render(x, y, tick);
+        super.render(stack, x, y, tick);
     }
 
     @Override
@@ -82,23 +83,19 @@ public class CommonGui extends Screen {
     }
 
     public int getTextWidth(String text) {
-        int length = 0;
-        for (char character : text.toCharArray()) {
-            length += Minecraft.getInstance().fontRenderer.getCharWidth(character);
-        }
-        return length;
+        return font.getStringWidth(text);
     }
 
     /**
      * Draws strings from the top-left of the gui
      */
-    public void drawStringLine(String title, String[] lines, int offset) {
-        font.drawString(title, getLeftMargin(), getTopMargin(), 0x555555);
+    public void drawStringLine(MatrixStack stack, String title, String[] lines, int offset) {
+        font.drawString(stack, title, getLeftMargin(), getTopMargin(), 0x555555);
         int lineCount = 1;
         if (lines == null)
             return;
         for (String text : lines) {
-            font.drawString(text, getLeftMargin(), getTopMargin() + offset + 10 * lineCount, 0x555555);
+            font.drawString(stack, text, getLeftMargin(), getTopMargin() + offset + 10 * lineCount, 0x555555);
             lineCount++;
         }
     }

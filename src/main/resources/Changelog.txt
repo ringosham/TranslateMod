@@ -101,3 +101,8 @@
  5.0.1 - FIX: GUI freezing issue when adding keys caused by constant key validation.
  5.0.2 - FIX: Yandex translation crashing issue
        - FIX: UI issue in language selection
+ 5.1   - FIX: Crashing issue on regex validation during startup
+       - ADD: Re-adding retranslation. So that you can translate any mistranslations
+       - ADD: Google cloud translation. A paid Google translation service option is now available.
+       - UPD: Minor UI changes
+       - RMV: Yandex translations. They've proof to be quite unreliable and since they removed the free option. There's no reason to keep using it.
