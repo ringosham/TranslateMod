@@ -2,32 +2,39 @@ package com.ringosham.translationmod.common;
 
 import com.ringosham.translationmod.TranslationMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.fml.ModList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatUtil {
     private static final String prefix = TextFormatting.GREEN + "[" + TextFormatting.RESET + "RTTM" + TextFormatting.GREEN + "] " + TextFormatting.RESET;
 
     public static void printChatMessage(boolean addPrefix, String message, TextFormatting color) {
-        Style style = Style.EMPTY;
         //Color.func_240774_a_(TextFormatting) -> Color.fromTextFormatting(...)
-        style.setFormatting(color);
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage((new StringTextComponent((addPrefix ? prefix : "") + color + message).setStyle(style)));
+        Style style = Style.EMPTY.setColor(Color.func_240744_a_(color));
+        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage((new StringTextComponent((addPrefix ? prefix : "") + color + message).mergeStyle(style)));
     }
 
     public static void printChatMessageAdvanced(String message, String hoverText, boolean bold, boolean italic, boolean underline, TextFormatting color) {
-        Style style = Style.EMPTY;
-        //Color.func_240774_a_(TextFormatting) -> Color.fromTextFormatting(...)
-        style.setFormatting(color)
-                .setBold(bold)
-                .setItalic(italic)
-                .setUnderlined(underline);
+        //Styles are immutable in 1.16. So we have that...
+        List<TextFormatting> formattings = new ArrayList<>();
+        formattings.add(color);
+        if (bold)
+            formattings.add(TextFormatting.BOLD);
+        if (italic)
+            formattings.add(TextFormatting.ITALIC);
+        if (underline)
+            formattings.add(TextFormatting.UNDERLINE);
+        Style style = Style.EMPTY.createStyleFromFormattings(formattings.toArray(new TextFormatting[0]));
         if (hoverText != null)
-            style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(hoverText)));
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(message).setStyle(style));
+            style = style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(hoverText)));
+        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(message).mergeStyle(style));
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")

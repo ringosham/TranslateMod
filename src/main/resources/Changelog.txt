@@ -105,4 +105,4 @@
        - ADD: Re-adding retranslation. So that you can translate any mistranslations
        - ADD: Google cloud translation. A paid Google translation service option is now available.
        - UPD: Minor UI changes
-       - RMV: Yandex translations. They've proof to be quite unreliable and since they removed the free option. There's no reason to keep using it.
+       - RMV: Yandex translations. They've proofed to be quite unreliable and since they removed the free option. There's no reason to keep using it.

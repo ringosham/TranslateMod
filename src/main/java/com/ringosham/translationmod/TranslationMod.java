@@ -14,7 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
- * Real time translation project - All rights reserved
+ * Real time translation project - Licensed under GPL v3
  *
  * @author Ringosham
  * @since 9/11/2015
