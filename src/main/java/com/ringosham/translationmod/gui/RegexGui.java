@@ -1,6 +1,7 @@
 package com.ringosham.translationmod.gui;
 
 import com.google.common.primitives.Ints;
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
@@ -124,7 +125,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     @Override
     public void drawScreen(int x, int y, float tick) {
         super.drawScreen(x, y, tick);
-        fontRenderer.drawString("%mod_name% - Regex list", getLeftMargin(), getTopMargin(), 0x555555);
+        fontRenderer.drawString(TranslationMod.MOD_NAME + " - Regex list", getLeftMargin(), getTopMargin(), 0x555555);
         fontRenderer.drawString("Regex(Regular expression) are search patterns used to detect messages.", getLeftMargin(), getYOrigin() + 15, 0x555555);
         fontRenderer.drawString("You can use this website to test your regex.", getLeftMargin(), getYOrigin() + 25, 0x555555);
         fontRenderer.drawString("Cheatsheet: (Hover your mouse to see explanation)", getLeftMargin(), getYOrigin() + 35, 0x555555);
@@ -181,7 +182,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         groupTextBox.setEnableBackgroundDrawing(true);
         groupTextBox.setText(Integer.toString(groups.get(index)));
         Keyboard.enableRepeatEvents(true);
-        this.buttonList.add(new TextButton(0, getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest));
+        this.buttonList.add(new TextButton(0, getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest, 0x0000aa));
         this.buttonList.add(new GuiButton(1, getLeftMargin() + 5 + smallButtonLength, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "+"));
         this.buttonList.add(new GuiButton(2, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Save and close"));
         this.buttonList.add(new GuiButton(3, getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "<"));

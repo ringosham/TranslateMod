@@ -3,13 +3,13 @@ package com.ringosham.translationmod.translate;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
-import com.ringosham.translationmod.translate.model.SignText;
-import com.ringosham.translationmod.translate.model.TranslateResult;
+import com.ringosham.translationmod.translate.types.SignText;
+import com.ringosham.translationmod.translate.types.TranslateResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
 public class SignTranslate extends Thread {
-    private String text;
+    private final String text;
     private final BlockPos pos;
 
     public SignTranslate(String text, BlockPos pos) {

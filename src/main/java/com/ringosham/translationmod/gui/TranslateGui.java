@@ -1,6 +1,6 @@
 package com.ringosham.translationmod.gui;
 
-import com.ringosham.translationmod.client.KeyManager;
+import com.ringosham.translationmod.TranslationMod;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.translate.SelfTranslate;
 import net.minecraft.client.gui.GuiButton;
@@ -22,7 +22,7 @@ public class TranslateGui extends CommonGui {
     @Override
     public void drawScreen(int x, int y, float tick) {
         super.drawScreen(x, y, tick);
-        fontRenderer.drawString("%mod_name% - by Ringosham", getLeftMargin(), getTopMargin(), 0x555555);
+        fontRenderer.drawString(TranslationMod.MOD_NAME + " - by Ringosham", getLeftMargin(), getTopMargin(), 0x555555);
         fontRenderer.drawString("Enter the command/prefix here (Optional)", getLeftMargin(), getTopMargin() + 10, 0x555555);
         fontRenderer.drawString("Enter your message here (Enter to send)", getLeftMargin(), getTopMargin() + 40, 0x555555);
         headerField.drawTextBox();
@@ -48,6 +48,7 @@ public class TranslateGui extends CommonGui {
         this.buttonList.add(new GuiButton(0, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Settings"));
         this.buttonList.add(new GuiButton(1, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Close"));
         this.buttonList.add(new GuiButton(2, getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Credits"));
+        this.buttonList.add(new GuiButton(3, getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Retranslate"));
     }
 
     @Override
@@ -64,6 +65,8 @@ public class TranslateGui extends CommonGui {
                 ChatUtil.printCredits();
                 mc.displayGuiScreen(null);
                 break;
+            case 3:
+                mc.displayGuiScreen(new RetranslateGui());
         }
     }
 
@@ -73,10 +76,8 @@ public class TranslateGui extends CommonGui {
         this.messageField.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_RETURN && (this.messageField.isFocused() || this.headerField.isFocused())) {
             mc.displayGuiScreen(null);
-            if (!KeyManager.getInstance().isKeyUsedUp()) {
-                Thread translate = new SelfTranslate(this.messageField.getText(), this.headerField.getText());
-                translate.start();
-            }
+            Thread translate = new SelfTranslate(this.messageField.getText(), this.headerField.getText());
+            translate.start();
         }
         if (keyCode == Keyboard.KEY_TAB && this.messageField.isFocused() && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
             this.headerField.setFocused(true);

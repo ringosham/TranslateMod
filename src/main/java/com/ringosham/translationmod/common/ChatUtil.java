@@ -1,5 +1,6 @@
 package com.ringosham.translationmod.common;
 
+import com.ringosham.translationmod.TranslationMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.Style;
@@ -30,7 +31,7 @@ public class ChatUtil {
     }
 
     public static void printCredits() {
-        ChatUtil.printChatMessage(false, "Real-time translation mod by Ringosham. Version %mod_version%", TextFormatting.AQUA);
+        ChatUtil.printChatMessage(false, "Real-time translation mod by Ringosham. Version " + TranslationMod.MOD_VERSION, TextFormatting.AQUA);
         ChatUtil.printChatMessage(false, "Online translation services powered by Yandex and Google", TextFormatting.AQUA);
         ChatUtil.printChatMessage(false, "Translation results may not be 100% accurate", TextFormatting.AQUA);
     }
