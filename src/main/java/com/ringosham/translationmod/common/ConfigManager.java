@@ -2,7 +2,7 @@ package com.ringosham.translationmod.common;
 
 import com.google.common.primitives.Ints;
 import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.config.Configuration;

@@ -86,4 +86,18 @@ public class CommonGui extends GuiScreen {
         }
         return length;
     }
+
+    /**
+     * Draws strings from the top-left of the gui
+     */
+    public void drawStringLine(String title, String[] lines, int offset) {
+        fontRendererObj.drawString(title, getLeftMargin(), getTopMargin(), 0x555555);
+        int lineCount = 1;
+        if (lines == null)
+            return;
+        for (String text : lines) {
+            fontRendererObj.drawString(text, getLeftMargin(), getTopMargin() + offset + 10 * lineCount, 0x555555);
+            lineCount++;
+        }
+    }
 }

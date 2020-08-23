@@ -1,6 +1,5 @@
 package com.ringosham.translationmod;
 
-import com.ringosham.translationmod.client.KeyManager;
 import com.ringosham.translationmod.client.LangManager;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
@@ -15,33 +14,30 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 /**
- * Real time translation project - All rights reserved
+ * Real time translation project - Licensed under GPL v3
  *
  * @author Ringosham
  * @since 9/11/2015
  */
 @Mod(modid = "translationmod", name = "%mod_name%", version = "%mod_version%")
-public class TranslateMod {
+public class TranslationMod {
     private Handler handler = new Handler();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         //Languages must be loaded first before the configuration
         //The config manager needs to convert the language strings to language objects
-        Log.logger.info("Hi there! Getting translation API ready (1/2)");
+        Log.logger.info("Hi there! Getting translation API ready");
         //Initialize instance.
         LangManager.getInstance();
         Log.logger.info("Loading configurations");
         ConfigManager.INSTANCE.init(e);
-        Log.logger.info("Hi there! Getting translation API ready (2/2)");
-        //Initialize instance
-        KeyManager.getInstance();
+        Log.logger.info("Ready! :)");
     }
 
     @EventHandler
     public void init(FMLInitializationEvent e) {
-        if (!KeyManager.getInstance().isOffline())
-            KeyBind.keyInit();
+        KeyBind.keyInit();
     }
 
     @EventHandler

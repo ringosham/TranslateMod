@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
-import com.ringosham.translationmod.client.models.Language;
-import com.ringosham.translationmod.client.models.RequestResult;
+import com.ringosham.translationmod.client.types.Language;
+import com.ringosham.translationmod.client.types.RequestResult;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -28,6 +28,10 @@ public class GoogleClient {
         return accessDenied;
     }
 
+    public RequestResult translateAuto(String message, Language to) {
+        return translate(message, LangManager.getInstance().getAutoLang(), to);
+    }
+
     public RequestResult translate(String message, Language from, Language to) {
         HttpClient client = HttpClientBuilder.create().build();
         //Necessary query parameters to trick Google translate
@@ -41,8 +45,11 @@ public class GoogleClient {
                 .build();
         try {
             HttpResponse response = client.execute(request);
+            //Usually Google would just return 429 if they deny access, but just in case it gives any other HTTP error codes
             if (response.getStatusLine().getStatusCode() != 200) {
                 accessDenied = true;
+                Thread timeout = new Timeout();
+                timeout.start();
                 return new RequestResult(429, "Access to Google Translate denied", null, null);
             }
             InputStream in = response.getEntity().getContent();
@@ -55,16 +62,30 @@ public class GoogleClient {
             reader.setLenient(true);
             JsonArray json = gson.fromJson(reader, JsonArray.class);
             JsonArray lines = json.get(0).getAsJsonArray();
+            Language detectedSource = LangManager.getInstance().findLanguageFromGoogle(json.get(2).getAsString());
             StringBuilder stringBuilder = new StringBuilder();
             for (JsonElement sentenceObj : lines) {
                 JsonArray sentence = sentenceObj.getAsJsonArray();
                 stringBuilder.append(sentence.get(0).getAsString());
                 stringBuilder.append(" ");
             }
-            return new RequestResult(200, stringBuilder.toString(), from, to);
+            return new RequestResult(200, stringBuilder.toString(), detectedSource, to);
         } catch (Exception e) {
             e.printStackTrace();
             return new RequestResult(1, "Connection error", null, null);
+        }
+    }
+
+    //A timeout thread in case Google blocks user access to the hidden API
+    //It is unknown how long Google blocks, so I'll assume 5 minutes
+    private static class Timeout extends Thread {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(300000);
+                accessDenied = false;
+            } catch (InterruptedException ignored) {
+            }
         }
     }
 }

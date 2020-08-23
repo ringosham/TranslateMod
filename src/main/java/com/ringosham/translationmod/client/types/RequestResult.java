@@ -1,4 +1,4 @@
-package com.ringosham.translationmod.client.models;
+package com.ringosham.translationmod.client.types;
 
 public class RequestResult {
     private final int code;

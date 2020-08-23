@@ -1,506 +1,422 @@
 [
   {
+    "name": "Auto detect",
+    "googleCode": "auto",
+    "nameUnicode": "Auto detect"
+  },
+  {
     "name": "Azerbaijan",
     "googleCode": "az",
-    "nameUnicode": "Azərbaycan",
-    "yandexCode": "az"
+    "nameUnicode": "Azərbaycan"
   },
   {
     "name": "Albanian",
     "googleCode": "sq",
-    "nameUnicode": "Shqiptare",
-    "yandexCode": "sq"
+    "nameUnicode": "Shqiptare"
   },
   {
     "name": "English",
     "googleCode": "en",
-    "nameUnicode": null,
-    "yandexCode": "en"
+    "nameUnicode": null
   },
   {
     "name": "Arabic",
     "googleCode": "ar",
-    "nameUnicode": "العربية",
-    "yandexCode": "ar"
+    "nameUnicode": "العربية"
   },
   {
     "name": "Armenian",
     "googleCode": "hy",
-    "nameUnicode": "Հայերեն",
-    "yandexCode": "hy"
+    "nameUnicode": "Հայերեն"
   },
   {
     "name": "Afrikaans",
     "googleCode": "af",
-    "nameUnicode": null,
-    "yandexCode": "af"
+    "nameUnicode": null
   },
   {
     "name": "Basque",
     "googleCode": "eu",
-    "nameUnicode": "Euskal",
-    "yandexCode": "eu"
-  },
-  {
-    "name": "Bashkir",
-    "googleCode": null,
-    "nameUnicode": "Башҡорт теле",
-    "yandexCode": "ba"
+    "nameUnicode": "Euskal"
   },
   {
     "name": "Belarusian",
     "googleCode": "be",
-    "nameUnicode": "Беларуская",
-    "yandexCode": "be"
+    "nameUnicode": "Беларуская"
   },
   {
     "name": "Bengali",
     "googleCode": "bn",
-    "nameUnicode": "বাংলা",
-    "yandexCode": "bn"
+    "nameUnicode": "বাংলা"
   },
   {
     "name": "Bulgarian",
     "googleCode": "bg",
-    "nameUnicode": "Български",
-    "yandexCode": "bg"
+    "nameUnicode": "Български"
   },
   {
     "name": "Bosnian",
     "googleCode": "bs",
-    "nameUnicode": "Bosanskih",
-    "yandexCode": "bs"
+    "nameUnicode": "Bosanskih"
   },
   {
     "name": "Welsh",
     "googleCode": "cy",
-    "nameUnicode": "Cymru",
-    "yandexCode": "cy"
+    "nameUnicode": "Cymru"
   },
   {
     "name": "Hungarian",
     "googleCode": "hu",
-    "nameUnicode": "Magyar",
-    "yandexCode": "hu"
+    "nameUnicode": "Magyar"
   },
   {
     "name": "Vietnamese",
     "googleCode": "vi",
-    "nameUnicode": "Việt nam",
-    "yandexCode": "vi"
+    "nameUnicode": "Việt nam"
   },
   {
     "name": "Haitian Creole",
     "googleCode": "ht",
-    "nameUnicode": "Kreyòl Ayisyen",
-    "yandexCode": "ht"
+    "nameUnicode": "Kreyòl Ayisyen"
   },
   {
     "name": "Galician",
     "googleCode": "gl",
-    "nameUnicode": "Galego",
-    "yandexCode": "gl"
+    "nameUnicode": "Galego"
   },
   {
     "name": "Dutch",
     "googleCode": "nl",
-    "nameUnicode": "Nederlandse",
-    "yandexCode": "nl"
+    "nameUnicode": "Nederlandse"
   },
   {
     "name": "Greek",
     "googleCode": "el",
-    "nameUnicode": "Ελληνική",
-    "yandexCode": "el"
+    "nameUnicode": "Ελληνική"
   },
   {
     "name": "Georgian",
     "googleCode": "ka",
-    "nameUnicode": "ქართული",
-    "yandexCode": "ka"
+    "nameUnicode": "ქართული"
   },
   {
     "name": "Gujarati",
     "googleCode": "gu",
-    "nameUnicode": "ગુજરાતી",
-    "yandexCode": "gu"
+    "nameUnicode": "ગુજરાતી"
   },
   {
     "name": "Danish",
     "googleCode": "da",
-    "nameUnicode": "Dansk",
-    "yandexCode": "da"
+    "nameUnicode": "Dansk"
   },
   {
     "name": "Hebrew",
     "googleCode": "iw",
-    "nameUnicode": "עברית",
-    "yandexCode": "he"
+    "nameUnicode": "עברית"
   },
   {
     "name": "Yiddish",
     "googleCode": "yi",
-    "nameUnicode": "ייִדיש",
-    "yandexCode": "yi"
+    "nameUnicode": "ייִדיש"
   },
   {
     "name": "Indonesian",
     "googleCode": "id",
-    "nameUnicode": "Indonesia",
-    "yandexCode": "id"
+    "nameUnicode": "Indonesia"
   },
   {
     "name": "Irish",
     "googleCode": "ga",
-    "nameUnicode": "Gaeilge",
-    "yandexCode": "ga"
+    "nameUnicode": "Gaeilge"
   },
   {
     "name": "Italian",
     "googleCode": "it",
-    "nameUnicode": "Italiano",
-    "yandexCode": "it"
+    "nameUnicode": "Italiano"
   },
   {
     "name": "Icelandic",
     "googleCode": "is",
-    "nameUnicode": "Íslensk",
-    "yandexCode": "is"
+    "nameUnicode": "Íslensk"
   },
   {
     "name": "Spanish",
     "googleCode": "es",
-    "nameUnicode": "Español",
-    "yandexCode": "es"
+    "nameUnicode": "Español"
   },
   {
     "name": "Kazakh",
     "googleCode": "kk",
-    "nameUnicode": "Қазақ",
-    "yandexCode": "kk"
+    "nameUnicode": "Қазақ"
   },
   {
     "name": "Kannada",
     "googleCode": "kn",
-    "nameUnicode": "ಕನ್ನಡ",
-    "yandexCode": "kn"
+    "nameUnicode": "ಕನ್ನಡ"
   },
   {
     "name": "Catalan",
     "googleCode": "ca",
-    "nameUnicode": "Català",
-    "yandexCode": "ca"
+    "nameUnicode": "Català"
   },
   {
     "name": "Kyrgyz",
     "googleCode": "ky",
-    "nameUnicode": "Кыргыз",
-    "yandexCode": "ky"
+    "nameUnicode": "Кыргыз"
   },
   {
-    "name": "Chinese",
+    "name": "Traditional Chinese",
     "googleCode": "zh-TW",
-    "nameUnicode": "中文",
-    "yandexCode": "zh"
+    "nameUnicode": "繁體中文"
+  },
+  {
+    "name": "Simplified Chinese",
+    "googleCode": "zh-CN",
+    "nameUnicode": "简体中文"
   },
   {
     "name": "Korean",
     "googleCode": "ko",
-    "nameUnicode": "한국어",
-    "yandexCode": "ko"
+    "nameUnicode": "한국어"
   },
   {
     "name": "Latin",
     "googleCode": "la",
-    "nameUnicode": "Latinae",
-    "yandexCode": "la"
+    "nameUnicode": "Latinae"
   },
   {
     "name": "Latvian",
     "googleCode": "lv",
-    "nameUnicode": "Latviešu",
-    "yandexCode": "ly"
+    "nameUnicode": "Latviešu"
   },
   {
     "name": "Lithuanian",
     "googleCode": "lt",
-    "nameUnicode": "Lietuvių",
-    "yandexCode": "lt"
+    "nameUnicode": "Lietuvių"
   },
   {
     "name": "Malagasy",
     "googleCode": "mg",
-    "nameUnicode": null,
-    "yandexCode": "mg"
+    "nameUnicode": null
   },
   {
     "name": "Malay",
     "googleCode": "ms",
-    "nameUnicode": "Melayu",
-    "yandexCode": "ms"
+    "nameUnicode": "Melayu"
   },
   {
     "name": "Malayalam",
     "googleCode": "ml",
-    "nameUnicode": "മലയാളം",
-    "yandexCode": "ml"
+    "nameUnicode": "മലയാളം"
   },
   {
     "name": "Maltese",
     "googleCode": "mt",
-    "nameUnicode": "Malti",
-    "yandexCode": "mt"
+    "nameUnicode": "Malti"
   },
   {
     "name": "Macedonian",
     "googleCode": "mk",
-    "nameUnicode": "Македонски",
-    "yandexCode": "mk"
+    "nameUnicode": "Македонски"
   },
   {
     "name": "Maori",
     "googleCode": "mi",
-    "nameUnicode": "Māori",
-    "yandexCode": "mi"
+    "nameUnicode": "Māori"
   },
   {
     "name": "Marathi",
     "googleCode": "mr",
-    "nameUnicode": "मराठी",
-    "yandexCode": "mr"
+    "nameUnicode": "मराठी"
   },
   {
     "name": "Mongolian",
     "googleCode": "mn",
-    "nameUnicode": "Монгол улсын",
-    "yandexCode": "mn"
+    "nameUnicode": "Монгол улсын"
   },
   {
     "name": "German",
     "googleCode": "de",
-    "nameUnicode": "Deutsch",
-    "yandexCode": "de"
+    "nameUnicode": "Deutsch"
   },
   {
     "name": "Nepali",
     "googleCode": "ne",
-    "nameUnicode": "नेपाली",
-    "yandexCode": "ne"
+    "nameUnicode": "नेपाली"
   },
   {
     "name": "Norwegian",
     "googleCode": "no",
-    "nameUnicode": "Norsk",
-    "yandexCode": "no"
+    "nameUnicode": "Norsk"
   },
   {
     "name": "Punjabi",
     "googleCode": "pa",
-    "nameUnicode": "ਪੰਜਾਬੀ",
-    "yandexCode": "pa"
+    "nameUnicode": "ਪੰਜਾਬੀ"
   },
   {
     "name": "Persian",
     "googleCode": "fa",
-    "nameUnicode": "فارسی",
-    "yandexCode": "fa"
+    "nameUnicode": "فارسی"
   },
   {
     "name": "Polish",
     "googleCode": "pl",
-    "nameUnicode": "Polski",
-    "yandexCode": "pl"
+    "nameUnicode": "Polski"
   },
   {
     "name": "Portuguese",
     "googleCode": "pt",
-    "nameUnicode": "Portuguesa",
-    "yandexCode": "pt"
+    "nameUnicode": "Portuguesa"
   },
   {
     "name": "Romanian",
     "googleCode": "ro",
-    "nameUnicode": "Română",
-    "yandexCode": "ro"
+    "nameUnicode": "Română"
   },
   {
     "name": "Russian",
     "googleCode": "ru",
-    "nameUnicode": "Русский",
-    "yandexCode": "ru"
+    "nameUnicode": "Русский"
   },
   {
     "name": "Cebuano",
     "googleCode": "ceb",
-    "nameUnicode": null,
-    "yandexCode": "ceb"
+    "nameUnicode": null
   },
   {
     "name": "Serbian",
     "googleCode": "sr",
-    "nameUnicode": "Руски",
-    "yandexCode": "sr"
+    "nameUnicode": "Руски"
   },
   {
     "name": "Sinhala",
     "googleCode": "si",
-    "nameUnicode": "සිංහල",
-    "yandexCode": "si"
+    "nameUnicode": "සිංහල"
   },
   {
     "name": "Slovakian",
     "googleCode": "sk",
-    "nameUnicode": "Slovenský",
-    "yandexCode": "sk"
+    "nameUnicode": "Slovenský"
   },
   {
     "name": "Slovenian",
     "googleCode": "sl",
-    "nameUnicode": "Slovenski",
-    "yandexCode": "sl"
+    "nameUnicode": "Slovenski"
   },
   {
     "name": "Swahili",
     "googleCode": "sw",
-    "nameUnicode": "Kiswahili",
-    "yandexCode": "sw"
+    "nameUnicode": "Kiswahili"
   },
   {
     "name": "Sundanese",
     "googleCode": "su",
-    "nameUnicode": "Basa sunda",
-    "yandexCode": "su"
+    "nameUnicode": "Basa sunda"
   },
   {
     "name": "Tajik",
     "googleCode": "tg",
-    "nameUnicode": "Тоҷик",
-    "yandexCode": "tg"
+    "nameUnicode": "Тоҷик"
   },
   {
     "name": "Thai",
     "googleCode": "th",
-    "nameUnicode": "ไทย",
-    "yandexCode": "th"
+    "nameUnicode": "ไทย"
   },
   {
     "name": "Tagalog",
-    "googleCode": null,
-    "nameUnicode": null,
-    "yandexCode": "tl"
+    "googleCode": "tl",
+    "nameUnicode": null
   },
   {
     "name": "Tamil",
     "googleCode": "ta",
-    "nameUnicode": "தமிழ்",
-    "yandexCode": "ta"
+    "nameUnicode": "தமிழ்"
   },
   {
     "name": "Tatar",
-    "googleCode": null,
-    "nameUnicode": "Татар",
-    "yandexCode": "tt"
+    "googleCode": "tt",
+    "nameUnicode": "Татар"
   },
   {
     "name": "Telugu",
     "googleCode": "te",
-    "nameUnicode": "తెలుగు",
-    "yandexCode": "te"
+    "nameUnicode": "తెలుగు"
   },
   {
     "name": "Turkish",
     "googleCode": "tr",
-    "nameUnicode": "Türk",
-    "yandexCode": "tr"
-  },
-  {
-    "name": "Udmurt",
-    "googleCode": null,
-    "nameUnicode": "Удмурт",
-    "yandexCode": "udm"
+    "nameUnicode": "Türk"
   },
   {
     "name": "Uzbek",
     "googleCode": "uz",
-    "nameUnicode": "O'zbek",
-    "yandexCode": "uz"
+    "nameUnicode": "O'zbek"
   },
   {
     "name": "Ukrainian",
     "googleCode": "uk",
-    "nameUnicode": "Український",
-    "yandexCode": "uk"
+    "nameUnicode": "Український"
   },
   {
     "name": "Urdu",
     "googleCode": "ur",
-    "nameUnicode": "اردو",
-    "yandexCode": "ur"
+    "nameUnicode": "اردو"
   },
   {
     "name": "Finnish",
     "googleCode": "fi",
-    "nameUnicode": "Suomen",
-    "yandexCode": "fi"
+    "nameUnicode": "Suomen"
   },
   {
     "name": "French",
     "googleCode": "fr",
-    "nameUnicode": "Français",
-    "yandexCode": "fr"
+    "nameUnicode": "Français"
   },
   {
     "name": "Hindi",
     "googleCode": "hi",
-    "nameUnicode": "हिंदी",
-    "yandexCode": "hi"
+    "nameUnicode": "हिंदी"
   },
   {
     "name": "Croatian",
     "googleCode": "hr",
-    "nameUnicode": "Hrvatski",
-    "yandexCode": "hr"
+    "nameUnicode": "Hrvatski"
   },
   {
     "name": "Czech",
     "googleCode": "cs",
-    "nameUnicode": "České",
-    "yandexCode": "cs"
+    "nameUnicode": "České"
   },
   {
     "name": "Swedish",
     "googleCode": "sv",
-    "nameUnicode": "Svenska",
-    "yandexCode": "sv"
+    "nameUnicode": "Svenska"
   },
   {
     "name": "Scots Gaelic",
     "googleCode": "gd",
-    "nameUnicode": "Na h-alba",
-    "yandexCode": "gd"
+    "nameUnicode": "Na h-alba"
   },
   {
     "name": "Estonian",
     "googleCode": "et",
-    "nameUnicode": "Eesti",
-    "yandexCode": "et"
+    "nameUnicode": "Eesti"
   },
   {
     "name": "Esperanto",
     "googleCode": "eo",
-    "nameUnicode": null,
-    "yandexCode": "eo"
+    "nameUnicode": null
   },
   {
     "name": "Javanese",
     "googleCode": "jw",
-    "nameUnicode": "Jawa",
-    "yandexCode": "jv"
+    "nameUnicode": "Jawa"
   },
   {
     "name": "Japanese",
     "googleCode": "ja",
-    "nameUnicode": "日本語",
-    "yandexCode": "ja"
+    "nameUnicode": "日本語"
   }
 ]

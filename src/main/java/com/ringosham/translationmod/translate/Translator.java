@@ -1,17 +1,16 @@
 package com.ringosham.translationmod.translate;
 
 import com.ringosham.translationmod.client.GoogleClient;
-import com.ringosham.translationmod.client.KeyManager;
-import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.YandexClient;
-import com.ringosham.translationmod.client.models.Language;
-import com.ringosham.translationmod.client.models.RequestResult;
+import com.ringosham.translationmod.client.GooglePaidClient;
+import com.ringosham.translationmod.client.types.Language;
+import com.ringosham.translationmod.client.types.RequestResult;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
-import com.ringosham.translationmod.translate.model.TranslateResult;
+import com.ringosham.translationmod.translate.types.TranslateResult;
 import net.minecraft.util.EnumChatFormatting;
 
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +18,7 @@ public class Translator extends Thread {
     private final String message;
     private final Language from;
     private final Language to;
+    private static final LinkedList<TranslationLog> translationLog = new LinkedList<>();
 
     public Translator(String message, Language from, Language to) {
         this.message = message;
@@ -26,92 +26,50 @@ public class Translator extends Thread {
         this.to = to;
     }
 
+    public static LinkedList<TranslationLog> getTranslationLog() {
+        return translationLog;
+    }
+
     //Parameter required for the raw content without any chat headers from the server
     public TranslateResult translate(String rawMessage) {
+        //Save bandwidth and money $.
+        if (from == to)
+            return null;
         //In case the message content is empty. Thanks to sloppy chat plugins in servers
+        //Also if you are using the paid option, Google charges per character, including whitespaces.
+        //If the request is empty, Google STILL charges a character.
         rawMessage = rawMessage.trim();
         if (rawMessage.length() == 0)
             return null;
-        if (KeyManager.getInstance().isOffline())
-            return null;
-        String translatedMessage;
-        Language from;
-        //Color me surprised, Google has less language support than Yandex.
-        if (GoogleClient.isAccessDenied() || to.getGoogleCode() == null) {
-            YandexClient yandex = new YandexClient();
-            RequestResult transRequest = yandex.translateAuto(KeyManager.getInstance().getCurrentKey(), rawMessage, to);
+        if (!ConfigManager.INSTANCE.getUserKey().equals("") && !GooglePaidClient.getDisable()) {
+            //Paid options go first.
+            GooglePaidClient google = new GooglePaidClient();
+            RequestResult transRequest;
+            if (from == null)
+                transRequest = google.translateAuto(rawMessage, to);
+            else
+                transRequest = google.translate(rawMessage, from, to);
             if (transRequest.getCode() != 200) {
                 logException(transRequest);
                 return null;
             }
-            from = transRequest.getFrom();
-            translatedMessage = transRequest.getMessage();
-        } else {
-            YandexClient yandex = new YandexClient();
-            RequestResult langRequest = yandex.detect(KeyManager.getInstance().getCurrentKey(), rawMessage);
-            if (langRequest.getCode() != 200) {
-                logException(langRequest);
-                return null;
-            }
-            String langCode = langRequest.getMessage();
-            from = this.from != null ? this.from : LangManager.getInstance().findLanguageFromYandex(langCode);
+            return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
+        } else if (!GoogleClient.isAccessDenied()) {
+            //Use free ones later
             GoogleClient google = new GoogleClient();
-            RequestResult transRequest = google.translate(rawMessage, from, to);
+            RequestResult transRequest;
+            if (from == null)
+                transRequest = google.translateAuto(rawMessage, to);
+            else
+                transRequest = google.translate(rawMessage, from, to);
             if (transRequest.getCode() != 200) {
                 logException(transRequest);
                 return null;
             }
-            translatedMessage = transRequest.getMessage();
+            return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
         }
-        return new TranslateResult(translatedMessage, from);
-    }
-
-    private void logException(RequestResult transRequest) {
-        switch (transRequest.getCode()) {
-            case 1:
-                Log.logger.error("Cannot connect to translation server. Is player offline?");
-                break;
-            case 429:
-                Log.logger.warn("Google denied access to translation API. Switching to Yandex");
-                ChatUtil.printChatMessage(true, "Google translate has stopped responding. Fallback to Yandex provider", EnumChatFormatting.WHITE);
-                break;
-            case 402:
-                Log.logger.error("API key blocked. Changing keys");
-                changeKeys();
-                break;
-            case 404:
-                Log.logger.info("Daily text limit reached. Changing keys");
-                changeKeys();
-                break;
-            case 422:
-                Log.logger.error("Text failed to translate");
-                break;
-            case 501:
-                Log.logger.error("Translation direction not supported");
-                ChatUtil.printChatMessage(true, "Translation direction not supported. Please choose a different language.", EnumChatFormatting.RED);
-                break;
-            case 413:
-                Log.logger.error("Text length too long. Server refused to process");
-                break;
-            case 500:
-                Log.logger.error("Internal server error. Is translation server down?");
-                break;
-            default:
-                Log.logger.error("Unknown error: " + transRequest.getMessage());
-                break;
-        }
-    }
-
-    private void changeKeys() {
-        if (KeyManager.getInstance().isRotating())
-            return;
-        ChatUtil.printChatMessage(true, "Switching keys...", EnumChatFormatting.WHITE);
-        if (!KeyManager.getInstance().rotateKey()) {
-            ChatUtil.printChatMessage(true, "All translation keys have been used up for today. The mod will not function without a translation key", EnumChatFormatting.RED);
-            ChatUtil.printChatMessage(true, "You can go to the mod settings -> User key. You can add your own translation key there.", EnumChatFormatting.RED);
-        } else {
-            ChatUtil.printChatMessage(true, "Key switch completed", EnumChatFormatting.WHITE);
-        }
+        //Otherwise ignore
+        return null;
     }
 
     //Finds the player name in the chat using regex groups
@@ -121,6 +79,37 @@ public class Translator extends Thread {
         Matcher matcher = pattern.matcher(message);
         matcher.find();
         return matcher.group(ConfigManager.INSTANCE.getGroupList().get(regexIndex));
+    }
+
+    private void logException(RequestResult transRequest) {
+        switch (transRequest.getCode()) {
+            case 1:
+                Log.logger.error("Cannot connect to translation server. Is player offline?");
+                break;
+            case 2:
+                //Unknown response
+                Log.logger.error(transRequest.getMessage());
+            case 429:
+                Log.logger.warn("Google denied access to translation API. Pausing translation for 5 minutes");
+                ChatUtil.printChatMessage(true, "Google translate has stopped responding. Pausing translations", EnumChatFormatting.YELLOW);
+                break;
+            case 403:
+                Log.logger.error("Exceeded API quota");
+                ChatUtil.printChatMessage(true, "You have exceeded your quota. Please check your quota settings", EnumChatFormatting.RED);
+                ChatUtil.printChatMessage(true, "Falling back to free version until you restart the game", EnumChatFormatting.RED);
+                GooglePaidClient.setDisable();
+                break;
+            case 400:
+                Log.logger.error("API key invalid");
+                ChatUtil.printChatMessage(true, "API key invalid. If you do not wish to use a key, please remove it from the settings", EnumChatFormatting.RED);
+                break;
+            case 500:
+                Log.logger.error("Failed to determine source language: " + transRequest.getMessage());
+                break;
+            default:
+                Log.logger.error("Unknown error: " + transRequest.getMessage());
+                break;
+        }
     }
 
     //If this class is run as a thread, it handles incoming chat messages
@@ -164,6 +153,7 @@ public class Translator extends Thread {
         //Remove the chat header to get the actual content
         String rawMessage = messageTrim.replace(matcher.group(0), "");
         TranslateResult translatedMessage = translate(rawMessage);
+        addToLog(new TranslationLog(sender, rawMessage));
         if (translatedMessage == null)
             return;
         String fromStr = null;
@@ -179,5 +169,29 @@ public class Translator extends Thread {
         if (translatedMessage.getMessage().trim().equals(rawMessage.trim()))
             return;
         ChatUtil.printChatMessageAdvanced(chatMessage, hoverText, ConfigManager.INSTANCE.isBold(), ConfigManager.INSTANCE.isItalic(), ConfigManager.INSTANCE.isUnderline(), EnumChatFormatting.getValueByName(ConfigManager.INSTANCE.getColor()));
+    }
+
+    private void addToLog(TranslationLog log) {
+        translationLog.add(log);
+        if (translationLog.size() > 15)
+            translationLog.pollFirst();
+    }
+
+    public static class TranslationLog {
+        private final String sender;
+        private final String message;
+
+        public TranslationLog(String sender, String message) {
+            this.sender = sender;
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getSender() {
+            return sender;
+        }
     }
 }

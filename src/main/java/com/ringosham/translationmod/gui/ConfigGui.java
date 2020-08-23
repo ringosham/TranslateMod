@@ -1,7 +1,7 @@
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import net.minecraft.client.gui.GuiButton;
@@ -19,6 +19,12 @@ public class ConfigGui extends CommonGui {
     private static final List<String> selfTooltip = new ArrayList<>();
     private static final List<String> speakAsTooltip = new ArrayList<>();
     private static final List<String> regexTooltip = new ArrayList<>();
+    private static final List<String> apiKeyTooltip = new ArrayList<>();
+    private static final List<String> colorTooltip = new ArrayList<>();
+    private static final List<String> boldTooltip = new ArrayList<>();
+    private static final List<String> underlineTooltip = new ArrayList<>();
+    private static final List<String> italicTooltip = new ArrayList<>();
+    private static final List<String> signTooltip = new ArrayList<>();
     //If this instance is between transition between other GUIs
     private boolean isTransition = false;
     private Language targetLang;
@@ -39,6 +45,12 @@ public class ConfigGui extends CommonGui {
         regexTooltip.add("Regex are patterns for the mod to detect chat messages.");
         regexTooltip.add("If you notice the mod doesn't do anything on a server,");
         regexTooltip.add("chances are you need to add one here.");
+        apiKeyTooltip.add("Use your own API key for translation");
+        colorTooltip.add("Changes the color of the translated message");
+        boldTooltip.add("Bolds the translated message");
+        italicTooltip.add("Italics the translated message");
+        underlineTooltip.add("Underlines the translated message");
+        signTooltip.add("Translates signs when you look at them");
     }
 
     ConfigGui() {
@@ -80,14 +92,36 @@ public class ConfigGui extends CommonGui {
         fontRendererObj.drawString("Target language:", getLeftMargin(), getYOrigin() + 55, 0x555555);
         fontRendererObj.drawString("Self language:", getLeftMargin(), getYOrigin() + 75, 0x555555);
         fontRendererObj.drawString("Speak as language:", getLeftMargin(), getYOrigin() + 95, 0x555555);
+        //Target language
         if (((GuiButton) this.buttonList.get(2)).isMouseOver())
             drawHoveringText(Collections.singletonList(targetTooltip), x, y);
+        //Self language
         if (((GuiButton) this.buttonList.get(3)).isMouseOver())
             drawHoveringText(selfTooltip, x, y);
+        //Speak as language
         if (((GuiButton) this.buttonList.get(4)).isMouseOver())
             drawHoveringText(speakAsTooltip, x, y);
+        //Regex list
         if (((GuiButton) this.buttonList.get(11)).isMouseOver())
             drawHoveringText(regexTooltip, x, y);
+        //API key
+        if (((GuiButton) this.buttonList.get(6)).isMouseOver())
+            drawHoveringText(apiKeyTooltip, x, y);
+        //Translate sign
+        if (((GuiButton) this.buttonList.get(5)).isMouseOver())
+            drawHoveringText(signTooltip, x, y);
+        //Color message
+        if (((GuiButton) this.buttonList.get(7)).isMouseOver())
+            drawHoveringText(colorTooltip, x, y);
+        //Bold
+        if (((GuiButton) this.buttonList.get(8)).isMouseOver())
+            drawHoveringText(boldTooltip, x, y);
+        //Italic
+        if (((GuiButton) this.buttonList.get(9)).isMouseOver())
+            drawHoveringText(italicTooltip, x, y);
+        //Underline
+        if (((GuiButton) this.buttonList.get(10)).isMouseOver())
+            drawHoveringText(underlineTooltip, x, y);
     }
 
     @SuppressWarnings("unchecked")

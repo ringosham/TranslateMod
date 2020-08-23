@@ -1,6 +1,6 @@
-package com.ringosham.translationmod.translate.model;
+package com.ringosham.translationmod.translate.types;
 
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 
 public class TranslateResult {
     private final String message;

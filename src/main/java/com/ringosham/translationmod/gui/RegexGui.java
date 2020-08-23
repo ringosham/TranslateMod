@@ -105,8 +105,6 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheetDesc.get(10).add("Correct:" + EnumChatFormatting.GREEN + " \\(VIP\\) \\w+");
         cheatsheetDesc.get(10).add("Wrong:" + EnumChatFormatting.RED + " (VIP) \\w+");
     }
-
-    private List<HoveringText> cheatsheetLabels = new ArrayList<>();
     private int index;
     private LinkedList<String> regexes = new LinkedList<>();
     private LinkedList<Integer> groups = new LinkedList<>();
@@ -184,7 +182,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         groupTextBox.setEnableBackgroundDrawing(true);
         groupTextBox.setText(Integer.toString(groups.get(index)));
         Keyboard.enableRepeatEvents(true);
-        this.buttonList.add(new TextButton(0, getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest));
+        this.buttonList.add(new TextButton(0, getRightMargin(150), getYOrigin() + 25, getTextWidth(regexTest), regexTest, 0x0000aa));
         this.buttonList.add(new GuiButton(1, getLeftMargin() + 5 + smallButtonLength, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "+"));
         this.buttonList.add(new GuiButton(2, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Save and close"));
         this.buttonList.add(new GuiButton(3, getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, "<"));

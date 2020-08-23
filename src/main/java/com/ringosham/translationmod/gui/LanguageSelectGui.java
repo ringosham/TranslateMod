@@ -1,5 +1,8 @@
 package com.ringosham.translationmod.gui;
 
+import com.ringosham.translationmod.client.types.Language;
+import com.ringosham.translationmod.common.ConfigManager;
+import com.ringosham.translationmod.translate.Retranslate;
 import net.minecraft.client.gui.GuiButton;
 
 public class LanguageSelectGui extends CommonGui {
@@ -7,12 +10,26 @@ public class LanguageSelectGui extends CommonGui {
     private static final int guiHeight = 200;
     private final ConfigGui config;
     private final int langSelect;
+    private final String sender;
+    private final String message;
     private LangList langList;
 
+    //Calling from ConfigGui
     LanguageSelectGui(ConfigGui config, int langSelect) {
         super(guiHeight, guiWidth);
         this.config = config;
         this.langSelect = langSelect;
+        this.message = null;
+        this.sender = null;
+    }
+
+    //Calling from RetranslateGui
+    LanguageSelectGui(String sender, String message) {
+        super(guiHeight, guiWidth);
+        this.message = message;
+        this.sender = sender;
+        this.config = null;
+        this.langSelect = -1;
     }
 
     @Override
@@ -34,11 +51,30 @@ public class LanguageSelectGui extends CommonGui {
     public void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 0:
-                mc.displayGuiScreen(new ConfigGui(config, langSelect, langList.getSelected()));
+                if (langList.getSelected() != null) {
+                    if (config != null)
+                        this.selectLanguage(langList.getSelected());
+                    else
+                        this.retranslate(langList.getSelected());
+                }
                 break;
             case 1:
-                mc.displayGuiScreen(new ConfigGui(config, langSelect, null));
+                if (config != null)
+                    this.selectLanguage(null);
+                else
+                    mc.displayGuiScreen(new RetranslateGui());
                 break;
         }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void selectLanguage(Language lang) {
+        mc.displayGuiScreen(new ConfigGui(config, langSelect, lang));
+    }
+
+    private void retranslate(Language source) {
+        Thread retranslate = new Retranslate(sender, message, source, ConfigManager.INSTANCE.getTargetLanguage());
+        retranslate.start();
+        mc.displayGuiScreen(null);
     }
 }

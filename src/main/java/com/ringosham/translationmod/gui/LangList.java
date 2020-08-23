@@ -1,7 +1,7 @@
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.client.LangManager;
-import com.ringosham.translationmod.client.models.Language;
+import com.ringosham.translationmod.client.types.Language;
 import cpw.mods.fml.client.GuiScrollingList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
