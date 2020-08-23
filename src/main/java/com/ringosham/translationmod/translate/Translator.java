@@ -100,7 +100,8 @@ public class Translator extends Thread {
                 GooglePaidClient.setDisable();
                 break;
             case 400:
-                Log.logger.error("Request rejected due to bad request. THIS IS A BUG. PLEASE REPORT TO THE MOD CREATOR");
+                Log.logger.error("API key invalid");
+                ChatUtil.printChatMessage(true, "API key invalid. If you do not wish to use a key, please remove it from the settings", TextFormatting.RED);
                 break;
             case 500:
                 Log.logger.error("Failed to determine source language: " + transRequest.getMessage());
