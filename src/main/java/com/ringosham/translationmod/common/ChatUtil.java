@@ -31,7 +31,7 @@ public class ChatUtil {
 
     public static void printCredits() {
         ChatUtil.printChatMessage(false, "Real-time translation mod by Ringosham. Version %mod_version%", EnumChatFormatting.AQUA);
-        ChatUtil.printChatMessage(false, "Online translation services powered by Yandex and Google", EnumChatFormatting.AQUA);
+        ChatUtil.printChatMessage(false, "Online translation services powered by Google", EnumChatFormatting.AQUA);
         ChatUtil.printChatMessage(false, "Translation results may not be 100% accurate", EnumChatFormatting.AQUA);
     }
 
