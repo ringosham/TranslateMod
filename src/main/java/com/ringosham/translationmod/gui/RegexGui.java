@@ -53,46 +53,46 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheet.add("[a-g] - Match character in range");
         cheatsheetDesc.get(3).add("Matches any characters in tis specific range");
         cheatsheetDesc.get(3).add("Example: [a-g]");
-        cheatsheetDesc.get(3).add("✓ " + TextFormatting.GREEN + "a");
-        cheatsheetDesc.get(3).add("✓ " + TextFormatting.GREEN + "b");
-        cheatsheetDesc.get(3).add("✗ " + TextFormatting.RED + "z");
+        cheatsheetDesc.get(3).add("\u2713 " + TextFormatting.GREEN + "a");
+        cheatsheetDesc.get(3).add("\u2713 " + TextFormatting.GREEN + "b");
+        cheatsheetDesc.get(3).add("\u2717 " + TextFormatting.RED + "z");
 
         cheatsheet.add("* - Matches 0 or more");
         cheatsheetDesc.get(4).add("Matches 0 or more of its character class");
         cheatsheetDesc.get(4).add("Example: N\\w*");
-        cheatsheetDesc.get(4).add("✓ " + TextFormatting.GREEN + "N");
-        cheatsheetDesc.get(4).add("✓ " + TextFormatting.GREEN + "No");
-        cheatsheetDesc.get(4).add("✓ " + TextFormatting.GREEN + "Notch");
+        cheatsheetDesc.get(4).add("\u2713 " + TextFormatting.GREEN + "N");
+        cheatsheetDesc.get(4).add("\u2713 " + TextFormatting.GREEN + "No");
+        cheatsheetDesc.get(4).add("\u2713 " + TextFormatting.GREEN + "Notch");
 
         cheatsheet.add("+ - Matches 1 or more");
         cheatsheetDesc.get(5).add("Matches 1 or more of a character/group");
         cheatsheetDesc.get(5).add("Example: N\\w+");
-        cheatsheetDesc.get(5).add("✗ " + TextFormatting.RED + "N");
-        cheatsheetDesc.get(5).add("✓ " + TextFormatting.GREEN + "No");
-        cheatsheetDesc.get(5).add("✓ " + TextFormatting.GREEN + "Notch");
+        cheatsheetDesc.get(5).add("\u2717 " + TextFormatting.RED + "N");
+        cheatsheetDesc.get(5).add("\u2713 " + TextFormatting.GREEN + "No");
+        cheatsheetDesc.get(5).add("\u2713 " + TextFormatting.GREEN + "Notch");
 
         cheatsheet.add("? - Optional");
         cheatsheetDesc.get(6).add("Exactly as the name suggests");
         cheatsheetDesc.get(6).add("Example: (VIP )?\\w+");
-        cheatsheetDesc.get(6).add("✓ " + TextFormatting.GREEN + "VIP PlayerName");
-        cheatsheetDesc.get(6).add("✓ " + TextFormatting.GREEN + "PlayerName");
+        cheatsheetDesc.get(6).add("\u2713 " + TextFormatting.GREEN + "VIP PlayerName");
+        cheatsheetDesc.get(6).add("\u2713 " + TextFormatting.GREEN + "PlayerName");
 
         cheatsheet.add("{2,} - Matches n or more");
         cheatsheetDesc.get(7).add("Matches a group/character n times or more");
         cheatsheetDesc.get(7).add("Add a number after the comma if you want the it match x to y times");
         cheatsheetDesc.get(7).add("Or omit the comma if you want the it match exactly n times");
         cheatsheetDesc.get(7).add("Example: Level \\d{1,3}");
-        cheatsheetDesc.get(7).add("✓ " + TextFormatting.GREEN + "Level 1");
-        cheatsheetDesc.get(7).add("✓ " + TextFormatting.GREEN + "Level 420");
-        cheatsheetDesc.get(7).add("✗ " + TextFormatting.RED + "Level 42069");
+        cheatsheetDesc.get(7).add("\u2713 " + TextFormatting.GREEN + "Level 1");
+        cheatsheetDesc.get(7).add("\u2713 " + TextFormatting.GREEN + "Level 420");
+        cheatsheetDesc.get(7).add("\u2717 " + TextFormatting.RED + "Level 42069");
 
 
         cheatsheet.add("| - Either");
         cheatsheetDesc.get(8).add("Must match either of them, but not both.");
         cheatsheetDesc.get(8).add("Example: (Dead)|(Alive) (\\w+)");
-        cheatsheetDesc.get(8).add("✓ " + TextFormatting.GREEN + "Dead PlayerName");
-        cheatsheetDesc.get(8).add("✓ " + TextFormatting.GREEN + "Alive PlayerName");
-        cheatsheetDesc.get(8).add("✗ " + TextFormatting.RED + "DeadAlive PlayerName");
+        cheatsheetDesc.get(8).add("\u2713 " + TextFormatting.GREEN + "Dead PlayerName");
+        cheatsheetDesc.get(8).add("\u2713 " + TextFormatting.GREEN + "Alive PlayerName");
+        cheatsheetDesc.get(8).add("\u2717 " + TextFormatting.RED + "DeadAlive PlayerName");
 
         cheatsheet.add("() - Group");
         cheatsheetDesc.get(9).add("Think of groups as parentheses like in mathematics");
