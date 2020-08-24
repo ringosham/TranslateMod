@@ -52,46 +52,46 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheet.add("[a-g] - Match character in range");
         cheatsheetDesc.get(3).add("Matches any characters in tis specific range");
         cheatsheetDesc.get(3).add("Example: [a-g]");
-        cheatsheetDesc.get(3).add("✓ " + EnumChatFormatting.GREEN + "a");
-        cheatsheetDesc.get(3).add("✓ " + EnumChatFormatting.GREEN + "b");
-        cheatsheetDesc.get(3).add("✗ " + EnumChatFormatting.RED + "z");
+        cheatsheetDesc.get(3).add("\u2713 " + EnumChatFormatting.GREEN + "a");
+        cheatsheetDesc.get(3).add("\u2713 " + EnumChatFormatting.GREEN + "b");
+        cheatsheetDesc.get(3).add("\u2717 " + EnumChatFormatting.RED + "z");
 
         cheatsheet.add("* - Matches 0 or more");
         cheatsheetDesc.get(4).add("Matches 0 or more of its character class");
         cheatsheetDesc.get(4).add("Example: N\\w*");
-        cheatsheetDesc.get(4).add("✓ " + EnumChatFormatting.GREEN + "N");
-        cheatsheetDesc.get(4).add("✓ " + EnumChatFormatting.GREEN + "No");
-        cheatsheetDesc.get(4).add("✓ " + EnumChatFormatting.GREEN + "Notch");
+        cheatsheetDesc.get(4).add("\u2713 " + EnumChatFormatting.GREEN + "N");
+        cheatsheetDesc.get(4).add("\u2713 " + EnumChatFormatting.GREEN + "No");
+        cheatsheetDesc.get(4).add("\u2713 " + EnumChatFormatting.GREEN + "Notch");
 
         cheatsheet.add("+ - Matches 1 or more");
         cheatsheetDesc.get(5).add("Matches 1 or more of a character/group");
         cheatsheetDesc.get(5).add("Example: N\\w+");
-        cheatsheetDesc.get(5).add("✗ " + EnumChatFormatting.RED + "N");
-        cheatsheetDesc.get(5).add("✓ " + EnumChatFormatting.GREEN + "No");
-        cheatsheetDesc.get(5).add("✓ " + EnumChatFormatting.GREEN + "Notch");
+        cheatsheetDesc.get(5).add("\u2717 " + EnumChatFormatting.RED + "N");
+        cheatsheetDesc.get(5).add("\u2713 " + EnumChatFormatting.GREEN + "No");
+        cheatsheetDesc.get(5).add("\u2713 " + EnumChatFormatting.GREEN + "Notch");
 
         cheatsheet.add("? - Optional");
         cheatsheetDesc.get(6).add("Exactly as the name suggests");
         cheatsheetDesc.get(6).add("Example: (VIP )?\\w+");
-        cheatsheetDesc.get(6).add("✓ " + EnumChatFormatting.GREEN + "VIP PlayerName");
-        cheatsheetDesc.get(6).add("✓ " + EnumChatFormatting.GREEN + "PlayerName");
+        cheatsheetDesc.get(6).add("\u2713 " + EnumChatFormatting.GREEN + "VIP PlayerName");
+        cheatsheetDesc.get(6).add("\u2713 " + EnumChatFormatting.GREEN + "PlayerName");
 
         cheatsheet.add("{2,} - Matches n or more");
         cheatsheetDesc.get(7).add("Matches a group/character n times or more");
         cheatsheetDesc.get(7).add("Add a number after the comma if you want the it match x to y times");
         cheatsheetDesc.get(7).add("Or omit the comma if you want the it match exactly n times");
         cheatsheetDesc.get(7).add("Example: Level \\d{1,3}");
-        cheatsheetDesc.get(7).add("✓ " + EnumChatFormatting.GREEN + "Level 1");
-        cheatsheetDesc.get(7).add("✓ " + EnumChatFormatting.GREEN + "Level 420");
-        cheatsheetDesc.get(7).add("✗ " + EnumChatFormatting.RED + "Level 42069");
+        cheatsheetDesc.get(7).add("\u2713 " + EnumChatFormatting.GREEN + "Level 1");
+        cheatsheetDesc.get(7).add("\u2713 " + EnumChatFormatting.GREEN + "Level 420");
+        cheatsheetDesc.get(7).add("\u2717 " + EnumChatFormatting.RED + "Level 42069");
 
 
         cheatsheet.add("| - Either");
         cheatsheetDesc.get(8).add("Must match either of them, but not both.");
         cheatsheetDesc.get(8).add("Example: (Dead)|(Alive) (\\w+)");
-        cheatsheetDesc.get(8).add("✓ " + EnumChatFormatting.GREEN + "Dead PlayerName");
-        cheatsheetDesc.get(8).add("✓ " + EnumChatFormatting.GREEN + "Alive PlayerName");
-        cheatsheetDesc.get(8).add("✗ " + EnumChatFormatting.RED + "DeadAlive PlayerName");
+        cheatsheetDesc.get(8).add("\u2713 " + EnumChatFormatting.GREEN + "Dead PlayerName");
+        cheatsheetDesc.get(8).add("\u2713 " + EnumChatFormatting.GREEN + "Alive PlayerName");
+        cheatsheetDesc.get(8).add("\u2717 " + EnumChatFormatting.RED + "DeadAlive PlayerName");
 
         cheatsheet.add("() - Group");
         cheatsheetDesc.get(9).add("Think of groups as parentheses like in mathematics");
