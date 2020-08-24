@@ -32,7 +32,7 @@ public class ChatUtil {
 
     public static void printCredits() {
         ChatUtil.printChatMessage(false, "Real-time translation mod by Ringosham. Version " + TranslationMod.MOD_VERSION, TextFormatting.AQUA);
-        ChatUtil.printChatMessage(false, "Online translation services powered by Yandex and Google", TextFormatting.AQUA);
+        ChatUtil.printChatMessage(false, "Online translation services powered by Google", TextFormatting.AQUA);
         ChatUtil.printChatMessage(false, "Translation results may not be 100% accurate", TextFormatting.AQUA);
     }
 }
