@@ -54,9 +54,12 @@ public class RetranslateGui extends CommonGui {
     public void init() {
         int offset = 0;
         for (Translator.TranslationLog log : logs) {
-            String buttonText = log.getMessage() + "...";
-            while (getTextWidth(buttonText) > guiWidth - 15)
-                buttonText = buttonText.substring(0, buttonText.length() - 4) + "...";
+            String buttonText = log.getMessage();
+            if (getTextWidth(buttonText) > guiWidth - 15) {
+                buttonText = buttonText + "...";
+                while (getTextWidth(buttonText) > guiWidth - 15)
+                    buttonText = buttonText.substring(0, buttonText.length() - 4) + "...";
+            }
             addButton(new TextButton(getLeftMargin(), getTopMargin() + 40 + offset, getTextWidth(buttonText), new StringTextComponent(buttonText), (button) -> selectLanguage(log.getSender(), log.getMessage()), 0));
             offset += 10;
         }
