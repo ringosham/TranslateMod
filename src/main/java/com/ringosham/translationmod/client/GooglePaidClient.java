@@ -65,6 +65,8 @@ public class GooglePaidClient {
                 //Just get the first element. Since this is a single element query there should not be more than 1 entry in the array
                 String translatedText = transResponse.getData().getTranslations()[0].getTranslatedText();
                 Language sourceLang = LangManager.getInstance().findLanguageFromGoogle(transResponse.getData().getTranslations()[0].getDetectedSourceLanguage());
+                if (sourceLang == null)
+                    sourceLang = from;
                 return new RequestResult(200, translatedText, sourceLang, to);
             } else {
                 try {
