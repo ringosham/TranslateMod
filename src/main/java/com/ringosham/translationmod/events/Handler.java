@@ -35,7 +35,7 @@ public class Handler {
     private int ticks = 0;
     private static final Block[] signBlocks = {
             Blocks.ACACIA_SIGN,
-            Blocks.ACACIA_BUTTON,
+            Blocks.ACACIA_WALL_SIGN,
             Blocks.BIRCH_SIGN,
             Blocks.BIRCH_WALL_SIGN,
             Blocks.DARK_OAK_SIGN,
