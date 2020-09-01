@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatUtil {
-    private static final String prefix = TextFormatting.GREEN + "[" + TextFormatting.RESET + "RTTM" + TextFormatting.GREEN + "] " + TextFormatting.RESET;
+    private static final String prefix = TextFormatting.GREEN + "[" + TextFormatting.WHITE + "RTTM" + TextFormatting.GREEN + "] " + TextFormatting.RESET;
 
     public static void printChatMessage(boolean addPrefix, String message, TextFormatting color) {
         //Color.func_240774_a_(TextFormatting) -> Color.fromTextFormatting(...)

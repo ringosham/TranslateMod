@@ -6,17 +6,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.client.types.RequestResult;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.HttpClientBuilder;
 
-import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GoogleClient {
     //Google translate is a paid service. This is the secret free API for use of the web Google translate
@@ -32,27 +27,29 @@ public class GoogleClient {
     }
 
     public RequestResult translate(String message, Language from, Language to) {
-        HttpClient client = HttpClientBuilder.create().build();
-        //Necessary query parameters to trick Google translate
-        HttpUriRequest request = RequestBuilder.get().setUri(baseUrl)
-                .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
-                .addParameter("client", "gtx")
-                .addParameter("sl", from.getGoogleCode())
-                .addParameter("tl", to.getGoogleCode())
-                .addParameter("dt", "t")
-                .addParameter("q", message)
-                .build();
+        Map<String, String> queryParam = new HashMap<>();
+        String encodedMessage = null;
+        //Percent encode message
         try {
-            HttpResponse response = client.execute(request);
+            encodedMessage = URLEncoder.encode(message, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException ignored) {
+        }
+        //Necessary query parameters to trick Google translate
+        queryParam.put("client", "gtx");
+        queryParam.put("sl", from.getGoogleCode());
+        queryParam.put("tl", to.getGoogleCode());
+        queryParam.put("dt", "t");
+        queryParam.put("q", encodedMessage);
+        try {
+            RESTClient.Response response = RESTClient.INSTANCE.POST(baseUrl, queryParam);
             //Usually Google would just return 429 if they deny access, but just in case it gives any other HTTP error codes
-            if (response.getStatusLine().getStatusCode() != 200) {
+            if (response.getResponseCode() != 200) {
                 accessDenied = true;
                 Thread timeout = new Timeout();
                 timeout.start();
                 return new RequestResult(429, "Access to Google Translate denied", null, null);
             }
-            InputStream in = response.getEntity().getContent();
-            String responseString = IOUtils.toString(in, StandardCharsets.UTF_8);
+            String responseString = response.getEntity();
             //This secret API is specifically made for Google translate. So the response contains lots of useless information.
             //Each sentence translated is divided into separate JSON arrays.
             Gson gson = new GsonBuilder().setLenient().create();

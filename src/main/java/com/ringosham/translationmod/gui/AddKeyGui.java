@@ -43,6 +43,7 @@ public class AddKeyGui extends CommonGui {
                 "Go to this website for pricing and more information",
         }, 5);
         textbox.render(stack, x, y, tick);
+        font.drawString(stack, "Delete/Leave empty to use the free API", getLeftMargin(), getYOrigin() + 110, 0x555555);
     }
 
     @Override
