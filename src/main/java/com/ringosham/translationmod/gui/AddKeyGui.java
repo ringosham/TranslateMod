@@ -39,6 +39,7 @@ public class AddKeyGui extends CommonGui implements GuiYesNoCallback {
                 "Go to this website for pricing and more information",
         }, 5);
         textbox.drawTextBox();
+        fontRenderer.drawString("Delete/Leave empty to use the free API", getLeftMargin(), getYOrigin() + 110, 0x555555);
     }
 
     public void initGui() {

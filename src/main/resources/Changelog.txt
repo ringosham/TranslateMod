@@ -106,3 +106,6 @@
        - ADD: Google cloud translation. A paid Google translation service option is now available.
        - UPD: Minor UI changes
        - RMV: Yandex translations. They've proofed to be quite unreliable and since they removed the free option. There's no reason to keep using it.
+ 5.1.1 - FIX: Translation client encoding problem (#1)
+       - FIX: Wrongly reading acacia buttons as acacia wall signs (#2)
+       - FIX: Broken sign reading (#3)
