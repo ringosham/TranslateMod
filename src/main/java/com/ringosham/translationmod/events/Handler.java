@@ -146,7 +146,7 @@ public class Handler {
             ITextComponent line = ((SignTileEntity) Objects.requireNonNull(world.getTileEntity(pos))).getText(i);
             //Combine each line of the sign with spaces.
             //Due to differences between languages, this may break asian languages. (Words don't separate with spaces)
-            text.append(" ").append(line);
+            text.append(" ").append(line.getUnformattedComponentText().replaceAll("§(.)", ""));
         }
         text = new StringBuilder(text.toString().replaceAll("§(.)", ""));
         if (text.length() == 0)
