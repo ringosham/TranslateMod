@@ -33,12 +33,12 @@ public class SignTranslate extends Thread {
         //Silently fail. The Translator class should handle the exception
         if (translatedMessage == null)
             return;
-        String chatMessage = "[Sign] --> " + translatedMessage.getFromLanguage().getName() + ": " + translatedMessage.getMessage();
+        String chatMessage = "[Sign] --> " + translatedMessage.getSourceLanguage().getName() + ": " + translatedMessage.getMessage();
         String hoverText = "Sign location: " +
                 x + ", " + y + ", " + z +
                 "\n" +
                 "Translation: " +
-                translatedMessage.getFromLanguage().getName() + " -> " + ConfigManager.INSTANCE.getTargetLanguage().getName();
+                translatedMessage.getSourceLanguage().getName() + " -> " + ConfigManager.INSTANCE.getTargetLanguage().getName();
         ChatUtil.printChatMessageAdvanced(chatMessage, hoverText, ConfigManager.INSTANCE.isBold(), ConfigManager.INSTANCE.isItalic(), ConfigManager.INSTANCE.isUnderline(), EnumChatFormatting.getValueByName(ConfigManager.INSTANCE.getColor()));
     }
 }

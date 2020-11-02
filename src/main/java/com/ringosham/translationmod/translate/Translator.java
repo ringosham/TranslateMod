@@ -11,6 +11,7 @@ import com.ringosham.translationmod.translate.types.TranslateResult;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,8 @@ public class Translator extends Thread {
     private final Language from;
     private final Language to;
     private static final LinkedList<TranslationLog> translationLog = new LinkedList<>();
+    //Cache about 100 messages
+    private static final int CACHE_SIZE = 100;
 
     public Translator(String message, Language from, Language to) {
         this.message = message;
@@ -26,8 +29,12 @@ public class Translator extends Thread {
         this.to = to;
     }
 
-    public static LinkedList<TranslationLog> getTranslationLog() {
-        return translationLog;
+    //Limits how many messages to get from the full log
+    public static List<TranslationLog> getTranslationLog(int count) {
+        int begin = translationLog.size() - count;
+        if (begin < 0)
+            begin = 0;
+        return translationLog.subList(begin, translationLog.size());
     }
 
     //Parameter required for the raw content without any chat headers from the server
@@ -41,6 +48,12 @@ public class Translator extends Thread {
         rawMessage = rawMessage.trim();
         if (rawMessage.length() == 0)
             return null;
+        //Check if message already exist in cache
+        for (TranslationLog log : translationLog) {
+            if (rawMessage.equals(log.message) && to == log.result.getSourceLanguage()) {
+                return new TranslateResult(log.result.getMessage(), log.result.getSourceLanguage());
+            }
+        }
         if (!ConfigManager.INSTANCE.getUserKey().equals("") && !GooglePaidClient.getDisable()) {
             //Paid options go first.
             GooglePaidClient google = new GooglePaidClient();
@@ -106,6 +119,8 @@ public class Translator extends Thread {
             case 500:
                 Log.logger.error("Failed to determine source language: " + transRequest.getMessage());
                 break;
+            case 503:
+                Log.logger.error("Translation server not available at the moment");
             default:
                 Log.logger.error("Unknown error: " + transRequest.getMessage());
                 break;
@@ -153,12 +168,12 @@ public class Translator extends Thread {
         //Remove the chat header to get the actual content
         String rawMessage = messageTrim.replace(matcher.group(0), "");
         TranslateResult translatedMessage = translate(rawMessage);
-        addToLog(new TranslationLog(sender, rawMessage));
+        addToLog(new TranslationLog(sender, rawMessage, translatedMessage));
         if (translatedMessage == null)
             return;
         String fromStr = null;
-        if (translatedMessage.getFromLanguage() != null)
-            fromStr = translatedMessage.getFromLanguage().getName();
+        if (translatedMessage.getSourceLanguage() != null)
+            fromStr = translatedMessage.getSourceLanguage().getName();
         String chatMessage = sender + " --> " + (fromStr == null ? "Unknown" : fromStr) + ": " + translatedMessage.getMessage();
         String hoverText = "Sender: " +
                 sender +
@@ -173,17 +188,19 @@ public class Translator extends Thread {
 
     private void addToLog(TranslationLog log) {
         translationLog.add(log);
-        if (translationLog.size() > 15)
+        if (translationLog.size() > CACHE_SIZE)
             translationLog.pollFirst();
     }
 
     public static class TranslationLog {
         private final String sender;
         private final String message;
+        private final TranslateResult result;
 
-        public TranslationLog(String sender, String message) {
+        public TranslationLog(String sender, String message, TranslateResult result) {
             this.sender = sender;
             this.message = message;
+            this.result = result;
         }
 
         public String getMessage() {
@@ -192,6 +209,10 @@ public class Translator extends Thread {
 
         public String getSender() {
             return sender;
+        }
+
+        public TranslateResult getResult() {
+            return result;
         }
     }
 }

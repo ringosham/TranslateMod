@@ -21,8 +21,8 @@ public class RetranslateGui extends CommonGui {
 
     public RetranslateGui() {
         super(guiHeight, guiWidth);
-        //Cache the log. As the chat will overwrite the log.
-        logs = Translator.getTranslationLog();
+        //Cache the log within this gui instance. As the chat will overwrite the log.
+        logs = Translator.getTranslationLog(15);
     }
 
     @Override

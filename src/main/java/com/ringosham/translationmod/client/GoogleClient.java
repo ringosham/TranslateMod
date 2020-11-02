@@ -14,19 +14,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GoogleClient {
+public class GoogleClient extends RESTClient {
     //Google translate is a paid service. This is the secret free API for use of the web Google translate
-    private static final String baseUrl = "https://translate.googleapis.com/translate_a/single";
     private static boolean accessDenied = false;
+
+    public GoogleClient() {
+        super("https://translate.googleapis.com/translate_a/single");
+    }
 
     public static boolean isAccessDenied() {
         return accessDenied;
     }
 
-    public RequestResult translateAuto(String message, Language to) {
-        return translate(message, LangManager.getInstance().getAutoLang(), to);
-    }
-
+    @Override
     public RequestResult translate(String message, Language from, Language to) {
         Map<String, String> queryParam = new HashMap<>();
         String encodedMessage = null;
@@ -42,7 +42,7 @@ public class GoogleClient {
         queryParam.put("dt", "t");
         queryParam.put("q", encodedMessage);
         try {
-            RESTClient.Response response = RESTClient.INSTANCE.POST(baseUrl, queryParam);
+            Response response = POST(queryParam);
             //Usually Google would just return 429 if they deny access, but just in case it gives any other HTTP error codes
             if (response.getResponseCode() != 200) {
                 accessDenied = true;

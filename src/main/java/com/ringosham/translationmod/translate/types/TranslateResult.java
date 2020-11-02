@@ -15,7 +15,7 @@ public class TranslateResult {
         return message;
     }
 
-    public Language getFromLanguage() {
+    public Language getSourceLanguage() {
         return fromLanguage;
     }
 }

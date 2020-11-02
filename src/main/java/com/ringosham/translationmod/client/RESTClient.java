@@ -1,5 +1,8 @@
 package com.ringosham.translationmod.client;
 
+import com.ringosham.translationmod.client.types.Language;
+import com.ringosham.translationmod.client.types.RequestResult;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,11 +17,23 @@ import java.util.Map;
  * Due to Apache's HttpClient not able to decode the response entity correctly, the rest client is now written in pure Java.
  * See Github issue #1
  */
-public class RESTClient {
-    public static final RESTClient INSTANCE = new RESTClient();
+public abstract class RESTClient {
 
-    Response POST(String url, Map<String, String> queryParams) {
-        StringBuilder requestUrl = new StringBuilder(url);
+    protected final String baseUrl;
+
+    protected RESTClient(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public RequestResult translateAuto(String message, Language to) {
+        return translate(message, LangManager.getInstance().getAutoLang(), to);
+    }
+
+    public abstract RequestResult translate(String message, Language from, Language to);
+
+
+    protected Response POST(Map<String, String> queryParams) {
+        StringBuilder requestUrl = new StringBuilder(baseUrl);
         boolean firstParam = true;
         for (String key : queryParams.keySet()) {
             if (firstParam) {
