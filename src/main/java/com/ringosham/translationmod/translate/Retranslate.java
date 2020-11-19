@@ -32,8 +32,8 @@ public class Retranslate extends Thread {
             return;
         }
         String fromStr = null;
-        if (translatedMessage.getFromLanguage() != null)
-            fromStr = translatedMessage.getFromLanguage().getName();
+        if (translatedMessage.getSourceLanguage() != null)
+            fromStr = translatedMessage.getSourceLanguage().getName();
         String chatMessage = sender + " --> " + (fromStr == null ? "Unknown" : fromStr) + ": " + translatedMessage.getMessage();
         String hoverText = "Sender: " +
                 sender +
