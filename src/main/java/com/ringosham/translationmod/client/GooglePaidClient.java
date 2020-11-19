@@ -14,14 +14,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GooglePaidClient {
+public class GooglePaidClient extends RESTClient {
     //This is the Google cloud translation API service
     //Rather over complicating things by logging in via OAuth/gcloud, we will just use the API key option to access the API
     //Logging in via gcloud requires the gcloud library. It's too big and unnecessary for a mod this small.
     //While OAuth is definitely more secure, since users are likely to create their own "project" in Google cloud console,
     //it's easier to just use an API key and it's more portable and sharable.
-    private static final String baseUrl = "https://translation.googleapis.com/language/translate/v2";
     private static boolean disable = false;
+
+    public GooglePaidClient() {
+        super("https://translation.googleapis.com/language/translate/v2");
+    }
 
     public static void setDisable() {
         disable = true;
@@ -31,10 +34,7 @@ public class GooglePaidClient {
         return disable;
     }
 
-    public RequestResult translateAuto(String message, Language to) {
-        return translate(message, LangManager.getInstance().getAutoLang(), to);
-    }
-
+    @Override
     public RequestResult translate(String message, Language from, Language to) {
         Map<String, String> queryParam = new HashMap<>();
         String encodedMessage = null;
@@ -54,7 +54,7 @@ public class GooglePaidClient {
         if (from != LangManager.getInstance().getAutoLang()) {
             queryParam.put("source", from.getGoogleCode());
         }
-        RESTClient.Response response = RESTClient.INSTANCE.POST(baseUrl, queryParam);
+        Response response = POST(queryParam);
         String responseString = response.getEntity();
         Gson gson = new Gson();
         if (response.getResponseCode() == 200) {
