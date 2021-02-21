@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.client;
 
 import com.ringosham.translationmod.client.types.Language;
@@ -32,7 +49,7 @@ public abstract class RESTClient {
     public abstract RequestResult translate(String message, Language from, Language to);
 
 
-    protected Response POST(Map<String, String> queryParams) {
+    protected Response POST(Map<String, String> queryParams, String contentType) {
         StringBuilder requestUrl = new StringBuilder(baseUrl);
         boolean firstParam = true;
         for (String key : queryParams.keySet()) {
@@ -48,8 +65,9 @@ public abstract class RESTClient {
         try {
             URL request = new URL(requestUrl.toString());
             connection = (HttpsURLConnection) request.openConnection();
-            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Content-Type", contentType);
             connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
             connection.setConnectTimeout(5000);
             connection.connect();
             if (connection.getResponseCode() == 200) {

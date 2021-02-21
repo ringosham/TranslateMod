@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -42,7 +59,7 @@ public class ConfigGui extends CommonGui {
         regexTooltip.add(new StringTextComponent("If you notice the mod doesn't do anything on a server,"));
         regexTooltip.add(new StringTextComponent("chances are you need to add one here."));
         signTooltip.add(new StringTextComponent("Translates signs when you look at them"));
-        apiKeyTooltip.add(new StringTextComponent("Use your own API key for translation"));
+        apiKeyTooltip.add(new StringTextComponent("Change your translation engine options and enter your API key"));
         colorTooltip.add(new StringTextComponent("Changes the color of the translated message"));
         boldTooltip.add(new StringTextComponent("Bolds the translated message"));
         italicTooltip.add(new StringTextComponent("Italics the translated message"));
@@ -102,6 +119,13 @@ public class ConfigGui extends CommonGui {
         font.drawString(stack, "Target language:", getLeftMargin(), getYOrigin() + 55, 0x555555);
         font.drawString(stack, "Self language:", getLeftMargin(), getYOrigin() + 75, 0x555555);
         font.drawString(stack, "Speak as language:", getLeftMargin(), getYOrigin() + 95, 0x555555);
+        font.drawString(stack, "Preview: ", getLeftMargin(), getYOrigin() + 115, 0x555555);
+
+        Style previewStyle = Style.EMPTY.setFormatting(TextFormatting.getValueByName(color))
+                .mergeStyle(Style.EMPTY.setBold(bold))
+                .mergeStyle(Style.EMPTY.setItalic(italic))
+                .mergeStyle(Style.EMPTY.setUnderlined(underline));
+        font.func_243248_b(stack, new StringTextComponent("Notch --> English: Hello!").setStyle(previewStyle), getLeftMargin() + 45, getYOrigin() + 115, 0);
         //func_243308_b(MatrixStack, List<ITextComponent>, int, int) -> renderTooltip(...)
         //Target language
         if (this.buttons.get(2).isHovered())
@@ -163,7 +187,7 @@ public class ConfigGui extends CommonGui {
                     translateSign = !translateSign;
                     this.toggleButtonBool(translateSign, button);
                 }));
-        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, new StringTextComponent("API key"),
+        addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, new StringTextComponent("Engine options"),
                 (button) -> this.addKeyGui()));
         addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, new StringTextComponent(TextFormatting.getValueByName(color) + "Message color"),
                 this::rotateColor));
@@ -240,7 +264,7 @@ public class ConfigGui extends CommonGui {
 
     private void addKeyGui() {
         getMinecraft().keyboardListener.enableRepeatEvents(true);
-        getMinecraft().displayGuiScreen(new AddKeyGui());
+        getMinecraft().displayGuiScreen(new EngineGui());
     }
 
     private void resetDefault() {

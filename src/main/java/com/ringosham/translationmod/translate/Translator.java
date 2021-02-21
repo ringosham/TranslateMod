@@ -1,5 +1,23 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.translate;
 
+import com.ringosham.translationmod.client.BaiduClient;
 import com.ringosham.translationmod.client.GoogleClient;
 import com.ringosham.translationmod.client.GooglePaidClient;
 import com.ringosham.translationmod.client.types.Language;
@@ -54,32 +72,47 @@ public class Translator extends Thread {
                 return new TranslateResult(log.result.getMessage(), log.result.getSourceLanguage());
             }
         }
-        if (!ConfigManager.config.userKey.get().equals("") && !GooglePaidClient.getDisable()) {
-            //Paid options go first.
-            GooglePaidClient google = new GooglePaidClient();
-            RequestResult transRequest;
-            if (from == null)
-                transRequest = google.translateAuto(rawMessage, to);
-            else
-                transRequest = google.translate(rawMessage, from, to);
-            if (transRequest.getCode() != 200) {
-                logException(transRequest);
-                return null;
-            }
-            return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
-        } else if (!GoogleClient.isAccessDenied()) {
-            //Use free ones later
-            GoogleClient google = new GoogleClient();
-            RequestResult transRequest;
-            if (from == null)
-                transRequest = google.translateAuto(rawMessage, to);
-            else
-                transRequest = google.translate(rawMessage, from, to);
-            if (transRequest.getCode() != 200) {
-                logException(transRequest);
-                return null;
-            }
-            return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
+        switch (ConfigManager.config.translationEngine.get()) {
+            case "google":
+                if (!ConfigManager.config.googleKey.get().equals("") && !GooglePaidClient.getDisable()) {
+                    //Paid options go first.
+                    GooglePaidClient google = new GooglePaidClient();
+                    RequestResult transRequest;
+                    if (from == null)
+                        transRequest = google.translateAuto(rawMessage, to);
+                    else
+                        transRequest = google.translate(rawMessage, from, to);
+                    if (transRequest.getCode() != 200) {
+                        logException(transRequest);
+                        return null;
+                    }
+                    return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
+                } else if (!GoogleClient.isAccessDenied()) {
+                    //Use free ones later
+                    GoogleClient google = new GoogleClient();
+                    RequestResult transRequest;
+                    if (from == null)
+                        transRequest = google.translateAuto(rawMessage, to);
+                    else
+                        transRequest = google.translate(rawMessage, from, to);
+                    if (transRequest.getCode() != 200) {
+                        logException(transRequest);
+                        return null;
+                    }
+                    return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
+                }
+            case "baidu":
+                BaiduClient baidu = new BaiduClient();
+                RequestResult transRequest;
+                if (from == null)
+                    transRequest = baidu.translateAuto(rawMessage, to);
+                else
+                    transRequest = baidu.translate(rawMessage, from, to);
+                if (transRequest.getCode() != 200) {
+                    logException(transRequest);
+                    return null;
+                }
+                return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
         }
         //Otherwise ignore
         return null;
@@ -166,9 +199,9 @@ public class Translator extends Thread {
         //Remove the chat header to get the actual content
         String rawMessage = messageTrim.replace(matcher.group(0), "");
         TranslateResult translatedMessage = translate(rawMessage);
-        addToLog(new TranslationLog(sender, rawMessage, translatedMessage));
         if (translatedMessage == null)
             return;
+        addToLog(new TranslationLog(sender, rawMessage, translatedMessage));
         String fromStr = null;
         if (translatedMessage.getSourceLanguage() != null)
             fromStr = translatedMessage.getSourceLanguage().getName();

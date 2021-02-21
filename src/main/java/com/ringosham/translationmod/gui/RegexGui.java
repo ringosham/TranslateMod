@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.gui;
 
 import com.google.common.primitives.Ints;
@@ -361,7 +378,7 @@ public class RegexGui extends CommonGui {
         List<String> chatLog = new ArrayList<>();
         for (int i = 0; i < Math.min(fullChatLog.size(), 20); i++)
             //func_238169_a_() --> getITextComponent()
-            chatLog.add(fullChatLog.get(i).func_238169_a_().getUnformattedComponentText().replaceAll("§(.)", ""));
+            chatLog.add(fullChatLog.get(i).getLineString().getUnformattedComponentText().replaceAll("§(.)", ""));
         return chatLog;
     }
 
@@ -433,7 +450,6 @@ public class RegexGui extends CommonGui {
             this.hoverText = hoverText;
         }
 
-        @SuppressWarnings("NullableProblems")
         @Override
         public void render(MatrixStack stack, int mouseX, int mouseY, float tick) {
             GL11.glColor4f(1, 1, 1, 1);

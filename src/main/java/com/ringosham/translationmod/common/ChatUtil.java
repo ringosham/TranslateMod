@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.common;
 
 import com.ringosham.translationmod.TranslationMod;
@@ -17,7 +34,7 @@ public class ChatUtil {
 
     public static void printChatMessage(boolean addPrefix, String message, TextFormatting color) {
         //Color.func_240774_a_(TextFormatting) -> Color.fromTextFormatting(...)
-        Style style = Style.EMPTY.setColor(Color.func_240744_a_(color));
+        Style style = Style.EMPTY.setColor(Color.fromTextFormatting(color));
         Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage((new StringTextComponent((addPrefix ? prefix : "") + color + message).mergeStyle(style)));
     }
 

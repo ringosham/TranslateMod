@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.common;
 
 import com.google.common.primitives.Ints;
@@ -63,6 +80,7 @@ public class ConfigManager {
             1,
             3
     };
+    private static final String[] engines = {"google", "baidu"};
     //In case there are future updates that drastically change how the mod works. This variable would be here to check if the configs are out of date.
     private static final int configMinVersion = 1;
 
@@ -147,8 +165,11 @@ public class ConfigManager {
         config.underline.save();
         config.color.save();
         config.configMinVersion.save();
-        config.userKey.save();
+        config.googleKey.save();
         config.translateSign.save();
+        config.baiduKey.save();
+        config.baiduAppId.save();
+        config.translationEngine.save();
         validateConfig();
     }
 
@@ -162,9 +183,12 @@ public class ConfigManager {
         public final BooleanValue underline;
         public final ConfigValue<String> color;
         public final BooleanValue translateSign;
-        public final ConfigValue<String> userKey;
+        public final ConfigValue<String> googleKey;
         public final ConfigValue<List<String>> regexList;
         public final ConfigValue<List<Integer>> groupList;
+        public final ConfigValue<String> baiduAppId;
+        public final ConfigValue<String> baiduKey;
+        public final ConfigValue<String> translationEngine;
         final IntValue configMinVersion;
 
 
@@ -183,10 +207,16 @@ public class ConfigManager {
                 return colors.contains(c);
             });
             translateSign = builder.comment("Allows translating texts in sign by looking").define("translateSign", true);
-            userKey = builder.comment("Your personal translation key").define("userKey", "");
+            googleKey = builder.comment("Your Google Cloud translation API key").define("googleKey", "");
             //Not using forge to correct. It will just replace the entire list with the default.
             regexList = builder.comment("Your regex list").define("regexList", Arrays.asList(defaultRegex), o -> true);
             groupList = builder.comment("Your match group number to detect player names").define("groupList", Ints.asList(defaultGroups), o -> true);
+            baiduAppId = builder.comment("Your Baidu developer App ID").define("baiduAppId", "");
+            baiduKey = builder.comment("Your Baidu API key").define("baiduKey", "");
+            translationEngine = builder.comment("Translation engine used").define("translationEngine", "google", o -> {
+                String value = (String) o;
+                return Arrays.asList(engines).contains(value);
+            });
         }
 
         private boolean validateLang(String lang) {
