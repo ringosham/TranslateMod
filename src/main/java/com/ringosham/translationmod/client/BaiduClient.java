@@ -17,8 +17,12 @@
 
 package com.ringosham.translationmod.client;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.client.types.RequestResult;
+import com.ringosham.translationmod.client.types.baidu.TranslateError;
+import com.ringosham.translationmod.client.types.baidu.TranslateSuccess;
 import com.ringosham.translationmod.common.ConfigManager;
 
 import java.io.UnsupportedEncodingException;
@@ -64,12 +68,24 @@ public class BaiduClient extends RESTClient {
         Response response = POST(queryParam, "application/x-www-form-urlencoded");
         if (response.getResponseCode() == 200) {
             //Baidu does not follow standard REST response codes at all. It's 200 regardless of success or failure
+            //This is utterly retarded
             //wrrrrryyyyyyyyyy
+            Gson gson = new Gson();
+            JsonObject parse = gson.fromJson(response.getEntity(), JsonObject.class);
+            if (!parse.has("error_code")) {
+                //Success
+                TranslateSuccess success = gson.fromJson(response.getEntity(), TranslateSuccess.class);
+                Language sourceLang = LangManager.getInstance().findLanguageFromBaidu(success.getFrom());
+                return new RequestResult(response.getResponseCode(), success.getTrans_result()[0].getDstDecoded(), sourceLang, to);
+            } else {
+                //Error
+                TranslateError error = gson.fromJson(response.getEntity(), TranslateError.class);
+                return new RequestResult(error.getError_code(), null, null, null);
+            }
         } else {
-            //Most likely internal server error
+            //Most likely some arbitrary internal server error
+            return new RequestResult(response.getResponseCode(), null, null, null);
         }
-        //TODO Process response
-        return null;
     }
 
     private String sign(String appid, String q, String salt, String key) {

@@ -41,6 +41,8 @@ public class Translator extends Thread {
     //Cache about 100 messages
     private static final int CACHE_SIZE = 100;
 
+    private static boolean warnLimit = false;
+
     public Translator(String message, Language from, Language to) {
         this.message = message;
         this.from = from;
@@ -140,20 +142,58 @@ public class Translator extends Thread {
                 ChatUtil.printChatMessage(true, "Google translate has stopped responding. Pausing translations", TextFormatting.YELLOW);
                 break;
             case 403:
-                Log.logger.error("Exceeded API quota");
+                Log.logger.error("Google API >> Exceeded API quota");
                 ChatUtil.printChatMessage(true, "You have exceeded your quota. Please check your quota settings", TextFormatting.RED);
                 ChatUtil.printChatMessage(true, "Falling back to free version until you restart the game", TextFormatting.RED);
                 GooglePaidClient.setDisable();
                 break;
             case 400:
-                Log.logger.error("API key invalid");
+                Log.logger.error("Google API >> API key invalid");
                 ChatUtil.printChatMessage(true, "API key invalid. If you do not wish to use a key, please remove it from the settings", TextFormatting.RED);
                 break;
             case 500:
-                Log.logger.error("Failed to determine source language: " + transRequest.getMessage());
+                Log.logger.error("Google API >> Failed to determine source language: " + transRequest.getMessage());
+                break;
+            case 52001:
+                Log.logger.error("Baidu API >> Connection timeout");
+                break;
+            case 52002:
+                Log.logger.error("Baidu API >> Server side failure");
+                ChatUtil.printChatMessage(true, "Server side failure. Cannot translate", TextFormatting.RED);
+                break;
+            case 52003:
+                Log.logger.error("Baidu API >> Unauthorized request");
+                ChatUtil.printChatMessage(true, "Authentication failure. Please check your App ID and API key", TextFormatting.RED);
+                break;
+            case 54003:
+                Log.logger.warn("Baidu API >> Restricted request per second limit");
+                if (!warnLimit) {
+                    ChatUtil.printChatMessage(true, "Request restricted due to tier limits. Consider upgrading your plan", TextFormatting.YELLOW);
+                    warnLimit = true;
+                }
+                break;
+            case 54004:
+                Log.logger.error("Baidu API >> Not enough balance");
+                ChatUtil.printChatMessage(true, "Balance insufficient. Please go to Baidu's control panel to top up", TextFormatting.RED);
+                break;
+            case 54005:
+                Log.logger.error("Baidu API >> Request too large");
+                ChatUtil.printChatMessage(true, "Request denied due to size too large", TextFormatting.YELLOW);
+                break;
+            case 58001:
+                Log.logger.error("Baidu API >> Translation direction not support");
+                ChatUtil.printChatMessage(true, "Cannot translate from " + transRequest.getFrom().getName() + " to " + transRequest.getTo().getName(), TextFormatting.RED);
+                break;
+            case 58002:
+                Log.logger.error("Baidu API >> Translation service is not enabled");
+                ChatUtil.printChatMessage(true, "Translation service is not enabled. Please turn it on in Baidu's control panel", TextFormatting.RED);
+                break;
+            case 90107:
+                Log.logger.error("Baidu API >> Verification failed");
+                ChatUtil.printChatMessage(true, "Verification failed. Please check your verification status", TextFormatting.RED);
                 break;
             default:
-                Log.logger.error("Unknown error: " + transRequest.getMessage());
+                Log.logger.error("Unknown error/Server side failure: " + transRequest.getMessage());
                 break;
         }
     }
