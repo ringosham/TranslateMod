@@ -98,12 +98,13 @@ public class EngineGui extends CommonGui {
     @Override
     public void init() {
         getMinecraft().keyboardListener.enableRepeatEvents(true);
-        this.googleKeyBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15, new StringTextComponent(ConfigManager.config.googleKey.get()));
+        this.googleKeyBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15, null);
         googleKeyBox.setCanLoseFocus(true);
         googleKeyBox.setMaxStringLength(84);
         googleKeyBox.setEnableBackgroundDrawing(true);
+        googleKeyBox.setText(ConfigManager.config.googleKey.get());
         this.children.add(googleKeyBox);
-        this.baiduAppIdBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 75, guiWidth - 10, 15, new StringTextComponent(ConfigManager.config.baiduAppId.get())) {
+        this.baiduAppIdBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 75, guiWidth - 10, 15, null) {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 baiduKeyBox.setFocused2(false);
@@ -113,8 +114,9 @@ public class EngineGui extends CommonGui {
         baiduAppIdBox.setCanLoseFocus(true);
         baiduAppIdBox.setMaxStringLength(20);
         baiduAppIdBox.setEnableBackgroundDrawing(true);
+        baiduAppIdBox.setText(ConfigManager.config.baiduAppId.get());
         this.children.add(baiduAppIdBox);
-        this.baiduKeyBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 105, guiWidth - 10, 15, new StringTextComponent(ConfigManager.config.baiduKey.get())) {
+        this.baiduKeyBox = new TextFieldWidget(this.font, getLeftMargin(), getYOrigin() + 105, guiWidth - 10, 15, null) {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 super.onClick(mouseX, mouseY);
@@ -124,6 +126,7 @@ public class EngineGui extends CommonGui {
         baiduKeyBox.setCanLoseFocus(true);
         baiduKeyBox.setEnableBackgroundDrawing(true);
         baiduKeyBox.setMaxStringLength(24);
+        baiduKeyBox.setText(ConfigManager.config.baiduKey.get());
         this.children.add(baiduKeyBox);
 
         addButton(new Button(getLeftMargin(), getYOrigin() + 40, guiWidth / 2 - 10, regularButtonHeight, new StringTextComponent("Google"), (button) -> {
