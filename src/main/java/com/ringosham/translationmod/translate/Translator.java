@@ -30,6 +30,7 @@ import net.minecraft.util.text.TextFormatting;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -258,7 +259,9 @@ public class Translator extends Thread {
     }
 
     private void addToLog(TranslationLog log) {
-        translationLog.add(log);
+        //Prevent adding the same entry over and over
+        if (!translationLog.contains(log))
+            translationLog.add(log);
         if (translationLog.size() > CACHE_SIZE)
             translationLog.pollFirst();
     }
@@ -284,6 +287,19 @@ public class Translator extends Thread {
 
         public TranslateResult getResult() {
             return result;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            TranslationLog that = (TranslationLog) o;
+            return Objects.equals(sender, that.sender) && Objects.equals(message, that.message) && Objects.equals(result, that.result);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(sender, message, result);
         }
     }
 }

@@ -32,6 +32,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.glfw.GLFW;
@@ -376,9 +377,16 @@ public class RegexGui extends CommonGui {
         //For 1.7.10 debug use.
         //List<ChatLine> fullChatLog = ObfuscationReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getInstance().ingameGUI.getChatGUI(), "chatLines");
         List<String> chatLog = new ArrayList<>();
-        for (int i = 0; i < Math.min(fullChatLog.size(), 20); i++)
+        for (int i = 0; i < Math.min(fullChatLog.size(), 20); i++) {
             //func_238169_a_() --> getITextComponent()
-            chatLog.add(fullChatLog.get(i).getLineString().getUnformattedComponentText().replaceAll("§(.)", ""));
+            ITextComponent chatLine = fullChatLog.get(i).getLineString();
+            if (chatLine instanceof TranslationTextComponent) {
+                TranslationTextComponent ttc = (TranslationTextComponent) chatLine;
+                chatLog.add(ttc.getString().replaceAll("§(.)", ""));
+            } else {
+                chatLog.add(fullChatLog.get(i).getLineString().getUnformattedComponentText().replaceAll("§(.)", ""));
+            }
+        }
         return chatLog;
     }
 
