@@ -32,7 +32,6 @@ import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ConfigGui extends CommonGui {
     private static final int guiWidth = 250;
@@ -171,7 +170,6 @@ public class ConfigGui extends CommonGui {
             selfLang = LangManager.getInstance().findLanguageFromName(ConfigManager.config.selfLanguage.get());
             speakAsLang = LangManager.getInstance().findLanguageFromName(ConfigManager.config.speakAsLanguage.get());
         }
-        getMinecraft().keyboardListener.enableRepeatEvents(true);
         addButton(new Button(getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, new StringTextComponent("Save and close"),
                 (button) -> this.applySettings()));
         addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, new StringTextComponent("Reset to default"),
@@ -194,17 +192,17 @@ public class ConfigGui extends CommonGui {
         addButton(new Button(getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, smallButtonLength, smallButtonLength, new StringTextComponent(bold ? "\u00a7a" + TextFormatting.BOLD + "B" : "\u00a7c" + TextFormatting.BOLD + "B"),
                 (button) -> {
                     bold = !bold;
-                    this.toggleButtonBool(bold, button);
+                    this.toggleButtonBool(bold, button, TextFormatting.BOLD);
                 }));
         addButton(new Button(getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, smallButtonLength, smallButtonLength, new StringTextComponent(italic ? "\u00a7a" + TextFormatting.ITALIC + "I" : "\u00a7c" + TextFormatting.ITALIC + "I"),
                 (button) -> {
                     italic = !italic;
-                    this.toggleButtonBool(italic, button);
+                    this.toggleButtonBool(italic, button, TextFormatting.ITALIC);
                 }));
         addButton(new Button(getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 5 - regularButtonHeight, smallButtonLength, smallButtonLength, new StringTextComponent(underline ? "\u00a7a" + TextFormatting.UNDERLINE + "U" : "\u00a7c" + TextFormatting.UNDERLINE + "U"),
                 (button) -> {
                     underline = !underline;
-                    this.toggleButtonBool(underline, button);
+                    this.toggleButtonBool(underline, button, TextFormatting.UNDERLINE);
                 }));
         addButton(new Button(getRightMargin(regularButtonWidth), getYOrigin() + 20, regularButtonWidth, regularButtonHeight, new StringTextComponent("View / Add"),
                 (button) -> this.regexGui()));
@@ -231,29 +229,34 @@ public class ConfigGui extends CommonGui {
     }
 
     private void langSelect(int id) {
-        getMinecraft().keyboardListener.enableRepeatEvents(false);
         getMinecraft().displayGuiScreen(new LanguageSelectGui(this, id));
     }
 
-    private void toggleButtonBool(boolean state, Button button) {
-        getMinecraft().keyboardListener.enableRepeatEvents(false);
-        StringTextComponent buttonText = new StringTextComponent(button.getMessage().getUnformattedComponentText().replaceAll("§(.)", ""));
-        buttonText.setStyle(Style.EMPTY.setFormatting((state ? TextFormatting.GREEN : TextFormatting.RED)));
+    private void toggleButtonBool(boolean state, Button button, TextFormatting prefixFormat) {
+        String rawString = button.getMessage().getUnformattedComponentText().replaceAll("\u00a7(.)", "");
+        StringTextComponent buttonText;
+        TextFormatting color = state ? TextFormatting.GREEN : TextFormatting.RED;
+        if (prefixFormat == null) {
+            buttonText = new StringTextComponent(color + rawString);
+        } else {
+            buttonText = new StringTextComponent(prefixFormat + "" + color + rawString);
+        }
         button.setMessage(buttonText);
     }
 
+    private void toggleButtonBool(boolean state, Button button) {
+        toggleButtonBool(state, button, null);
+    }
+
+    @SuppressWarnings("ConstantConditions")
     private void rotateColor(Button button) {
-        getMinecraft().keyboardListener.enableRepeatEvents(false);
         TextFormatting formatColor = TextFormatting.getValueByName(color);
-        int colorCode = Objects.requireNonNull(formatColor).getColorIndex();
+        int colorCode = formatColor.getColorIndex();
         colorCode++;
-        if (colorCode == 16)
-            colorCode = 0;
+        colorCode = colorCode & 0xf;
         TextFormatting newColor = TextFormatting.fromColorIndex(colorCode);
-        assert newColor != null;
         color = newColor.getFriendlyName();
-        StringTextComponent buttonText = new StringTextComponent(button.getMessage().getUnformattedComponentText().replaceAll("§(.)", ""));
-        buttonText.setStyle(Style.EMPTY.setFormatting(newColor));
+        StringTextComponent buttonText = new StringTextComponent(newColor + button.getMessage().getUnformattedComponentText().replaceAll("\u00a7(.)", ""));
         button.setMessage(buttonText);
     }
 
