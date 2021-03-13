@@ -97,3 +97,4 @@ env/
 .idea/modules.xml
 bin/
 src/test/
+logs/
