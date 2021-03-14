@@ -1,5 +1,23 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.translate;
 
+import com.ringosham.translationmod.client.BaiduClient;
 import com.ringosham.translationmod.client.GoogleClient;
 import com.ringosham.translationmod.client.GooglePaidClient;
 import com.ringosham.translationmod.client.types.Language;
@@ -12,6 +30,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +41,8 @@ public class Translator extends Thread {
     private static final LinkedList<TranslationLog> translationLog = new LinkedList<>();
     //Cache about 100 messages
     private static final int CACHE_SIZE = 100;
+
+    private static boolean warnLimit = false;
 
     public Translator(String message, Language from, Language to) {
         this.message = message;
@@ -54,32 +75,47 @@ public class Translator extends Thread {
                 return new TranslateResult(log.result.getMessage(), log.result.getSourceLanguage());
             }
         }
-        if (!ConfigManager.INSTANCE.getUserKey().equals("") && !GooglePaidClient.getDisable()) {
-            //Paid options go first.
-            GooglePaidClient google = new GooglePaidClient();
-            RequestResult transRequest;
-            if (from == null)
-                transRequest = google.translateAuto(rawMessage, to);
-            else
-                transRequest = google.translate(rawMessage, from, to);
-            if (transRequest.getCode() != 200) {
-                logException(transRequest);
-                return null;
-            }
-            return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
-        } else if (!GoogleClient.isAccessDenied()) {
-            //Use free ones later
-            GoogleClient google = new GoogleClient();
-            RequestResult transRequest;
-            if (from == null)
-                transRequest = google.translateAuto(rawMessage, to);
-            else
-                transRequest = google.translate(rawMessage, from, to);
-            if (transRequest.getCode() != 200) {
-                logException(transRequest);
-                return null;
-            }
-            return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
+        switch (ConfigManager.INSTANCE.getTranslationEngine()) {
+            case "google":
+                if (!ConfigManager.INSTANCE.getGoogleKey().equals("") && !GooglePaidClient.getDisable()) {
+                    //Paid options go first.
+                    GooglePaidClient google = new GooglePaidClient();
+                    RequestResult transRequest;
+                    if (from == null)
+                        transRequest = google.translateAuto(rawMessage, to);
+                    else
+                        transRequest = google.translate(rawMessage, from, to);
+                    if (transRequest.getCode() != 200) {
+                        logException(transRequest);
+                        return null;
+                    }
+                    return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
+                } else if (!GoogleClient.isAccessDenied()) {
+                    //Use free ones later
+                    GoogleClient google = new GoogleClient();
+                    RequestResult transRequest;
+                    if (from == null)
+                        transRequest = google.translateAuto(rawMessage, to);
+                    else
+                        transRequest = google.translate(rawMessage, from, to);
+                    if (transRequest.getCode() != 200) {
+                        logException(transRequest);
+                        return null;
+                    }
+                    return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
+                }
+            case "baidu":
+                BaiduClient baidu = new BaiduClient();
+                RequestResult transRequest;
+                if (from == null)
+                    transRequest = baidu.translateAuto(rawMessage, to);
+                else
+                    transRequest = baidu.translate(rawMessage, from, to);
+                if (transRequest.getCode() != 200) {
+                    logException(transRequest);
+                    return null;
+                }
+                return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
         }
         //Otherwise ignore
         return null;
@@ -107,22 +143,58 @@ public class Translator extends Thread {
                 ChatUtil.printChatMessage(true, "Google translate has stopped responding. Pausing translations", EnumChatFormatting.YELLOW);
                 break;
             case 403:
-                Log.logger.error("Exceeded API quota");
+                Log.logger.error("Google API >> Exceeded API quota");
                 ChatUtil.printChatMessage(true, "You have exceeded your quota. Please check your quota settings", EnumChatFormatting.RED);
                 ChatUtil.printChatMessage(true, "Falling back to free version until you restart the game", EnumChatFormatting.RED);
                 GooglePaidClient.setDisable();
                 break;
             case 400:
-                Log.logger.error("API key invalid");
+                Log.logger.error("Google API >> API key invalid");
                 ChatUtil.printChatMessage(true, "API key invalid. If you do not wish to use a key, please remove it from the settings", EnumChatFormatting.RED);
                 break;
             case 500:
-                Log.logger.error("Failed to determine source language: " + transRequest.getMessage());
+                Log.logger.error("Google API >> Failed to determine source language: " + transRequest.getMessage());
                 break;
-            case 503:
-                Log.logger.error("Translation server not available at the moment");
+            case 52001:
+                Log.logger.error("Baidu API >> Connection timeout");
+                break;
+            case 52002:
+                Log.logger.error("Baidu API >> Server side failure");
+                ChatUtil.printChatMessage(true, "Server side failure. Cannot translate", EnumChatFormatting.RED);
+                break;
+            case 52003:
+                Log.logger.error("Baidu API >> Unauthorized request");
+                ChatUtil.printChatMessage(true, "Authentication failure. Please check your App ID and API key", EnumChatFormatting.RED);
+                break;
+            case 54003:
+                Log.logger.warn("Baidu API >> Restricted request per second limit");
+                if (!warnLimit) {
+                    ChatUtil.printChatMessage(true, "Request restricted due to tier limits. Consider upgrading your plan", EnumChatFormatting.YELLOW);
+                    warnLimit = true;
+                }
+                break;
+            case 54004:
+                Log.logger.error("Baidu API >> Not enough balance");
+                ChatUtil.printChatMessage(true, "Balance insufficient. Please go to Baidu's control panel to top up", EnumChatFormatting.RED);
+                break;
+            case 54005:
+                Log.logger.error("Baidu API >> Request too large");
+                ChatUtil.printChatMessage(true, "Request denied due to size too large", EnumChatFormatting.YELLOW);
+                break;
+            case 58001:
+                Log.logger.error("Baidu API >> Translation direction not support");
+                ChatUtil.printChatMessage(true, "Cannot translate from " + transRequest.getFrom().getName() + " to " + transRequest.getTo().getName(), EnumChatFormatting.RED);
+                break;
+            case 58002:
+                Log.logger.error("Baidu API >> Translation service is not enabled");
+                ChatUtil.printChatMessage(true, "Translation service is not enabled. Please turn it on in Baidu's control panel", EnumChatFormatting.RED);
+                break;
+            case 90107:
+                Log.logger.error("Baidu API >> Verification failed");
+                ChatUtil.printChatMessage(true, "Verification failed. Please check your verification status", EnumChatFormatting.RED);
+                break;
             default:
-                Log.logger.error("Unknown error: " + transRequest.getMessage());
+                Log.logger.error("Unknown error/Server side failure: " + transRequest.getMessage());
                 break;
         }
     }
@@ -168,9 +240,9 @@ public class Translator extends Thread {
         //Remove the chat header to get the actual content
         String rawMessage = messageTrim.replace(matcher.group(0), "");
         TranslateResult translatedMessage = translate(rawMessage);
-        addToLog(new TranslationLog(sender, rawMessage, translatedMessage));
         if (translatedMessage == null)
             return;
+        addToLog(new TranslationLog(sender, rawMessage, translatedMessage));
         String fromStr = null;
         if (translatedMessage.getSourceLanguage() != null)
             fromStr = translatedMessage.getSourceLanguage().getName();
@@ -187,7 +259,9 @@ public class Translator extends Thread {
     }
 
     private void addToLog(TranslationLog log) {
-        translationLog.add(log);
+        //Prevent adding the same entry over and over
+        if (!translationLog.contains(log))
+            translationLog.add(log);
         if (translationLog.size() > CACHE_SIZE)
             translationLog.pollFirst();
     }
@@ -213,6 +287,19 @@ public class Translator extends Thread {
 
         public TranslateResult getResult() {
             return result;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            TranslationLog that = (TranslationLog) o;
+            return Objects.equals(sender, that.sender) && Objects.equals(message, that.message) && Objects.equals(result, that.result);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(sender, message, result);
         }
     }
 }

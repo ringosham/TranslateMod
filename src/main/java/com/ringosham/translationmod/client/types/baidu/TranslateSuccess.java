@@ -15,34 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.ringosham.translationmod.client.types;
+package com.ringosham.translationmod.client.types.baidu;
 
-public class Language {
-    private final String name;
-    private final String nameUnicode;
-    private final String googleCode;
-    private final String baiduCode;
+public class TranslateSuccess {
+    private String from;
+    private String to;
+    private TranslateResult[] trans_result;
 
-    public Language(String name, String nameUnicode, String googleCode, String baiduCode) {
-        this.name = name;
-        this.nameUnicode = nameUnicode;
-        this.googleCode = googleCode;
-        this.baiduCode = baiduCode;
+    public String getFrom() {
+        return from;
     }
 
-    public String getName() {
-        return name;
+    public String getTo() {
+        return to;
     }
 
-    public String getNameUnicode() {
-        return nameUnicode;
-    }
-
-    public String getGoogleCode() {
-        return googleCode;
-    }
-
-    public String getBaiduCode() {
-        return baiduCode;
+    public TranslateResult[] getTrans_result() {
+        return trans_result;
     }
 }

@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.client.LangManager;
@@ -45,7 +62,7 @@ public class ConfigGui extends CommonGui {
         regexTooltip.add("Regex are patterns for the mod to detect chat messages.");
         regexTooltip.add("If you notice the mod doesn't do anything on a server,");
         regexTooltip.add("chances are you need to add one here.");
-        apiKeyTooltip.add("Use your own API key for translation");
+        apiKeyTooltip.add("Change your translation engine options and enter your API key");
         colorTooltip.add("Changes the color of the translated message");
         boldTooltip.add("Bolds the translated message");
         italicTooltip.add("Italics the translated message");
@@ -92,6 +109,16 @@ public class ConfigGui extends CommonGui {
         fontRendererObj.drawString("Target language:", getLeftMargin(), getYOrigin() + 55, 0x555555);
         fontRendererObj.drawString("Self language:", getLeftMargin(), getYOrigin() + 75, 0x555555);
         fontRendererObj.drawString("Speak as language:", getLeftMargin(), getYOrigin() + 95, 0x555555);
+        fontRendererObj.drawString("Preview: ", getLeftMargin(), getYOrigin() + 115, 0x555555);
+        StringBuilder builder = new StringBuilder();
+        builder.append(EnumChatFormatting.getValueByName(color));
+        if (bold)
+            builder.append(EnumChatFormatting.BOLD);
+        if (italic)
+            builder.append(EnumChatFormatting.ITALIC);
+        if (underline)
+            builder.append(EnumChatFormatting.UNDERLINE);
+        fontRendererObj.drawString(builder.toString() + "Notch --> English: Hello!", getLeftMargin() + 45, getYOrigin() + 115, 0);
         //Target language
         if (((GuiButton) this.buttonList.get(2)).isMouseOver())
             drawHoveringText(Collections.singletonList(targetTooltip), x, y);
@@ -144,7 +171,7 @@ public class ConfigGui extends CommonGui {
         this.buttonList.add(new GuiButton(3, getRightMargin(regularButtonWidth), getYOrigin() + 70, regularButtonWidth, regularButtonHeight, selfLang.getName()));
         this.buttonList.add(new GuiButton(4, getRightMargin(regularButtonWidth), getYOrigin() + 90, regularButtonWidth, regularButtonHeight, speakAsLang.getName()));
         this.buttonList.add(new GuiButton(5, getLeftMargin(), getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, regularButtonWidth, regularButtonHeight, translateSign ? EnumChatFormatting.GREEN + "Translate signs" : EnumChatFormatting.RED + "Translate signs"));
-        this.buttonList.add(new GuiButton(6, getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "User key"));
+        this.buttonList.add(new GuiButton(6, getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Engine options"));
         this.buttonList.add(new GuiButton(7, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, EnumChatFormatting.getValueByName(color) + "Message color"));
         this.buttonList.add(new GuiButton(8, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, smallButtonLength, smallButtonLength, bold ? "\u00a7a" + EnumChatFormatting.BOLD + "B" : "\u00a7c" + EnumChatFormatting.BOLD + "B"));
         this.buttonList.add(new GuiButton(9, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, smallButtonLength, smallButtonLength, italic ? "\u00a7a" + EnumChatFormatting.ITALIC + "I" : "\u00a7c" + EnumChatFormatting.ITALIC + "I"));
@@ -181,7 +208,7 @@ public class ConfigGui extends CommonGui {
                 translateSign = !translateSign;
                 break;
             case 6:
-                mc.displayGuiScreen(new AddKeyGui());
+                mc.displayGuiScreen(new EngineGui());
                 break;
             case 7:
                 EnumChatFormatting formatColor = EnumChatFormatting.getValueByName(color);
@@ -189,8 +216,7 @@ public class ConfigGui extends CommonGui {
                 //Treat the formatting character as hex. Just so happens there are 16 colors and each are represented with a base 16 number
                 int colorCode = Integer.parseInt(Character.toString(c), 16);
                 colorCode++;
-                if (colorCode == 16)
-                    colorCode = 0;
+                colorCode = colorCode & 0xf;
                 //Convert back to Enum
                 char hexColor = Integer.toHexString(colorCode).charAt(0);
                 EnumChatFormatting newColor = ChatUtil.getFormattingFromChar(hexColor);

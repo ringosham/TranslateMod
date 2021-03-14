@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.common;
 
 import com.google.common.primitives.Ints;
@@ -59,6 +76,7 @@ public class ConfigManager {
             1,
             3
     };
+    private static final String[] engines = {"google", "baidu"};
     //In case there are future updates that drastically change how the mod works. This variable would be here to check if the configs are out of date.
     private static final int configMinVersion = 1;
     private Configuration config;
@@ -70,9 +88,12 @@ public class ConfigManager {
     private boolean underline;
     private String color;
     private boolean translateSign;
-    private String userKey;
     private List<String> regexList;
     private List<Integer> groupList;
+    private String translationEngine;
+    private String googleKey;
+    private String baiduKey;
+    private String baiduAppId;
 
     private ConfigManager() {
     }
@@ -98,9 +119,12 @@ public class ConfigManager {
         underline = config.getBoolean("underline", Configuration.CATEGORY_GENERAL, false, "Underline the translated message");
         color = config.getString("color", Configuration.CATEGORY_GENERAL, "gray", "Changes the color of the translated message");
         translateSign = config.getBoolean("translateSign", Configuration.CATEGORY_GENERAL, true, "Allows translating texts in sign by looking");
-        userKey = config.getString("userKey", Configuration.CATEGORY_GENERAL, "", "Your personal translation key");
         regexList = Arrays.asList(config.getStringList("regexList", Configuration.CATEGORY_GENERAL, defaultRegex, "Your regex list"));
         groupList = Ints.asList(config.get("groupList", Configuration.CATEGORY_GENERAL, defaultGroups, "Your match group number to detect player names").getIntList());
+        translationEngine = config.getString("translationEngine", Configuration.CATEGORY_GENERAL, engines[0], "Translation engine used");
+        googleKey = config.getString("googleKey", Configuration.CATEGORY_GENERAL, "", "Your Google Cloud translation API key");
+        baiduKey = config.getString("baiduKey", Configuration.CATEGORY_GENERAL, "", "Your Baidu translation API key");
+        baiduAppId = config.getString("baiduAppId", Configuration.CATEGORY_GENERAL, "", "Your Baidu developer app ID");
 
         //Validations to prevent dumbasses messing with the mod config through notepad
         //Only string validations are needed. Other primitives would be dealt with by forge
@@ -142,43 +166,9 @@ public class ConfigManager {
             }
             index++;
         }
-        /*
-           Filter duplicate regex
-           Each regex is paired with a group number, so when removing a regex. The group number needs to be removed as well
-           The config file does not support map values or tuples, so they are stored as two separate arrays which is an absolute pain to get them working together
-           Normally to remove exact duplicates you can use Set<>, but since there are group numbers we can't use that as we need to know the index number in both arrays.
-        */
-        regexIt = regexList.iterator();
-        int iterAIndex = 0;
-        int iterBIndex;
-        while (regexIt.hasNext()) {
-            String regex = regexIt.next();
-            Iterator<String> regexIt2 = regexList.iterator();
-            for (int i = 0; i <= iterAIndex; i++)
-                regexIt2.next();
-            iterBIndex = iterAIndex + 1;
-            //Shift the iterator by how many times iterator A called next() + 1.
-            regexIt2.next();
-            while (regexIt2.hasNext()) {
-                String regex2 = regexIt2.next();
-                //Removes the entry.
-                if (regex.equals(regex2)) {
-                    valid = false;
-                    regexList.remove(iterBIndex);
-                    groupList.remove(iterBIndex);
-                    //Array shifted by one after removal
-                    iterBIndex--;
-                }
-                iterBIndex++;
-            }
-            iterAIndex++;
-            //Stop at the second to last index
-            if (iterAIndex == regexList.size() - 1)
-                break;
-        }
 
         //Validates the color.
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "rawtypes"})
         ArrayList colors = new ArrayList<>(EnumChatFormatting.getValidValues(true, false));
         if (!colors.contains(color)) {
             color = "gray";
@@ -189,6 +179,9 @@ public class ConfigManager {
             setGroupList(groupList);
             config.save();
             syncConfig();
+        }
+        if (!Arrays.asList(engines).contains(translationEngine)) {
+            setTranslationEngine(engines[0]);
         }
         config.save();
     }
@@ -209,6 +202,7 @@ public class ConfigManager {
             setRegexList(Arrays.asList(defaultRegex));
             setGroupList(Ints.asList(defaultGroups));
             prop.set(configMinVersion);
+            setTranslationEngine(engines[0]);
         }
     }
 
@@ -307,16 +301,6 @@ public class ConfigManager {
         config.save();
     }
 
-    public String getUserKey() {
-        return userKey;
-    }
-
-    public void setUserKey(String userKey) {
-        this.userKey = userKey;
-        config.get(Configuration.CATEGORY_GENERAL, "userKey", "", "Your personal translation key").set(userKey);
-        config.save();
-    }
-
     public List<String> getRegexList() {
         return regexList;
     }
@@ -335,7 +319,47 @@ public class ConfigManager {
     public void setGroupList(List<Integer> groupList) {
         this.groupList = groupList;
         int[] array = Ints.toArray(groupList);
-        config.get("groupList", Configuration.CATEGORY_GENERAL, defaultGroups, "Your match group number to detect player names").set(array);
+        config.get(Configuration.CATEGORY_GENERAL, "groupList", defaultGroups, "Your match group number to detect player names").set(array);
+        config.save();
+    }
+
+    public String getTranslationEngine() {
+        return translationEngine;
+    }
+
+    public void setTranslationEngine(String translationEngine) {
+        this.translationEngine = translationEngine;
+        config.get(Configuration.CATEGORY_GENERAL, "translationEngine", translationEngine, "Translation engine used").set(translationEngine);
+        config.save();
+    }
+
+    public String getGoogleKey() {
+        return googleKey;
+    }
+
+    public void setGoogleKey(String googleKey) {
+        this.googleKey = googleKey;
+        config.get(Configuration.CATEGORY_GENERAL, "googleKey", googleKey, "Your Google Cloud translation API key").set(googleKey);
+        config.save();
+    }
+
+    public String getBaiduKey() {
+        return baiduKey;
+    }
+
+    public void setBaiduKey(String baiduKey) {
+        this.baiduKey = baiduKey;
+        config.get(Configuration.CATEGORY_GENERAL, "baiduKey", baiduKey, "Your Baidu translation API key").set(baiduKey);
+        config.save();
+    }
+
+    public String getBaiduAppId() {
+        return baiduAppId;
+    }
+
+    public void setBaiduAppId(String baiduAppId) {
+        this.baiduAppId = baiduAppId;
+        config.get(Configuration.CATEGORY_GENERAL, "baiduAppId", baiduAppId, "Your Baidu developer app ID").set(baiduAppId);
         config.save();
     }
 
