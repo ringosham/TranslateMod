@@ -150,6 +150,7 @@ public class ConfigManager {
             config.regexList.set(Arrays.asList(defaultRegex));
             config.groupList.set(Ints.asList(defaultGroups));
             config.configMinVersion.set(configMinVersion);
+            config.translationEngine.set(engines[0]);
         }
     }
 
