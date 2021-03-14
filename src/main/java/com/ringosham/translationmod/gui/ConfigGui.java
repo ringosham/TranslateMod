@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.TranslationMod;
@@ -6,6 +23,7 @@ import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 
@@ -46,7 +64,7 @@ public class ConfigGui extends CommonGui {
         regexTooltip.add("Regex are patterns for the mod to detect chat messages.");
         regexTooltip.add("If you notice the mod doesn't do anything on a server,");
         regexTooltip.add("chances are you need to add one here.");
-        apiKeyTooltip.add("Use your own API key for translation");
+        apiKeyTooltip.add("Change your translation engine options and enter your API key");
         colorTooltip.add("Changes the color of the translated message");
         boldTooltip.add("Bolds the translated message");
         italicTooltip.add("Italics the translated message");
@@ -85,6 +103,7 @@ public class ConfigGui extends CommonGui {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void drawScreen(int x, int y, float tick) {
         super.drawScreen(x, y, tick);
@@ -93,6 +112,12 @@ public class ConfigGui extends CommonGui {
         fontRenderer.drawString("Target language:", getLeftMargin(), getYOrigin() + 55, 0x555555);
         fontRenderer.drawString("Self language:", getLeftMargin(), getYOrigin() + 75, 0x555555);
         fontRenderer.drawString("Speak as language:", getLeftMargin(), getYOrigin() + 95, 0x555555);
+        fontRenderer.drawString("Preview: ", getLeftMargin(), getYOrigin() + 115, 0x555555);
+        Style previewStyle = new Style().setColor(TextFormatting.getValueByName(color))
+                .setBold(bold)
+                .setItalic(italic)
+                .setUnderlined(underline);
+        fontRenderer.drawString(previewStyle.getFormattingCode() + "Notch --> English: Hello!", getLeftMargin() + 45, getYOrigin() + 115, 0);
         //Target language
         if (this.buttonList.get(2).isMouseOver())
             drawHoveringText(targetTooltip, x, y);
@@ -144,7 +169,7 @@ public class ConfigGui extends CommonGui {
         this.buttonList.add(new GuiButton(3, getRightMargin(regularButtonWidth), getYOrigin() + 70, regularButtonWidth, regularButtonHeight, selfLang.getName()));
         this.buttonList.add(new GuiButton(4, getRightMargin(regularButtonWidth), getYOrigin() + 90, regularButtonWidth, regularButtonHeight, speakAsLang.getName()));
         this.buttonList.add(new GuiButton(5, getLeftMargin(), getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, regularButtonWidth, regularButtonHeight, translateSign ? TextFormatting.GREEN + "Translate signs" : TextFormatting.RED + "Translate signs"));
-        this.buttonList.add(new GuiButton(6, getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "User key"));
+        this.buttonList.add(new GuiButton(6, getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Engine options"));
         this.buttonList.add(new GuiButton(7, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, TextFormatting.getValueByName(color) + "Message color"));
         this.buttonList.add(new GuiButton(8, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 15 - regularButtonHeight * 3, smallButtonLength, smallButtonLength, bold ? "\u00a7a" + TextFormatting.BOLD + "B" : "\u00a7c" + TextFormatting.BOLD + "B"));
         this.buttonList.add(new GuiButton(9, getLeftMargin() + regularButtonWidth + 10, getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, smallButtonLength, smallButtonLength, italic ? "\u00a7a" + TextFormatting.ITALIC + "I" : "\u00a7c" + TextFormatting.ITALIC + "I"));
@@ -181,7 +206,7 @@ public class ConfigGui extends CommonGui {
                 translateSign = !translateSign;
                 break;
             case 6:
-                mc.displayGuiScreen(new AddKeyGui());
+                mc.displayGuiScreen(new EngineGui());
                 break;
             case 7:
                 TextFormatting formatColor = TextFormatting.getValueByName(color);

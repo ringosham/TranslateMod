@@ -15,34 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.ringosham.translationmod.client.types;
+package com.ringosham.translationmod.client.types.baidu;
 
-public class Language {
-    private final String name;
-    private final String nameUnicode;
-    private final String googleCode;
-    private final String baiduCode;
+import org.apache.commons.lang3.StringEscapeUtils;
 
-    public Language(String name, String nameUnicode, String googleCode, String baiduCode) {
-        this.name = name;
-        this.nameUnicode = nameUnicode;
-        this.googleCode = googleCode;
-        this.baiduCode = baiduCode;
+public class TranslateResult {
+    private String src;
+    private String dst;
+
+    public String getSrc() {
+        return src;
     }
 
-    public String getName() {
-        return name;
+    public String getDst() {
+        return dst;
     }
 
-    public String getNameUnicode() {
-        return nameUnicode;
+    //Uses deprecated class but it should work for our case
+    //Importing a library just for one method is stupid
+    public String getSrcDecoded() {
+        return StringEscapeUtils.unescapeJson(src);
     }
 
-    public String getGoogleCode() {
-        return googleCode;
-    }
-
-    public String getBaiduCode() {
-        return baiduCode;
+    public String getDstDecoded() {
+        return StringEscapeUtils.unescapeJson(dst);
     }
 }
