@@ -133,7 +133,7 @@
   },
   {
     "name": "Hebrew",
-    "googleCode": "iw",
+    "googleCode": "he",
     "baiduCode": "heb",
     "nameUnicode": "עברית"
   },
@@ -493,7 +493,7 @@
   },
   {
     "name": "Javanese",
-    "googleCode": "jw",
+    "googleCode": "jv",
     "baiduCode": "jav",
     "nameUnicode": "Jawa"
   },
@@ -502,5 +502,161 @@
     "googleCode": "ja",
     "baiduCode": "jp",
     "nameUnicode": "日本語"
+  },
+  {
+    "name": "Amharic",
+    "googleCode": "am",
+    "baiduCode": "amh",
+    "nameUnicode": "\u12a0\u121b\u122d\u129b"
+  },
+  {
+    "name": "Corsican",
+    "googleCode": "co",
+    "baiduCode": "cos",
+    "nameUnicode": "Corsu"
+  },
+  {
+    "name": "Frisian",
+    "googleCode": "fy",
+    "baiduCode": "fry",
+    "nameUnicode": "Frysk"
+  },
+  {
+    "name": "Hausa",
+    "googleCode": "ha",
+    "baiduCode": "hau",
+    "nameUnicode": null
+  },
+  {
+    "name": "Hawaiian",
+    "googleCode": "haw",
+    "baiduCode": "haw",
+    "nameUnicode": "\u014clelo Hawai\u02bbi"
+  },
+  {
+    "name": "Hmong",
+    "googleCode": "hmn",
+    "baiduCode": null,
+    "nameUnicode": null
+  },
+  {
+    "name": "Igbo",
+    "googleCode": "ig",
+    "baiduCode": "ibo",
+    "nameUnicode": null
+  },
+  {
+    "name": "Khmer",
+    "googleCode": "km",
+    "baiduCode": null,
+    "nameUnicode": "\u1781\u17d2\u1798\u17c2\u179a"
+  },
+  {
+    "name": "Kinyarwanda",
+    "googleCode": "rw",
+    "baiduCode": "kin",
+    "nameUnicode": null
+  },
+  {
+    "name": "Kurdish",
+    "googleCode": "ku",
+    "baiduCode": "kur",
+    "nameUnicode": "Kurd\u00ee"
+  },
+  {
+    "name": "Lao",
+    "googleCode": "lo",
+    "baiduCode": "lao",
+    "nameUnicode": "\u0ea5\u0eb2\u0ea7"
+  },
+  {
+    "name": "Luxembourgish",
+    "googleCode": "lb",
+    "baiduCode": "ltz",
+    "nameUnicode": "L\u00ebtzebuergesch"
+  },
+  {
+    "name": "Myanmar (Burmese)",
+    "googleCode": "my",
+    "baiduCode": "bur",
+    "nameUnicode": "\u1019\u103c\u1014\u103a\u1019\u102c (\u1019\u103c\u1014\u103a\u1019\u102c)"
+  },
+  {
+    "name": "Nyanja (Chichewa)",
+    "googleCode": "ny",
+    "baiduCode": "nya",
+    "nameUnicode": null
+  },
+  {
+    "name": "Odia (Oriya)",
+    "googleCode": "or",
+    "baiduCode": "ori",
+    "nameUnicode": "\u0b13\u0b21\u0b3f\u0b06 (\u0b13\u0b21\u0b3f\u0b06)"
+  },
+  {
+    "name": "Pashto",
+    "googleCode": "ps",
+    "baiduCode": "pus",
+    "nameUnicode": "\u067e\u069a\u062a\u0648"
+  },
+  {
+    "name": "Samoan",
+    "googleCode": "sm",
+    "baiduCode": "sm",
+    "nameUnicode": "Faasamoa"
+  },
+  {
+    "name": "Sesotho",
+    "googleCode": "st",
+    "baiduCode": null,
+    "nameUnicode": null
+  },
+  {
+    "name": "Shona",
+    "googleCode": "sn",
+    "baiduCode": "sna",
+    "nameUnicode": null
+  },
+  {
+    "name": "Sindhi",
+    "googleCode": "sd",
+    "baiduCode": "snd",
+    "nameUnicode": "\u0633\u0646\u068c\u064a"
+  },
+  {
+    "name": "Somali",
+    "googleCode": "so",
+    "baiduCode": "som",
+    "nameUnicode": "Soomaali"
+  },
+  {
+    "name": "Turkmen",
+    "googleCode": "tk",
+    "baiduCode": "tuk",
+    "nameUnicode": "T\u00fcrkmenler"
+  },
+  {
+    "name": "Uyghur",
+    "googleCode": "ug",
+    "baiduCode": null,
+    "nameUnicode": "\u0626\u06c7\u064a\u063a\u06c7\u0631"
+  },
+  {
+    "name": "Xhosa",
+    "googleCode": "xh",
+    "baiduCode": "xho",
+    "nameUnicode": "isiXhosa"
+  },
+  {
+    "name": "Yoruba",
+    "googleCode": "yo",
+    "baiduCode": "yor",
+    "nameUnicode": null
+  },
+  {
+    "name": "Zulu",
+    "googleCode": "zu",
+    "baiduCode": "zul",
+    "nameUnicode": null
   }
 ]

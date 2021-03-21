@@ -36,6 +36,7 @@ import java.util.Map;
 public class BaiduClient extends RESTClient {
 
     private static final char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    public static final int LANGUAGE_NOT_SUPPORTED = 100000;
 
     public BaiduClient() {
         super("https://fanyi-api.baidu.com/api/trans/vip/translate");
@@ -43,6 +44,9 @@ public class BaiduClient extends RESTClient {
 
     @Override
     public RequestResult translate(String message, Language from, Language to) {
+        //Compatibility check. Some languages are not supported by Baidu. (Such as Uyghur for... obvious reasons)
+        if (from.getBaiduCode() == null || to.getBaiduCode() == null)
+            return new RequestResult(LANGUAGE_NOT_SUPPORTED, null, null, null);
         Map<String, String> queryParam = new HashMap<>();
         String encodedMessage = null;
         //Percent encode message

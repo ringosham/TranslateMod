@@ -143,8 +143,8 @@ public class Translator extends Thread {
                 ChatUtil.printChatMessage(true, "Google translate has stopped responding. Pausing translations", TextFormatting.YELLOW);
                 break;
             case 403:
-                Log.logger.error("Google API >> Exceeded API quota");
-                ChatUtil.printChatMessage(true, "You have exceeded your quota. Please check your quota settings", TextFormatting.RED);
+                Log.logger.error("Google API >> Exceeded API quota / User rate limit reached");
+                ChatUtil.printChatMessage(true, "You have exceeded your quota / rate limit. Please check your quota settings", TextFormatting.RED);
                 ChatUtil.printChatMessage(true, "Falling back to free version until you restart the game", TextFormatting.RED);
                 GooglePaidClient.setDisable();
                 break;
@@ -154,6 +154,7 @@ public class Translator extends Thread {
                 break;
             case 500:
                 Log.logger.error("Google API >> Failed to determine source language: " + transRequest.getMessage());
+                ChatUtil.printChatMessage(true, "Server side failure. Cannot translate", TextFormatting.RED);
                 break;
             case 52001:
                 Log.logger.error("Baidu API >> Connection timeout");
@@ -181,8 +182,11 @@ public class Translator extends Thread {
                 Log.logger.error("Baidu API >> Request too large");
                 ChatUtil.printChatMessage(true, "Request denied due to size too large", TextFormatting.YELLOW);
                 break;
+            case 58000:
+                Log.logger.error("Baidu API >> Client IP is not whitelisted");
+                ChatUtil.printChatMessage(true, "Request denied due to client IP not whitelisted. Please add your IP or remove whitelisting in the Baidu control panel", TextFormatting.RED);
             case 58001:
-                Log.logger.error("Baidu API >> Translation direction not support");
+                Log.logger.error("Baidu API >> Translation direction not supported");
                 ChatUtil.printChatMessage(true, "Cannot translate from " + transRequest.getFrom().getName() + " to " + transRequest.getTo().getName(), TextFormatting.RED);
                 break;
             case 58002:
@@ -193,6 +197,9 @@ public class Translator extends Thread {
                 Log.logger.error("Baidu API >> Verification failed");
                 ChatUtil.printChatMessage(true, "Verification failed. Please check your verification status", TextFormatting.RED);
                 break;
+            case BaiduClient.LANGUAGE_NOT_SUPPORTED:
+                Log.logger.error("Baidu API >> Language not supported");
+                ChatUtil.printChatMessage(true, "Selected language is not supported by your translation engine", TextFormatting.RED);
             default:
                 Log.logger.error("Unknown error/Server side failure: " + transRequest.getMessage());
                 break;
