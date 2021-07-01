@@ -58,7 +58,7 @@ public class GoogleClient extends RESTClient {
         queryParam.put("dt", "t");
         queryParam.put("q", encodedMessage);
         try {
-            Response response = POST(queryParam, "application/json");
+            Response response = sendRequest("GET", queryParam, "application/json");
             //Usually Google would just return 429 if they deny access, but just in case it gives any other HTTP error codes
             if (response.getResponseCode() != 200) {
                 accessDenied = true;

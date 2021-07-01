@@ -49,7 +49,7 @@ public abstract class RESTClient {
     public abstract RequestResult translate(String message, Language from, Language to);
 
 
-    protected Response POST(Map<String, String> queryParams, String contentType) {
+    protected Response sendRequest(String method, Map<String, String> queryParams, String contentType) {
         StringBuilder requestUrl = new StringBuilder(baseUrl);
         boolean firstParam = true;
         for (String key : queryParams.keySet()) {

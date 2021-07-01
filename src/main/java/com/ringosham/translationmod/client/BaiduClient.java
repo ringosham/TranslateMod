@@ -69,7 +69,7 @@ public class BaiduClient extends RESTClient {
         //Signature
         //Must use unencoded message for signature
         queryParam.put("sign", sign(ConfigManager.config.baiduAppId.get(), message, salt, ConfigManager.config.baiduKey.get()));
-        Response response = POST(queryParam, "application/x-www-form-urlencoded");
+        Response response = sendRequest("POST", queryParam, "application/x-www-form-urlencoded");
         if (response.getResponseCode() == 200) {
             //Baidu does not follow standard REST response codes at all. It's 200 regardless of success or failure
             //This is utterly retarded

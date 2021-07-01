@@ -71,7 +71,7 @@ public class GooglePaidClient extends RESTClient {
         if (from != LangManager.getInstance().getAutoLang()) {
             queryParam.put("source", from.getGoogleCode());
         }
-        Response response = POST(queryParam, "application/json");
+        Response response = sendRequest("GET", queryParam, "application/json");
         String responseString = response.getEntity();
         Gson gson = new Gson();
         if (response.getResponseCode() == 200) {
