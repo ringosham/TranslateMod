@@ -23,6 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.ringosham.translationmod.client.types.Language;
 import com.ringosham.translationmod.client.types.RequestResult;
+import com.ringosham.translationmod.common.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -61,10 +62,16 @@ public class GoogleClient extends RESTClient {
             Response response = sendRequest("GET", queryParam, "application/json");
             //Usually Google would just return 429 if they deny access, but just in case it gives any other HTTP error codes
             if (response.getResponseCode() != 200) {
-                accessDenied = true;
-                Thread timeout = new Timeout();
-                timeout.start();
-                return new RequestResult(429, "Access to Google Translate denied", null, null);
+                if (response.getResponseCode() == 429) {
+                    accessDenied = true;
+                    Thread timeout = new Timeout();
+                    timeout.start();
+                    return new RequestResult(429, "Access to Google Translate denied", null, null);
+                } else {
+                    accessDenied = true;
+                    Log.logger.error(response.getEntity());
+                    return new RequestResult(411, "API call error", null, null);
+                }
             }
             String responseString = response.getEntity();
             //This secret API is specifically made for Google translate. So the response contains lots of useless information.

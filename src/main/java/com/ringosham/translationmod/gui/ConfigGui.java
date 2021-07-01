@@ -124,7 +124,7 @@ public class ConfigGui extends CommonGui {
                 .mergeStyle(Style.EMPTY.setBold(bold))
                 .mergeStyle(Style.EMPTY.setItalic(italic))
                 .mergeStyle(Style.EMPTY.setUnderlined(underline));
-        font.func_243248_b(stack, new StringTextComponent("Notch --> English: Hello!").setStyle(previewStyle), getLeftMargin() + 45, getYOrigin() + 115, 0);
+        font.drawText(stack, new StringTextComponent("Notch --> English: Hello!").setStyle(previewStyle), getLeftMargin() + 45, getYOrigin() + 115, 0);
         //func_243308_b(MatrixStack, List<ITextComponent>, int, int) -> renderTooltip(...)
         //Target language
         if (this.buttons.get(2).isHovered())

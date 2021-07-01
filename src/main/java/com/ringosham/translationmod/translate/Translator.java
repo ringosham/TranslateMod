@@ -104,6 +104,7 @@ public class Translator extends Thread {
                     }
                     return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
                 }
+                return null;
             case "baidu":
                 BaiduClient baidu = new BaiduClient();
                 RequestResult transRequest;
@@ -138,6 +139,11 @@ public class Translator extends Thread {
             case 2:
                 //Unknown response
                 Log.logger.error(transRequest.getMessage());
+                break;
+            case 411:
+                Log.logger.error("Google API >> API call error");
+                ChatUtil.printChatMessage(true, "API call error. Please report this error as it shouldn't happen", TextFormatting.RED);
+                break;
             case 429:
                 Log.logger.warn("Google denied access to translation API. Pausing translation for 5 minutes");
                 ChatUtil.printChatMessage(true, "Google translate has stopped responding. Pausing translations", TextFormatting.YELLOW);
@@ -185,6 +191,7 @@ public class Translator extends Thread {
             case 58000:
                 Log.logger.error("Baidu API >> Client IP is not whitelisted");
                 ChatUtil.printChatMessage(true, "Request denied due to client IP not whitelisted. Please add your IP or remove whitelisting in the Baidu control panel", TextFormatting.RED);
+                break;
             case 58001:
                 Log.logger.error("Baidu API >> Translation direction not supported");
                 ChatUtil.printChatMessage(true, "Cannot translate from " + transRequest.getFrom().getName() + " to " + transRequest.getTo().getName(), TextFormatting.RED);
@@ -200,6 +207,7 @@ public class Translator extends Thread {
             case BaiduClient.LANGUAGE_NOT_SUPPORTED:
                 Log.logger.error("Baidu API >> Language not supported");
                 ChatUtil.printChatMessage(true, "Selected language is not supported by your translation engine", TextFormatting.RED);
+                break;
             default:
                 Log.logger.error("Unknown error/Server side failure: " + transRequest.getMessage());
                 break;

@@ -48,7 +48,7 @@ public class ChatUtil {
             formattings.add(TextFormatting.ITALIC);
         if (underline)
             formattings.add(TextFormatting.UNDERLINE);
-        Style style = Style.EMPTY.createStyleFromFormattings(formattings.toArray(new TextFormatting[0]));
+        Style style = Style.EMPTY.mergeWithFormatting(formattings.toArray(new TextFormatting[0]));
         if (hoverText != null)
             style = style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(hoverText)));
         Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(message).mergeStyle(style));
