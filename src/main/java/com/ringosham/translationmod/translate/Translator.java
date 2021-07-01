@@ -104,6 +104,7 @@ public class Translator extends Thread {
                     }
                     return new TranslateResult(transRequest.getMessage(), transRequest.getFrom());
                 }
+                return null;
             case "baidu":
                 BaiduClient baidu = new BaiduClient();
                 RequestResult transRequest;
@@ -138,6 +139,10 @@ public class Translator extends Thread {
             case 2:
                 //Unknown response
                 Log.logger.error(transRequest.getMessage());
+            case 411:
+                Log.logger.error("Google API >> API call error");
+                ChatUtil.printChatMessage(true, "API call error. Please report this error as it shouldn't happen", EnumChatFormatting.RED);
+                break;
             case 429:
                 Log.logger.warn("Google denied access to translation API. Pausing translation for 5 minutes");
                 ChatUtil.printChatMessage(true, "Google translate has stopped responding. Pausing translations", EnumChatFormatting.YELLOW);

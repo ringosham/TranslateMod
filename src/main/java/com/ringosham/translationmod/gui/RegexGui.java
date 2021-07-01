@@ -1,15 +1,31 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.gui;
 
 import com.google.common.primitives.Ints;
 import com.ringosham.translationmod.common.ChatUtil;
 import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.common.Log;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
@@ -105,9 +121,10 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         cheatsheetDesc.get(10).add("Correct:" + EnumChatFormatting.GREEN + " \\(VIP\\) \\w+");
         cheatsheetDesc.get(10).add("Wrong:" + EnumChatFormatting.RED + " (VIP) \\w+");
     }
+
     private int index;
-    private LinkedList<String> regexes = new LinkedList<>();
-    private LinkedList<Integer> groups = new LinkedList<>();
+    private final LinkedList<String> regexes = new LinkedList<>();
+    private final LinkedList<Integer> groups = new LinkedList<>();
     private GuiTextField regexTextbox;
     private GuiTextField groupTextBox;
 
@@ -167,16 +184,15 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
-        regexTextbox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + guiHeight - 100, guiWidth - 10, 15);
+        regexTextbox = new GuiTextField(0, this.fontRendererObj, getLeftMargin(), getYOrigin() + guiHeight - 100, guiWidth - 10, 15);
         regexTextbox.setCanLoseFocus(true);
         regexTextbox.setMaxStringLength(200);
         regexTextbox.setEnableBackgroundDrawing(true);
         regexTextbox.setText(regexes.get(index));
         regexTextbox.setFocused(true);
-        groupTextBox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + guiHeight - 60, guiWidth - 10, 15);
+        groupTextBox = new GuiTextField(1, this.fontRendererObj, getLeftMargin(), getYOrigin() + guiHeight - 60, guiWidth - 10, 15);
         groupTextBox.setCanLoseFocus(true);
         groupTextBox.setMaxStringLength(10);
         groupTextBox.setEnableBackgroundDrawing(true);
@@ -230,7 +246,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 }
                 if (index >= regexes.size() - 1)
                     button.displayString = "+";
-                ((GuiButton) this.buttonList.get(3)).enabled = true;
+                this.buttonList.get(3).enabled = true;
                 regexTextbox.setFocused(true);
                 regexTextbox.setCursorPositionEnd();
                 Keyboard.enableRepeatEvents(true);
@@ -259,10 +275,10 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 if (index == 0)
                     button.enabled = false;
                 if (regexes.size() - 1 == index)
-                    ((GuiButton) this.buttonList.get(1)).displayString = "+";
+                    this.buttonList.get(1).displayString = "+";
                 else
-                    ((GuiButton) this.buttonList.get(1)).displayString = ">";
-                ((GuiButton) this.buttonList.get(1)).enabled = true;
+                    this.buttonList.get(1).displayString = ">";
+                this.buttonList.get(1).enabled = true;
                 regexTextbox.setText(regexes.get(index));
                 groupTextBox.setText(groups.get(index).toString());
                 regexTextbox.setFocused(true);
@@ -270,8 +286,8 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
                 Keyboard.enableRepeatEvents(true);
                 break;
             case 4:
-                ((GuiButton) (this.buttonList.get(3))).enabled = true;
-                ((GuiButton) (this.buttonList.get(1))).displayString = "+";
+                this.buttonList.get(3).enabled = true;
+                this.buttonList.get(1).displayString = "+";
                 regexes.clear();
                 regexes.addAll(Arrays.asList(ConfigManager.defaultRegex));
                 groups.clear();
@@ -287,7 +303,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     @Override
-    public void keyTyped(char typedchar, int keycode) {
+    public void keyTyped(char typedchar, int keycode) throws IOException {
         this.regexTextbox.textboxKeyTyped(typedchar, keycode);
         if (this.groupTextBox.isFocused()) {
             if ((typedchar >= 48 && typedchar <= 57) || typedchar == 8)
@@ -304,7 +320,7 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
     }
 
     @Override
-    public void mouseClicked(int x, int y, int state) {
+    public void mouseClicked(int x, int y, int state) throws IOException {
         super.mouseClicked(x, y, state);
         this.regexTextbox.mouseClicked(x, y, state);
         this.groupTextBox.mouseClicked(x, y, state);
@@ -439,8 +455,9 @@ public class RegexGui extends CommonGui implements GuiYesNoCallback {
 
         @Override
         public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-            GL11.glColor4f(1, 1, 1, 1);
-            mc.fontRendererObj.drawString(this.displayString, xPosition, yPosition, 0x555555, false);
+            //Do not set glColor in 1.8.9
+            //GL11.glColor4f(1, 1, 1, 1);
+            mc.fontRendererObj.drawString(this.displayString, xPosition, yPosition, 0xff555555, false);
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
         }
 

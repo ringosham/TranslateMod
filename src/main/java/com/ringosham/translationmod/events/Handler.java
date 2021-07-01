@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.events;
 
 import com.ringosham.translationmod.common.ChatUtil;
@@ -7,13 +24,10 @@ import com.ringosham.translationmod.gui.TranslateGui;
 import com.ringosham.translationmod.translate.SignTranslate;
 import com.ringosham.translationmod.translate.Translator;
 import com.ringosham.translationmod.translate.types.SignText;
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MovingObjectPosition;
@@ -21,6 +35,10 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 public class Handler {
@@ -75,7 +93,7 @@ public class Handler {
     }
 
     @SubscribeEvent
-    public void onKeybind(KeyInputEvent event) {
+    public void onKeybind(InputEvent.KeyInputEvent event) {
         if (KeyBind.translateKey.isPressed())
             Minecraft.getMinecraft().displayGuiScreen(new TranslateGui());
     }
@@ -89,17 +107,15 @@ public class Handler {
             ticks = 0;
             return;
         }
-        int x = mouseOver.blockX;
-        int y = mouseOver.blockY;
-        int z = mouseOver.blockZ;
+        BlockPos pos = mouseOver.getBlockPos();
         //Ignore air tiles
-        if (world.getBlock(x, y, z) == Block.getBlockById(0))
+        if (world.getBlockState(pos).getBlock() == Block.getBlockById(0))
             return;
         //Wall signs and standing signs
-        if (world.getBlock(x, y, z) == Block.getBlockById(63) || world.getBlock(x, y, z) == Block.getBlockById(68)) {
+        if (world.getBlockState(pos).getBlock() == Block.getBlockById(63) || world.getBlockState(pos).getBlock() == Block.getBlockById(68)) {
             //Ensure the player is staring at the same sign
             if (lastSign != null && lastSign.getText() != null) {
-                if (lastSign.sameSign(x, y, z)) {
+                if (lastSign.sameSign(pos)) {
                     ticks++;
                     //Count number of ticks the player is staring
                     //Assuming 20 TPS
@@ -107,20 +123,20 @@ public class Handler {
                         if (readSign != null && readSign.getState() == Thread.State.NEW)
                             readSign.start();
                 } else
-                    readSign = getSignThread(world, x, y, z);
+                    readSign = getSignThread(world, pos);
             } else
-                readSign = getSignThread(world, x, y, z);
+                readSign = getSignThread(world, pos);
         } else {
             lastSign = null;
             ticks = 0;
         }
     }
 
-    private SignTranslate getSignThread(World world, int x, int y, int z) {
+    private SignTranslate getSignThread(World world, BlockPos pos) {
         StringBuilder text = new StringBuilder();
         //Four lines of text in signs
         for (int i = 0; i < 4; i++) {
-            String line = ((TileEntitySign) world.getTileEntity(x, y, z)).signText[i];
+            String line = ((TileEntitySign) world.getTileEntity(pos)).signText[i].getUnformattedText();
             //Combine each line of the sign with spaces.
             //Due to differences between languages, this may break asian languages. (Words don't separate with spaces)
             text.append(" ").append(line);
@@ -129,7 +145,7 @@ public class Handler {
         if (text.length() == 0)
             return null;
         lastSign = new SignText();
-        lastSign.setSign(text.toString(), x, y, z);
-        return new SignTranslate(text.toString(), x, y, z);
+        lastSign.setSign(text.toString(), pos);
+        return new SignTranslate(text.toString(), pos);
     }
 }

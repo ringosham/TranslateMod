@@ -1,11 +1,28 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.client.LangManager;
 import com.ringosham.translationmod.client.types.Language;
-import cpw.mods.fml.client.GuiScrollingList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraftforge.fml.client.GuiScrollingList;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +30,7 @@ import java.util.List;
 
 public class LangList extends GuiScrollingList {
     private final List<Language> langList;
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private int selectedIndex;
 
     {
@@ -27,8 +44,8 @@ public class LangList extends GuiScrollingList {
         });
     }
 
-    public LangList(Minecraft client, GuiScreen parent, int width, int height, int top, int bottom, int left, int entryHeight) {
-        super(client, width, height, top, bottom, left, entryHeight);
+    public LangList(Minecraft client, GuiScreen parent, int width, int height, int top, int bottom, int left, int entryHeight, int screenWidth, int screenHeight) {
+        super(client, width, height, top, bottom, left, entryHeight, screenWidth, screenHeight);
         this.parent = parent;
     }
 

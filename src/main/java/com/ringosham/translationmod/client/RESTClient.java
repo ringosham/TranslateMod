@@ -48,8 +48,8 @@ public abstract class RESTClient {
 
     public abstract RequestResult translate(String message, Language from, Language to);
 
-
-    protected Response POST(Map<String, String> queryParams, String contentType) {
+    @SuppressWarnings("SameParameterValue")
+    protected Response sendRequest(String method, Map<String, String> queryParams, String contentType) {
         StringBuilder requestUrl = new StringBuilder(baseUrl);
         boolean firstParam = true;
         for (String key : queryParams.keySet()) {
@@ -66,8 +66,8 @@ public abstract class RESTClient {
             URL request = new URL(requestUrl.toString());
             connection = (HttpsURLConnection) request.openConnection();
             connection.setRequestProperty("Content-Type", contentType);
+            connection.setRequestMethod(method);
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
             connection.setConnectTimeout(5000);
             connection.connect();
             if (connection.getResponseCode() == 200) {
@@ -90,6 +90,7 @@ public abstract class RESTClient {
         } catch (MalformedURLException ignored) {
             return null;
         } catch (IOException e) {
+            e.printStackTrace();
             return new Response(1, "Failed to connect to server");
         }
     }

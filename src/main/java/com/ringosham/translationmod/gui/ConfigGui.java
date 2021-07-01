@@ -118,40 +118,39 @@ public class ConfigGui extends CommonGui {
             builder.append(EnumChatFormatting.ITALIC);
         if (underline)
             builder.append(EnumChatFormatting.UNDERLINE);
-        fontRendererObj.drawString(builder.toString() + "Notch --> English: Hello!", getLeftMargin() + 45, getYOrigin() + 115, 0);
+        fontRendererObj.drawString(builder + "Notch --> English: Hello!", getLeftMargin() + 45, getYOrigin() + 115, 0);
         //Target language
-        if (((GuiButton) this.buttonList.get(2)).isMouseOver())
+        if (this.buttonList.get(2).isMouseOver())
             drawHoveringText(Collections.singletonList(targetTooltip), x, y);
         //Self language
-        if (((GuiButton) this.buttonList.get(3)).isMouseOver())
+        if (this.buttonList.get(3).isMouseOver())
             drawHoveringText(selfTooltip, x, y);
         //Speak as language
-        if (((GuiButton) this.buttonList.get(4)).isMouseOver())
+        if (this.buttonList.get(4).isMouseOver())
             drawHoveringText(speakAsTooltip, x, y);
         //Regex list
-        if (((GuiButton) this.buttonList.get(11)).isMouseOver())
+        if (this.buttonList.get(11).isMouseOver())
             drawHoveringText(regexTooltip, x, y);
         //API key
-        if (((GuiButton) this.buttonList.get(6)).isMouseOver())
+        if (this.buttonList.get(6).isMouseOver())
             drawHoveringText(apiKeyTooltip, x, y);
         //Translate sign
-        if (((GuiButton) this.buttonList.get(5)).isMouseOver())
+        if (this.buttonList.get(5).isMouseOver())
             drawHoveringText(signTooltip, x, y);
         //Color message
-        if (((GuiButton) this.buttonList.get(7)).isMouseOver())
+        if (this.buttonList.get(7).isMouseOver())
             drawHoveringText(colorTooltip, x, y);
         //Bold
-        if (((GuiButton) this.buttonList.get(8)).isMouseOver())
+        if (this.buttonList.get(8).isMouseOver())
             drawHoveringText(boldTooltip, x, y);
         //Italic
-        if (((GuiButton) this.buttonList.get(9)).isMouseOver())
+        if (this.buttonList.get(9).isMouseOver())
             drawHoveringText(italicTooltip, x, y);
         //Underline
-        if (((GuiButton) this.buttonList.get(10)).isMouseOver())
+        if (this.buttonList.get(10).isMouseOver())
             drawHoveringText(underlineTooltip, x, y);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
         if (!isTransition) {
@@ -212,29 +211,25 @@ public class ConfigGui extends CommonGui {
                 break;
             case 7:
                 EnumChatFormatting formatColor = EnumChatFormatting.getValueByName(color);
-                char c = formatColor.getFormattingCode();
                 //Treat the formatting character as hex. Just so happens there are 16 colors and each are represented with a base 16 number
-                int colorCode = Integer.parseInt(Character.toString(c), 16);
+                int colorCode = formatColor.getColorIndex();
                 colorCode++;
                 colorCode = colorCode & 0xf;
-                //Convert back to Enum
-                char hexColor = Integer.toHexString(colorCode).charAt(0);
-                EnumChatFormatting newColor = ChatUtil.getFormattingFromChar(hexColor);
-                assert newColor != null;
+                EnumChatFormatting newColor = EnumChatFormatting.func_175744_a(colorCode);
                 color = newColor.getFriendlyName();
-                ((GuiButton) (this.buttonList.get(7))).displayString = newColor + "Message color";
+                this.buttonList.get(7).displayString = newColor + "Message color";
                 break;
             case 8:
                 bold = !bold;
-                ((GuiButton) (this.buttonList.get(8))).displayString = bold ? "\u00a7a" + EnumChatFormatting.BOLD + "B" : "\u00a7c" + EnumChatFormatting.BOLD + "B";
+                this.buttonList.get(8).displayString = bold ? "\u00a7a" + EnumChatFormatting.BOLD + "B" : "\u00a7c" + EnumChatFormatting.BOLD + "B";
                 break;
             case 9:
                 italic = !italic;
-                ((GuiButton) (this.buttonList.get(9))).displayString = italic ? "\u00a7a" + EnumChatFormatting.ITALIC + "I" : "\u00a7c" + EnumChatFormatting.ITALIC + "I";
+                this.buttonList.get(9).displayString = italic ? "\u00a7a" + EnumChatFormatting.ITALIC + "I" : "\u00a7c" + EnumChatFormatting.ITALIC + "I";
                 break;
             case 10:
                 underline = !underline;
-                ((GuiButton) (this.buttonList.get(10))).displayString = underline ? "\u00a7a" + EnumChatFormatting.UNDERLINE + "U" : "\u00a7c" + EnumChatFormatting.UNDERLINE + "U";
+                this.buttonList.get(10).displayString = underline ? "\u00a7a" + EnumChatFormatting.UNDERLINE + "U" : "\u00a7c" + EnumChatFormatting.UNDERLINE + "U";
                 break;
             case 11:
                 mc.displayGuiScreen(new RegexGui());
@@ -263,13 +258,13 @@ public class ConfigGui extends CommonGui {
         targetLang = LangManager.getInstance().findLanguageFromName("English");
         selfLang = targetLang;
         speakAsLang = LangManager.getInstance().findLanguageFromName("Japanese");
-        ((GuiButton) (this.buttonList.get(2))).displayString = "English";
-        ((GuiButton) (this.buttonList.get(3))).displayString = "English";
-        ((GuiButton) (this.buttonList.get(4))).displayString = "Japanese";
-        ((GuiButton) (this.buttonList.get(7))).displayString = EnumChatFormatting.getValueByName(color) + "Message color";
-        ((GuiButton) (this.buttonList.get(8))).displayString = bold ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.BOLD + "B";
-        ((GuiButton) (this.buttonList.get(9))).displayString = italic ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.ITALIC + "I";
-        ((GuiButton) (this.buttonList.get(10))).displayString = underline ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.UNDERLINE + "U";
-        ((GuiButton) (this.buttonList.get(5))).displayString = EnumChatFormatting.GREEN + "Translate signs";
+        this.buttonList.get(2).displayString = "English";
+        this.buttonList.get(3).displayString = "English";
+        this.buttonList.get(4).displayString = "Japanese";
+        this.buttonList.get(7).displayString = EnumChatFormatting.getValueByName(color) + "Message color";
+        this.buttonList.get(8).displayString = bold ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.BOLD + "B";
+        this.buttonList.get(9).displayString = italic ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.ITALIC + "I";
+        this.buttonList.get(10).displayString = underline ? "\u00a7a" : "\u00a7c" + EnumChatFormatting.UNDERLINE + "U";
+        this.buttonList.get(5).displayString = EnumChatFormatting.GREEN + "Translate signs";
     }
 }

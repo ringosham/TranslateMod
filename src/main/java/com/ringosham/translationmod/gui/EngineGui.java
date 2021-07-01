@@ -25,6 +25,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,28 +84,27 @@ public class EngineGui extends CommonGui {
                 baiduKeyBox.drawTextBox();
                 break;
         }
-        if (((GuiButton) this.buttonList.get(0)).isMouseOver())
+        if (this.buttonList.get(0).isMouseOver())
             drawHoveringText(googleTooltip, x, y);
-        if (((GuiButton) this.buttonList.get(1)).isMouseOver())
+        if (this.buttonList.get(1).isMouseOver())
             drawHoveringText(baiduTooltip, x, y);
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
-        this.googleKeyBox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15);
+        this.googleKeyBox = new GuiTextField(0, this.fontRendererObj, getLeftMargin(), getYOrigin() + 90, guiWidth - 10, 15);
         googleKeyBox.setCanLoseFocus(true);
         googleKeyBox.setMaxStringLength(84);
         googleKeyBox.setEnableBackgroundDrawing(true);
         googleKeyBox.setText(ConfigManager.INSTANCE.getGoogleKey());
-        this.baiduAppIdBox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 75, guiWidth - 10, 15);
+        this.baiduAppIdBox = new GuiTextField(1, this.fontRendererObj, getLeftMargin(), getYOrigin() + 75, guiWidth - 10, 15);
         baiduAppIdBox.setCanLoseFocus(true);
         baiduAppIdBox.setMaxStringLength(20);
         baiduAppIdBox.setEnableBackgroundDrawing(true);
         baiduAppIdBox.setText(ConfigManager.INSTANCE.getBaiduAppId());
-        this.baiduKeyBox = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 105, guiWidth - 10, 15);
+        this.baiduKeyBox = new GuiTextField(2, this.fontRendererObj, getLeftMargin(), getYOrigin() + 105, guiWidth - 10, 15);
         baiduKeyBox.setCanLoseFocus(true);
         baiduKeyBox.setEnableBackgroundDrawing(true);
         baiduKeyBox.setMaxStringLength(24);
@@ -116,26 +116,26 @@ public class EngineGui extends CommonGui {
         this.buttonList.add(new GuiButton(3, getRightMargin(regularButtonWidth) - regularButtonWidth - 5, getYOrigin() + guiHeight - regularButtonHeight - 5, regularButtonWidth, regularButtonHeight, "Back"));
         switch (engine) {
             case "google":
-                ((GuiButton) this.buttonList.get(0)).enabled = false;
+                this.buttonList.get(0).enabled = false;
                 break;
             case "baidu":
-                ((GuiButton) this.buttonList.get(1)).enabled = false;
+                this.buttonList.get(1).enabled = false;
                 break;
         }
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
+    protected void actionPerformed(GuiButton button) throws IOException {
         switch (button.id) {
             case 0:
                 engine = "google";
-                ((GuiButton) this.buttonList.get(0)).enabled = false;
-                ((GuiButton) this.buttonList.get(1)).enabled = true;
+                this.buttonList.get(0).enabled = false;
+                this.buttonList.get(1).enabled = true;
                 break;
             case 1:
                 engine = "baidu";
-                ((GuiButton) this.buttonList.get(0)).enabled = true;
-                ((GuiButton) this.buttonList.get(1)).enabled = false;
+                this.buttonList.get(0).enabled = true;
+                this.buttonList.get(1).enabled = false;
                 break;
             case 2:
                 applyKey();
@@ -145,6 +145,26 @@ public class EngineGui extends CommonGui {
                 break;
         }
         super.actionPerformed(button);
+    }
+
+    //These methods need to be overridden. Otherwise, Textboxes don't work.
+    @Override
+    public void mouseClicked(int x, int y, int state) throws IOException {
+        super.mouseClicked(x, y, state);
+        this.baiduAppIdBox.mouseClicked(x, y, state);
+        this.baiduKeyBox.mouseClicked(x, y, state);
+        this.googleKeyBox.mouseClicked(x, y, state);
+    }
+
+    @Override
+    public void keyTyped(char typedchar, int keycode) throws IOException {
+        if (this.baiduKeyBox.isFocused())
+            this.baiduKeyBox.textboxKeyTyped(typedchar, keycode);
+        if (this.baiduAppIdBox.isFocused())
+            this.baiduAppIdBox.textboxKeyTyped(typedchar, keycode);
+        if (this.googleKeyBox.isFocused())
+            this.googleKeyBox.textboxKeyTyped(typedchar, keycode);
+        super.keyTyped(typedchar, keycode);
     }
 
     private void configGui() {

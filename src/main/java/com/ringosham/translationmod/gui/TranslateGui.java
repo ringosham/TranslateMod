@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021 Ringosham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.common.ChatUtil;
@@ -5,6 +22,8 @@ import com.ringosham.translationmod.translate.SelfTranslate;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
 
 public class TranslateGui extends CommonGui {
     private static final int guiHeight = 125;
@@ -30,11 +49,10 @@ public class TranslateGui extends CommonGui {
             this.headerField.setFocused(false);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
-        this.headerField = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 25, guiWidth - 10, 15);
-        this.messageField = new GuiTextField(this.fontRendererObj, getLeftMargin(), getYOrigin() + 55, guiWidth - 10, 15);
+        this.headerField = new GuiTextField(0, this.fontRendererObj, getLeftMargin(), getYOrigin() + 25, guiWidth - 10, 15);
+        this.messageField = new GuiTextField(1, this.fontRendererObj, getLeftMargin(), getYOrigin() + 55, guiWidth - 10, 15);
         headerField.setMaxStringLength(25);
         headerField.setCanLoseFocus(true);
         headerField.setEnableBackgroundDrawing(true);
@@ -69,7 +87,7 @@ public class TranslateGui extends CommonGui {
     }
 
     @Override
-    public void keyTyped(char typedChar, int keyCode) {
+    public void keyTyped(char typedChar, int keyCode) throws IOException {
         this.headerField.textboxKeyTyped(typedChar, keyCode);
         this.messageField.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_RETURN && (this.messageField.isFocused() || this.headerField.isFocused())) {
@@ -91,7 +109,7 @@ public class TranslateGui extends CommonGui {
     }
 
     @Override
-    public void mouseClicked(int x, int y, int state) {
+    public void mouseClicked(int x, int y, int state) throws IOException {
         super.mouseClicked(x, y, state);
         this.headerField.mouseClicked(x, y, state);
         this.messageField.mouseClicked(x, y, state);
