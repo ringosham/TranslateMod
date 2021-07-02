@@ -147,6 +147,26 @@ public class EngineGui extends CommonGui {
         super.actionPerformed(button);
     }
 
+    //These methods need to be overridden. Otherwise, Textboxes don't work.
+    @Override
+    public void mouseClicked(int x, int y, int state) {
+        super.mouseClicked(x, y, state);
+        this.baiduAppIdBox.mouseClicked(x, y, state);
+        this.baiduKeyBox.mouseClicked(x, y, state);
+        this.googleKeyBox.mouseClicked(x, y, state);
+    }
+
+    @Override
+    public void keyTyped(char typedchar, int keycode) {
+        if (this.baiduKeyBox.isFocused())
+            this.baiduKeyBox.textboxKeyTyped(typedchar, keycode);
+        if (this.baiduAppIdBox.isFocused())
+            this.baiduAppIdBox.textboxKeyTyped(typedchar, keycode);
+        if (this.googleKeyBox.isFocused())
+            this.googleKeyBox.textboxKeyTyped(typedchar, keycode);
+        super.keyTyped(typedchar, keycode);
+    }
+
     private void configGui() {
         Keyboard.enableRepeatEvents(false);
         getMinecraft().displayGuiScreen(new ConfigGui());
