@@ -49,7 +49,7 @@ public abstract class RESTClient {
     public abstract RequestResult translate(String message, Language from, Language to);
 
 
-    protected Response POST(Map<String, String> queryParams, String contentType) {
+    protected Response sendRequest(String method, Map<String, String> queryParams, String contentType) {
         StringBuilder requestUrl = new StringBuilder(baseUrl);
         boolean firstParam = true;
         for (String key : queryParams.keySet()) {
@@ -67,7 +67,7 @@ public abstract class RESTClient {
             connection = (HttpsURLConnection) request.openConnection();
             connection.setRequestProperty("Content-Type", contentType);
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod(method);
             connection.setConnectTimeout(5000);
             connection.connect();
             if (connection.getResponseCode() == 200) {

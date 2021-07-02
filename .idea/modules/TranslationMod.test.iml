@@ -26,7 +26,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="TranslationMod.main" />
-    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:1.12.2-14.23.5.2854_mapped_stable_39-1.12" level="project" />
+    <orderEntry type="library" name="Gradle: net.minecraftforge:forge:1.12.2-14.23.5.2855_mapped_stable_39-1.12" level="project" />
     <orderEntry type="library" name="Gradle: net.minecraft:client:extra:1.12.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: net.minecraftforge:mergetool:forge:1.0.13" level="project" />

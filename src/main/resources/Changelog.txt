@@ -109,4 +109,6 @@
  5.1.1 - FIX: Translation client encoding problem (#1)
        - FIX: Wrongly reading acacia buttons as acacia wall signs (#2)
  6.0   - ADD: Baidu translation. For people from North Korea and "other countries"
-       - FIX: Translator crash due to previously failed translation
+       - FIX: Translator crash due to previously failed translation (#11)
+       - FIX: Failed to get chat log from regex screen (#10)
+       - FIX: Google translate API call error (#14)
