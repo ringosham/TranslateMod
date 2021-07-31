@@ -100,7 +100,6 @@ public class ConfigManager {
 
     public void init(FMLPreInitializationEvent e) {
         config = new Configuration(e.getSuggestedConfigurationFile());
-        config.load();
         syncConfig();
     }
 
@@ -120,7 +119,7 @@ public class ConfigManager {
         color = config.getString("color", Configuration.CATEGORY_GENERAL, "gray", "Changes the color of the translated message");
         translateSign = config.getBoolean("translateSign", Configuration.CATEGORY_GENERAL, true, "Allows translating texts in sign by looking");
         regexList = Arrays.asList(config.getStringList("regexList", Configuration.CATEGORY_GENERAL, defaultRegex, "Your regex list"));
-        groupList = Ints.asList(config.get("groupList", Configuration.CATEGORY_GENERAL, defaultGroups, "Your match group number to detect player names").getIntList());
+        groupList = Ints.asList(config.get(Configuration.CATEGORY_GENERAL, "groupList", defaultGroups, "Your match group number to detect player names").getIntList());
         translationEngine = config.getString("translationEngine", Configuration.CATEGORY_GENERAL, engines[0], "Translation engine used");
         googleKey = config.getString("googleKey", Configuration.CATEGORY_GENERAL, "", "Your Google Cloud translation API key");
         baiduKey = config.getString("baiduKey", Configuration.CATEGORY_GENERAL, "", "Your Baidu translation API key");

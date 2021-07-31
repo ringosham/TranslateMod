@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TranslationMod.iml" filepath="$PROJECT_DIR$/TranslationMod.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TranslationMod.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TranslationMod.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TranslationMod.test.iml" filepath="$PROJECT_DIR$/.idea/modules/TranslationMod.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TranslateMod.iml" filepath="$PROJECT_DIR$/.idea/modules/TranslateMod.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TranslateMod.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TranslateMod.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TranslateMod.test.iml" filepath="$PROJECT_DIR$/.idea/modules/TranslateMod.test.iml" />
     </modules>
   </component>
 </project>
