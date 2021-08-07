@@ -38,7 +38,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class TranslationMod {
     public static final String MODID = "translationmod";
     public static final String MOD_NAME = "Real time translation mod";
-    public static final String MOD_VERSION = "6.0";
+    public static final String MOD_VERSION = "6.0.1";
     private final Handler handler = new Handler();
 
     @Mod.EventHandler
