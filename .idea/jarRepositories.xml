@@ -41,5 +41,10 @@
       <option name="name" value="deobfDeps" />
       <option name="url" value="file:/$USER_HOME$/.gradle/caches/minecraft/deobfedDeps/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="deobfDeps" />
+      <option name="name" value="deobfDeps" />
+      <option name="url" value="file:/D:/cache/.gradle/caches/minecraft/deobfedDeps/" />
+    </remote-repository>
   </component>
 </project>
